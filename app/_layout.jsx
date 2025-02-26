@@ -2,16 +2,23 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Drawer } from 'expo-router/drawer';
 import CustomDrawerContent from '../components/CustomDrawerContent'
 
-export default function Layout() {
+const _layout = () => {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <Drawer
-        drawerContent={CustomDrawerContent}
-        // screenOptions={{ headerShown: false }}
-      >
-        <Drawer.Screen name="index" options={{ title: 'Loading' }} />
-      </Drawer>
-    </GestureHandlerRootView>
+   <MainLayout/>
   );
 }
 
+const MainLayout = () => {
+return (  
+<GestureHandlerRootView style={{ flex: 1 }}
+screenOptions={{headerShown:false}}
+>
+  <Drawer
+    drawerContent={CustomDrawerContent}
+    screenOptions={{ headerShown: false }}
+  >
+  </Drawer>
+</GestureHandlerRootView>
+)}
+
+export default _layout

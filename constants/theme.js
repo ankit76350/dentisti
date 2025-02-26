@@ -16,6 +16,7 @@ export const theme = {
     myColors: {
         buttonColor: '#1976d2',
         borderColor:'#1a73e8',
+        navbarColor: '#49a3f1',
         text: '#494949',  // used in border-radius,
         dark: '#3E3E3E',  // use in button elevation
        

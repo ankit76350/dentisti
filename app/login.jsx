@@ -80,6 +80,8 @@ const Login = () => {
 
 export default Login
 
+
+
 const styles = StyleSheet.create({
     gradient: {
         flex: 1,
