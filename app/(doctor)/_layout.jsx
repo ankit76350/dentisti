@@ -10,21 +10,21 @@ export default function DoctorLayout() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="allPatients"
+        name="allpatients"
         options={{ title: 'Docter All Patients' }}
       />
       <Stack.Screen
-        name="calendarView"
+        name="calendarview"
         options={{ title: 'Docter Calendar View' }}
       />
 
       {/* Common in docter and receptionist */}
        <Stack.Screen
-        name="billingHistory"
+        name="billinghistory"
         options={{ title: 'Docter Billing History' }}
       />
       <Stack.Screen
-        name="patientHistory"
+        name="patienthistory"
         options={{ title: 'Docter Patient History' }}
       />
 

@@ -8,21 +8,21 @@ export default function ReceptionistLayout() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="allPatients"
+        name="allpatients"
         options={{ title: 'Receptionist All Patients' }}
       />
       <Stack.Screen
-        name="calendarView"
+        name="calendarview"
         options={{ title: 'Receptionist Calendar View' }}
       />
 
       {/* Common in doctor and receptionist */}
        <Stack.Screen
-        name="billingHistory"
+        name="billinghistory"
         options={{ title: 'Receptionist Billing History' }}
       />
       <Stack.Screen
-        name="patientHistory"
+        name="patienthistory"
         options={{ title: 'Receptionist Patient History' }}
       />
       {/* Only in  Receptionist*/}

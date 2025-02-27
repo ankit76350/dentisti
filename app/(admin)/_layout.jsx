@@ -10,25 +10,25 @@ export default function AdminLayout() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="allPatients"
+        name="allpatients"
         options={{ title: 'Admin All Patients' }}
       />
       <Stack.Screen
-        name="calendarView"
+        name="calendarview"
         options={{ title: 'Admin All Calendar View' }}
       />
 
       {/* Only In Admin */}
       <Stack.Screen
-        name="allStaff"
+        name="allstaff"
         options={{ title: 'Admin All Staff' }}
       />
       <Stack.Screen
-        name="allBills"
+        name="allbills"
         options={{ title: 'Admin All Bills' }}
       />
       <Stack.Screen
-        name="allClinics"
+        name="allclinics"
         options={{ title: 'Admin All Clinics' }}
       />
 

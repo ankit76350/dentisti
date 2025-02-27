@@ -2,8 +2,8 @@ import 'react-native-gesture-handler';
 import { StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'expo-router'
-
 import Dashboard from '../app/(admin,doctor,receptionist)/dashboard'
+
 const index = () => {
   const [datas, setDatas] = useState()
 
