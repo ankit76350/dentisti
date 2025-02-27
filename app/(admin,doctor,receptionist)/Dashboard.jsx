@@ -5,7 +5,7 @@ import ScreenWrapper from '../../components/ScreenWrapper';
 import { DrawerActions } from '@react-navigation/native';
 import {useNavigation} from 'expo-router'
 
-export default function Dashboard() {
+export default function Dashboard({data}) {
   const navigation =useNavigation()
   return (
     <ScreenWrapper> 
@@ -13,6 +13,7 @@ export default function Dashboard() {
         <DashboardHeader openDrawer={()=>{navigation.dispatch(DrawerActions.openDrawer())}}/>
         <View style={{ marginTop: 0, paddingHorizontal: 10 }}> 
         <Text>Dashboard - Shared among Admin, Doctor, and Receptionist</Text>
+        <Text>{data}</Text>
         </View>
       </View>
     </ScreenWrapper>
