@@ -1,0 +1,195 @@
+[
+    {
+      
+      "Patient Name": "Raju",
+      "Consulting Doctor": "Dr Deepika",
+      "Hospital": "Parth Clinic",
+      "Date of Admission": "8/29/2024",
+      "Billing Date": "8/29/2024",
+      "Amount": 700,
+      "Status": "Paid",
+      "Payment Method": "Card",
+      "Service Details": "Fillings"
+    },
+    {
+      
+      "Patient Name": "Amit",
+      "Consulting Doctor": "Dr Sharma",
+      "Hospital": "City Hospital",
+      "Date of Admission": "8/28/2024",
+      "Billing Date": "8/30/2024",
+      "Amount": 1200,
+      "Status": "Unpaid",
+      "Payment Method": "Cash",
+      "Service Details": "Root Canal"
+    },
+    {
+      
+      "Patient Name": "Sonia",
+      "Consulting Doctor": "Dr Verma",
+      "Hospital": "Metro Care",
+      "Date of Admission": "8/26/2024",
+      "Billing Date": "8/27/2024",
+      "Amount": 1500,
+      "Status": "Paid",
+      "Payment Method": "Online",
+      "Service Details": "Tooth Extraction"
+    },
+    {
+      
+      "Patient Name": "Rahul",
+      "Consulting Doctor": "Dr Nair",
+      "Hospital": "Green Valley Hospital",
+      "Date of Admission": "8/25/2024",
+      "Billing Date": "8/26/2024",
+      "Amount": 2000,
+      "Status": "Paid",
+      "Payment Method": "Card",
+      "Service Details": "Braces"
+    },
+    {
+      
+      "Patient Name": "Priya sharma",
+      "Consulting Doctor": "Dr Sonu Kapoor",
+      "Hospital": "Sunrise Hospital",
+      "Date of Admission": "8/20/2024",
+      "Billing Date": "8/22/2024",
+      "Amount": 1800,
+      "Status": "Unpaid",
+      "Payment Method": "Insurance",
+      "Service Details": "Scaling"
+    },
+    {
+        
+        "Patient Name": "Amit Verma",
+        "Consulting Doctor": "Dr Ramesh Gupta",
+        "Hospital": "Apollo Hospital",
+        "Date of Admission": "7/12/2024",
+        "Billing Date": "7/15/2024",
+        "Amount": 2500,
+        "Status": "Paid",
+        "Payment Method": "Credit Card",
+        "Service Details": "Root Canal"
+      },
+      {
+        
+        "Patient Name": "Neha Sharma",
+        "Consulting Doctor": "Dr Priya Malhotra",
+        "Hospital": "Fortis Hospital",
+        "Date of Admission": "6/18/2024",
+        "Billing Date": "6/20/2024",
+        "Amount": 3200,
+        "Status": "Unpaid",
+        "Payment Method": "Cash",
+        "Service Details": "Tooth Extraction"
+      },
+      {
+        
+        "Patient Name": "Rahul Singh",
+        "Consulting Doctor": "Dr Aditya Mehta",
+        "Hospital": "Max Healthcare",
+        "Date of Admission": "8/5/2024",
+        "Billing Date": "8/6/2024",
+        "Amount": 4000,
+        "Status": "Paid",
+        "Payment Method": "Insurance",
+        "Service Details": "Dental Filling"
+      },
+      {
+        
+        "Patient Name": "Simran Kaur",
+        "Consulting Doctor": "Dr Aisha Khan",
+        "Hospital": "Medanta Hospital",
+        "Date of Admission": "9/10/2024",
+        "Billing Date": "9/12/2024",
+        "Amount": 1500,
+        "Status": "Unpaid",
+        "Payment Method": "UPI",
+        "Service Details": "Braces Adjustment"
+      },
+      {
+        
+        "Patient Name": "Priya Sharma",
+        "Consulting Doctor": "Dr Sonu Kapoor",
+        "Hospital": "Sunrise Hospital",
+        "Date of Admission": "8/20/2024",
+        "Billing Date": "8/22/2024",
+        "Amount": 1800,
+        "Status": "Unpaid",
+        "Payment Method": "Insurance",
+        "Service Details": "Scaling"
+      },
+      {
+        
+        "Patient Name": "Vikram Rao",
+        "Consulting Doctor": "Dr Suresh Nair",
+        "Hospital": "AIIMS",
+        "Date of Admission": "7/8/2024",
+        "Billing Date": "7/10/2024",
+        "Amount": 5000,
+        "Status": "Paid",
+        "Payment Method": "Net Banking",
+        "Service Details": "Dental Implant"
+      },
+      {
+        
+        "Patient Name": "Ananya Mishra",
+        "Consulting Doctor": "Dr Rajat Thakur",
+        "Hospital": "Manipal Hospital",
+        "Date of Admission": "5/14/2024",
+        "Billing Date": "5/16/2024",
+        "Amount": 2700,
+        "Status": "Unpaid",
+        "Payment Method": "Cash",
+        "Service Details": "Tooth Extraction"
+      },
+      {
+        
+        "Patient Name": "Soham Bose",
+        "Consulting Doctor": "Dr Tanvi Aggarwal",
+        "Hospital": "Max Healthcare",
+        "Date of Admission": "6/30/2024",
+        "Billing Date": "7/2/2024",
+        "Amount": 3500,
+        "Status": "Paid",
+        "Payment Method": "Credit Card",
+        "Service Details": "Root Canal"
+      },
+      {
+        
+        "Patient Name": "Kavita Das",
+        "Consulting Doctor": "Dr Veer Pratap",
+        "Hospital": "Columbia Asia",
+        "Date of Admission": "9/2/2024",
+        "Billing Date": "9/4/2024",
+        "Amount": 2300,
+        "Status": "Paid",
+        "Payment Method": "UPI",
+        "Service Details": "Braces Adjustment"
+      },
+      {
+        
+        "Patient Name": "Harshita Tiwari",
+        "Consulting Doctor": "Dr Nitin Sharma",
+        "Hospital": "Medanta Hospital",
+        "Date of Admission": "7/25/2024",
+        "Billing Date": "7/26/2024",
+        "Amount": 2100,
+        "Status": "Unpaid",
+        "Payment Method": "Insurance",
+        "Service Details": "Teeth Whitening"
+      },
+      {
+        
+        "Patient Name": "Arjun Kapoor",
+        "Consulting Doctor": "Dr Sameer Khan",
+        "Hospital": "Apollo Hospital",
+        "Date of Admission": "10/5/2024",
+        "Billing Date": "10/7/2024",
+        "Amount": 4100,
+        "Status": "Paid",
+        "Payment Method": "Net Banking",
+        "Service Details": "Dental Implant"
+      }
+  ]
+  

@@ -1,9 +1,12 @@
 // app/(admin)/AllStaff.tsx
-import { View, Text } from 'react-native';
+import { useNavigation } from 'expo-router';
+import { View, Text ,Button} from 'react-native';
 
 export default function AllStaff() {
-  return (
-    <View>
+     const navigation = useNavigation();
+   return (
+     <View>
+     <Button title="Go Back" onPress={() => navigation.goBack()} />
       <Text>Manage Staff - Only for Admin</Text>
     </View>
   );
