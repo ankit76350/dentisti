@@ -2,9 +2,11 @@ import { StyleSheet, Text, View, Linking } from 'react-native'
 import React, { useState } from 'react'
 import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer'
 import { useNavigation, useRouter } from 'expo-router'
+import role from '../assets/json/role'
+
+
 
 const CustomDrawerContent = (props) => {
-  const [role, setRole] = useState('doctor')
   const navigation = useNavigation();
   const router = useRouter();
   return (
@@ -25,7 +27,7 @@ const CustomDrawerContent = (props) => {
             label="All Patients"
             onPress={() =>
               router.push({
-                pathname: `/(${role})/allPatients`,
+                pathname: `/(${role})/allpatients`,
                 params: { userId: "Admin123", data: "Hello world Admin", role },
               })}
           />
@@ -33,7 +35,7 @@ const CustomDrawerContent = (props) => {
             label="Calender View"
             onPress={() =>
               router.push({
-                pathname: `/(${role})/calendarView`,
+                pathname: `/(${role})/calendarview`,
                 params: { userId: "Admin123", data: "Hello world Admin", role },
               })}
           />
@@ -41,7 +43,7 @@ const CustomDrawerContent = (props) => {
             label="All Staff"
             onPress={() =>
               router.push({
-                pathname: `/(${role})/allStaff`,
+                pathname: `/(${role})/allstaff`,
                 params: { userId: "Admin123", data: "Hello world Admin", role },
               })}
           />
@@ -49,7 +51,7 @@ const CustomDrawerContent = (props) => {
             label="All Bills"
             onPress={() =>
               router.push({
-                pathname: `/(${role})/allBills`,
+                pathname: `/(${role})/allbills`,
                 params: { userId: "Admin123", data: "Hello world Admin", role },
               })}
           />
@@ -57,7 +59,7 @@ const CustomDrawerContent = (props) => {
             label="All Clinics"
             onPress={() =>
               router.push({
-                pathname: `/(${role})/allClinics`,
+                pathname: `/(${role})/allclinics`,
                 params: { userId: "Admin123", data: "Hello world Admin", role },
               })}
           />
@@ -78,7 +80,7 @@ const CustomDrawerContent = (props) => {
             label="All Patients"
             onPress={() =>
               router.push({
-                pathname: `/(${role})/allPatients`,
+                pathname: `/(${role})/allpatients`,
                 params: { userId: "Admin123", data: "Hello world Admin", role },
               })}
           />
@@ -86,7 +88,7 @@ const CustomDrawerContent = (props) => {
             label="Calender View"
             onPress={() =>
               router.push({
-                pathname: `/(${role})/calendarView`,
+                pathname: `/(${role})/calendarview`,
                 params: { userId: "Admin123", data: "Hello world Admin", role },
               })}
           />
@@ -94,7 +96,7 @@ const CustomDrawerContent = (props) => {
             label="Billing History"
             onPress={() =>
               router.push({
-                pathname: `/(${role})/billingHistory`,
+                pathname: `/(${role})/billinghistory`,
                 params: { userId: "Admin123", data: "Hello world Admin", role },
               })}
           />
@@ -102,7 +104,7 @@ const CustomDrawerContent = (props) => {
             label="Patient History"
             onPress={() =>
               router.push({
-                pathname: `/(${role})/patientHistory`,
+                pathname: `/(${role})/patienthistory`,
                 params: { userId: "Admin123", data: "Hello world Admin", role },
               })}
           />
@@ -123,7 +125,7 @@ const CustomDrawerContent = (props) => {
             label="All Patients"
             onPress={() =>
               router.push({
-                pathname: `/(${role})/allPatients`,
+                pathname: `/(${role})/allpatients`,
                 params: { userId: "Admin123", data: "Hello world Admin", role },
               })}
           />
@@ -131,7 +133,7 @@ const CustomDrawerContent = (props) => {
             label="Calender View"
             onPress={() =>
               router.push({
-                pathname: `/(${role})/calendarView`,
+                pathname: `/(${role})/calendarview`,
                 params: { userId: "Admin123", data: "Hello world Admin", role },
               })}
           />
@@ -139,7 +141,7 @@ const CustomDrawerContent = (props) => {
             label="Billing History"
             onPress={() =>
               router.push({
-                pathname: `/(${role})/billingHistory`,
+                pathname: `/(${role})/billinghistory`,
                 params: { userId: "Admin123", data: "Hello world Admin", role },
               })}
           />
@@ -147,7 +149,7 @@ const CustomDrawerContent = (props) => {
             label="Patient History"
             onPress={() =>
               router.push({
-                pathname: `/(${role})/patientHistory`,
+                pathname: `/(${role})/patienthistory`,
                 params: { userId: "Admin123", data: "Hello world Admin", role },
               })}
           />

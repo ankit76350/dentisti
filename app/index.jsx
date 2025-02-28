@@ -1,31 +1,54 @@
+// // import 'react-native-gesture-handler';
+// // import { StyleSheet, Text, View } from 'react-native'
+// // import React, { useEffect, useState } from 'react'
+// // import { Link } from 'expo-router'
+// // import Dashboard from '../app/(admin,doctor,receptionist)/dashboard'
+// // import role from '../assets/json/role'
+// // const index = () => {
+  
+// //   return (
+
+// //     <>
+// //       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+// //         <Text>Loading...</Text>
+// //       </View>
+// //     </>
+// //   )
+// // }
+
+// // export default index
+
+// // const styles = StyleSheet.create({})
+
+
+
+
 import 'react-native-gesture-handler';
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { Link } from 'expo-router'
-import Dashboard from '../app/(admin,doctor,receptionist)/dashboard'
+import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'expo-router';
+import role from '../assets/json/role'
 
-const index = () => {
-  const [datas, setDatas] = useState()
-
-  const fetchData = async () => {
-    const response = await fetch("https://dental-management-771555683.development.catalystserverless.com/server/dental_management_function/admin/patients")
-    const data = await response.json();
-    console.log("Parsed data:", data[0].address);
-    setDatas(data[0].address)
-  }
+const Index = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    setTimeout(() => {
+      setIsLoading(false);
+      router.replace(`/(${role})/dashboard`); // Replace so it removes index from stack
+    }, 1000); 
+  }, []);
 
-  return (
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
-    <>
-      <Dashboard data={datas} />
-    </>
-  )
-}
+  return null;
+};
 
-export default index
-
-const styles = StyleSheet.create({})
+export default Index;
