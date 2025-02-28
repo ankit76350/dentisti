@@ -1,0 +1,1 @@
+export const catalystURL = 'https://dental-management-771555683.development.catalystserverless.com/server/dental_management_function/'

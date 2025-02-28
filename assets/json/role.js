@@ -1,3 +1,3 @@
-const role = 'doctor'
+const role = 'admin'
 
 module.exports = role
