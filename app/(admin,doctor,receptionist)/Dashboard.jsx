@@ -12,6 +12,7 @@ import Item from '../../components/Item';
 import { DrawerActions } from '@react-navigation/native';
 import { wp } from '../../helpers/common';
 import BottomNavBar from '../../components/BottomNavBar';
+import AnalyticsDashboard from '../../components/AnalyticsDashboard';
 
 export default function Dashboard() {
   const navigation = useNavigation();
@@ -63,7 +64,7 @@ export default function Dashboard() {
       <View style={[styles.mainContainer, theme === "dark" ? styles.darkBackground : styles.lightBackground]}>
         <DashboardHeader openDrawer={() => navigation.dispatch(DrawerActions.openDrawer())} />
 
-        <View style={[styles.container, theme === "dark" ? styles.darkContainer : styles.lightContainer]}>
+        {/* <View style={[styles.container, theme === "dark" ? styles.darkContainer : styles.lightContainer]}>
 
           <View style={styles.appointmentsHeader}>
             <Text style={[styles.appointmentsTitle, theme === "dark" ? styles.darkText : styles.lightText]}>
@@ -75,7 +76,9 @@ export default function Dashboard() {
             <SearchButton query={searchQuery} setQuery={setSearchQuery} />
             <Item />
           </View>
-        </View>
+        </View> */}
+
+<AnalyticsDashboard/>
         
 
 
