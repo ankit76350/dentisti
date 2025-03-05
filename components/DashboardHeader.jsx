@@ -18,9 +18,9 @@ const DashboardHeader = ({ openDrawer = () => { } }) => {
             />
 
             <View style={styles.logoContainer}>
-                <Pressable onPress={openDrawer}>
+                <TouchableOpacity onPress={openDrawer}>
                     <Image style={styles.iconImage} source={require('../assets/images/logo.jpg')} />
-                </Pressable> 
+                </TouchableOpacity> 
                 <Text style={styles.title}>Dentisti</Text>
             </View>
 

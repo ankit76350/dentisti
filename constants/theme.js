@@ -19,7 +19,8 @@ export const theme = {
         navbarColor: '#49a3f1',
         text: '#494949',  // used in border-radius,
         dark: '#3E3E3E',  // use in button elevation
-        tableheaderColor:'#f2f4ff'
+        tableheaderColor:'#f2f4ff',
+        titleForTable:'#333'
     },
 
     fonts: { 

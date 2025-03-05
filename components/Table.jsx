@@ -1,17 +1,16 @@
 import React, { useEffect, useRef } from 'react';
-import { ScrollView, StyleSheet, View, Animated, Text } from 'react-native';
+import { ScrollView, StyleSheet, View, Animated, Text, TouchableOpacity } from 'react-native';
 import { DataTable } from 'react-native-paper';
 import { hp, wp } from '../helpers/common';
 import { theme } from '../constants/theme';
 
-const Table = ({ loading, errorMessage, tableHeader = [], tableContentKey = [], tableData = [] , populate = (id) =>{
-    return id
-}
-}) => {
+const Table = ({ loading, errorMessage, tableHeader = [], tableContentKey = [], tableData = [], populate = (id) => id, onRowPress }) => {
     console.log("loading Table component", loading);
 
-    const openDetails = (index) => {
-        console.log("Row No. : ", index + 1);
+    const openDetails = (rowData) => {
+        if (onRowPress) {
+            onRowPress(rowData);
+        }
     };
 
     // Animation for glowing effect
@@ -30,7 +29,7 @@ const Table = ({ loading, errorMessage, tableHeader = [], tableContentKey = [], 
 
     const glowBackground = glowAnim.interpolate({
         inputRange: [0, 1],
-        outputRange: ['#e0e0e0', '#f5f5f5'], // Light grey to white glow
+        outputRange: ['#e0e0e0', '#f5f5f5'],
     });
 
     return (
@@ -78,20 +77,25 @@ const Table = ({ loading, errorMessage, tableHeader = [], tableContentKey = [], 
                         ) : (
                             /* Table Data Rows */
                             tableData.map((curr, index) => (
-                                <DataTable.Row key={index} style={index % 2 === 0 ? styles.evenRow : styles.oddRow} onPress={() => openDetails(index)}>
-                                    <DataTable.Cell style={[{ minWidth: 50 }, styles.cell]}>{index + 1}</DataTable.Cell>
+                                <TouchableOpacity 
+                                    key={index} 
+                                    onPress={() => openDetails(curr)}
+                                    activeOpacity={0.7} 
+                                    style={index % 2 === 0 ? styles.evenRow : styles.oddRow}
+                                >
+                                    <DataTable.Row>
+                                        <DataTable.Cell style={[{ minWidth: 50 }, styles.cell]}>{index + 1}</DataTable.Cell>
 
-                                    {tableContentKey.map((currItem, idx) => (
-                                        <DataTable.Cell key={idx} style={[{ minWidth: 150 }, styles.cell]}>
-
-                                            {typeof currItem === "object"
-                                                ? populate(curr[currItem.populdateId])
-                                                : truncateText(curr[tableContentKey[idx]], 17)
-                                            }
-                                        </DataTable.Cell>
-
-                                    ))}
-                                </DataTable.Row>
+                                        {tableContentKey.map((currItem, idx) => (
+                                            <DataTable.Cell key={idx} style={[{ minWidth: 150 }, styles.cell]}>
+                                                {typeof currItem === "object"
+                                                    ? populate(curr[currItem.populdateId])
+                                                    : truncateText(curr[tableContentKey[idx]], 17)
+                                                }
+                                            </DataTable.Cell>
+                                        ))}
+                                    </DataTable.Row>
+                                </TouchableOpacity>
                             ))
                         )}
                     </DataTable>
@@ -114,6 +118,8 @@ const styles = StyleSheet.create({
         borderRadius: wp(2),
         overflow: 'hidden',
         margin: 10,
+        backgroundColor: 'white',
+        elevation: 5, // Adds shadow effect for better UI
     },
     container: {
         backgroundColor: 'white',
@@ -126,21 +132,32 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderTopLeftRadius: wp(2),
         borderTopRightRadius: wp(2),
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+        elevation: 3,
     },
     headerCell: {
         flex: 1,
-        fontWeight: theme.fonts.extraBold,
-        color: 'black',
+        fontWeight: 'bold',
+        color: 'white',
         textAlign: 'left',
+        fontSize: 16,
     },
     cell: {
         flex: 1,
         textAlign: 'left',
-        minHeight: 45,
+        minHeight: 50,
         alignItems: 'center',
+        fontSize: 14,
     },
-    evenRow: {},
-    oddRow: {},
+    evenRow: {
+        backgroundColor: '#f8f9fa',
+    },
+    oddRow: {
+        backgroundColor: '#ffffff',
+    },
     verticalScroll: {
         flex: 1,
     },
