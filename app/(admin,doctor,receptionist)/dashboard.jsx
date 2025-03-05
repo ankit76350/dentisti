@@ -1,38 +1,28 @@
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StyleSheet, useColorScheme, StatusBar } from 'react-native';
 import DashboardHeader from '../../components/DashboardHeader';
 import ScreenWrapper from '../../components/ScreenWrapper';
-import Table from '../../components/Table';
-import CustomDropDown from '../../components/CustomDropDown';
-import { DrawerActions } from '@react-navigation/native';
+import SearchButton from '../../components/SearchButton';
 import { useNavigation } from 'expo-router';
 import { useState, useRef, useEffect } from 'react';
 import { useFetch } from '../../hooks/useFetch';
 import { catalystURL } from '../../constants';
-import { theme } from '../../constants/theme';
-import SearchButton from '../../components/SearchButton';
 import { BlurView } from 'expo-blur';
 import DetailsBottomSheet from '../../components/DetailsBottomSheet';
-import Pagination from '../../components/Pagination';
-
-const options = [
-  { label: '5', value: '5' },
-  { label: '10', value: '10' },
-  { label: '25', value: '25' },
-  { label: '50', value: '50' },
-];
+import Item from '../../components/Item';
+import { DrawerActions } from '@react-navigation/native';
 
 export default function Dashboard() {
   const navigation = useNavigation();
-  const { data: appointmentsData, loading, error } = useFetch(`${catalystURL}admin/appointments`);
+  const { data: appointmentsData } = useFetch(`${catalystURL}admin/appointments`);
   const { data: doctorsData } = useFetch(`${catalystURL}admin/doctors`);
 
-  const [rowsPerPage, setRowsPerPage] = useState("10");
-  const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
   const bottomSheetRef = useRef(null);
+
+  const theme = useColorScheme(); // Detects system theme (light/dark)
 
   useEffect(() => {
     if (!searchQuery.trim()) {
@@ -48,13 +38,6 @@ export default function Dashboard() {
     }
   }, [appointmentsData, searchQuery]);
 
-  const totalPages = Math.ceil((filteredData?.length || 1) / parseInt(rowsPerPage, 10));
-  const displayedData = filteredData?.slice((currentPage - 1) * parseInt(rowsPerPage, 10), currentPage * parseInt(rowsPerPage, 10));
-
-
-  const tableHeader = ["Name", "Phone No", "Appointment Date", "Doctor Name", "Status"];
-  const tableContentKey = ["name", "phone_no", "date_time", { populdateId: "doctor_id" }, "status"];
-
   function populate(rowId) {
     const result = doctorsData?.find(item => item.ROWID === rowId);
     return result ? result.name : "Not Found";
@@ -66,124 +49,77 @@ export default function Dashboard() {
     bottomSheetRef.current?.expand();
   };
 
-
   return (
     <ScreenWrapper>
-      {isSheetOpen && (
-        <View>
-          <BlurView intensity={20} style={styles.blurBackground} tint="dark" />
-        </View>
-      )}
+      {/* ✅ Fixed Status Bar */}
+      <StatusBar 
+        animated={true}
+        backgroundColor={theme === "dark" ? "#0D1B2A" : "#49a3f1"}
+        barStyle={theme === "dark" ? "light-content" : "dark-content"}
+      />
 
-      <ScrollView style={isSheetOpen ? styles.blurred : null}>
+      <View style={[styles.mainContainer, theme === "dark" ? styles.darkBackground : styles.lightBackground]}>
         <DashboardHeader openDrawer={() => navigation.dispatch(DrawerActions.openDrawer())} />
-        <View style={styles.container}>
 
+        <View style={[styles.container, theme === "dark" ? styles.darkContainer : styles.lightContainer]}>
           <View style={styles.appointmentsHeader}>
-            <Text style={styles.appointmentsTitle}>Appointments</Text>
+            <Text style={[styles.appointmentsTitle, theme === "dark" ? styles.darkText : styles.lightText]}>
+              Appointments
+            </Text>
           </View>
 
- 
-            <SearchButton query={searchQuery} setQuery={setSearchQuery} />
-      
-          <View style={styles.tableContainer}>
-            <Table
-              tableData={displayedData || []}
-              loading={loading}
-              tableHeader={tableHeader}
-              tableContentKey={tableContentKey}
-              errorMessage={error}
-              populate={populate}
-              onRowPress={openDetails}
-              style={styles.table}
-            />
-          </View>
-
-          <View style={styles.selectContainer}>
-            <CustomDropDown options={options} value={rowsPerPage} setValue={setRowsPerPage} />
-            <Pagination totalPages={totalPages} currentPage={currentPage} setCurrentPage={setCurrentPage} />
-          </View>
-
-
+          <SearchButton query={searchQuery} setQuery={setSearchQuery} />
+          <Item />
         </View>
-
-      </ScrollView>
-
-      <DetailsBottomSheet bottomSheetRef={bottomSheetRef} setIsSheetOpen={setIsSheetOpen} selectedRow={selectedRow} />
+      </View>
     </ScreenWrapper>
   );
 }
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1, // ✅ Ensures full width & height for dark mode
+  },
+  darkBackground: {
+    backgroundColor: "#0D1B2A", // ✅ Matches dark theme
+  },
+  lightBackground: {
+    backgroundColor: "#F9F9F9",
+  },
   container: {
-    backgroundColor: 'white',
-    paddingHorizontal: 10,
-    paddingVertical: 15,
-    borderRadius: 10,
+    flex: 1,
+    paddingHorizontal: 15,
+    paddingVertical: 20,
+    // borderRadius: 12,
+    // marginVertical: 10,
+    // marginHorizontal: 10,
+    // shadowOffset: { width: 0, height: 4 },
+    // shadowOpacity: 0.3,
+    // shadowRadius: 6,
+    // elevation: 6,
+  },
+  lightContainer: {
+    // backgroundColor: '#F9F9F9',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 5,
-    marginVertical: 10,
-    marginHorizontal: 5,
+  },
+  darkContainer: {
+    // backgroundColor: '#1B263B',
+    shadowColor: '#000',
   },
   appointmentsHeader: {
-    padding: 10,
+    paddingVertical: 12,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   appointmentsTitle: {
-    fontSize: 20,
-    fontWeight: theme.fonts.semibold,
-    color: theme.myColors.titleForTable,
-  },
-  tableContainer: {
-    // backgroundColor: "#fff",
-    // borderRadius: 8,
-    // padding: 0,
-    // marginTop: 10,
-    // shadowColor: "#000",
-    // shadowOffset: { width: 0, height: 2 },
-    // shadowOpacity: 0.2,
-    // shadowRadius: 3,
-    // elevation: 3,
-  },
-
-  paginationContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 10,
-    paddingVertical: 10,
-  },
-  paginationButton: {
-    paddingVertical: 8,
-    paddingHorizontal: 15,
-    backgroundColor: theme.myColors.primary,
-    borderRadius: 5,
-  },
-  disabledButton: {
-    backgroundColor: '#ccc',
-  },
-  paginationText: {
-    color: 'white',
-    fontSize: 14,
+    fontSize: 22,
     fontWeight: 'bold',
   },
-  paginationInfo: {
-    fontSize: 14,
-    fontWeight: 'bold',
+  lightText: {
+    color: '#333',
   },
-  selectContainer: {
-    flexDirection: 'column',
-    justifyContent: 'center',  // Ensures spacing
-    alignItems: 'center',  // Aligns items vertically
-    paddingHorizontal: 10,
-    marginTop: 10,
+  darkText: {
+    color: '#FFF',
   },
-  
 });
-
-

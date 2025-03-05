@@ -23,6 +23,18 @@ export const theme = {
         titleForTable:'#333'
     },
 
+
+        light: {
+          navbarColor: "#49a3f1",
+          textColor: "white",
+        },
+        dark: {
+          navbarColor: "#333333",
+          textColor: "#FFFFFF",
+        },
+
+      
+
     fonts: { 
         medium: '500',
         semibold: '600', 
