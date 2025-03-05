@@ -45,6 +45,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: wp(3),
     marginHorizontal: wp(3),
+    width: wp(90), 
+    marginBottom: hp(2)
   },
   lightContainer: {
     backgroundColor: "white",

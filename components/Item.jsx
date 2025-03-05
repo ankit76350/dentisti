@@ -1,13 +1,14 @@
 import React from "react";
 import { View, Text, FlatList, StyleSheet, useColorScheme } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { wp } from "../helpers/common";
+import { hp, wp } from "../helpers/common";
 
 const data = [
   { id: "1", name: "John Doe", phone: "+91 98765 43210", time: "12:30 PM", date: "05 Mar 2025", status: "online" },
   { id: "2", name: "Emily Smith", phone: "+91 98234 56789", time: "1:45 PM", date: "05 Mar 2025", status: "offline" },
   { id: "3", name: "Michael Brown", phone: "+91 98567 12345", time: "3:15 PM", date: "05 Mar 2025", status: "online" },
   { id: "4", name: "Sophia Wilson", phone: "+91 98123 87654", time: "4:50 PM", date: "05 Mar 2025", status: "offline" },
+
 
 ];
 
@@ -46,9 +47,13 @@ const Item = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: wp(3),
+    // marginBottom: wp(2), // Ensures proper spacing
+    marginHorizontal: wp(5), // Aligns with cards
+    width: wp(90), // Makes width consistent
+    alignSelf: "center", // Ensures central alignment
   },
   darkBackground: {
     // backgroundColor: "#1B263B",
@@ -60,14 +65,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 15,
     borderRadius: 12,
-    marginBottom: 12,
+    // borderBottomRightRadius: 12,
+    // borderBottomLeftRadius: 12,
+    marginBottom: hp(1),
     alignItems: "center",
     shadowColor: "#000",
     shadowOpacity: 0.2,
     shadowRadius: 5,
     shadowOffset: { width: 0, height: 4 }, // Adds shadow only at the bottom
     elevation: 4, // For Android
-    marginHorizontal: wp(0.5),
+    // marginHorizontal: wp(1),
   },
   
   darkCard: {

@@ -10,6 +10,8 @@ import { BlurView } from 'expo-blur';
 import DetailsBottomSheet from '../../components/DetailsBottomSheet';
 import Item from '../../components/Item';
 import { DrawerActions } from '@react-navigation/native';
+import { wp } from '../../helpers/common';
+import BottomNavBar from '../../components/BottomNavBar';
 
 export default function Dashboard() {
   const navigation = useNavigation();
@@ -52,7 +54,7 @@ export default function Dashboard() {
   return (
     <ScreenWrapper>
       {/* ✅ Fixed Status Bar */}
-      <StatusBar 
+      <StatusBar
         animated={true}
         backgroundColor={theme === "dark" ? "#0D1B2A" : "#49a3f1"}
         barStyle={theme === "dark" ? "light-content" : "dark-content"}
@@ -62,16 +64,25 @@ export default function Dashboard() {
         <DashboardHeader openDrawer={() => navigation.dispatch(DrawerActions.openDrawer())} />
 
         <View style={[styles.container, theme === "dark" ? styles.darkContainer : styles.lightContainer]}>
+
           <View style={styles.appointmentsHeader}>
             <Text style={[styles.appointmentsTitle, theme === "dark" ? styles.darkText : styles.lightText]}>
               Appointments
             </Text>
           </View>
 
-          <SearchButton query={searchQuery} setQuery={setSearchQuery} />
-          <Item />
+         <View style={{ alignItems: 'center', justifyContent: 'center' , padding:5}}>
+            <SearchButton query={searchQuery} setQuery={setSearchQuery} />
+            <Item />
+          </View>
         </View>
+        
+
+
+
       </View>
+      <BottomNavBar/>
+
     </ScreenWrapper>
   );
 }
@@ -84,12 +95,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#0D1B2A", // ✅ Matches dark theme
   },
   lightBackground: {
-    backgroundColor: "#F9F9F9",
+    backgroundColor: "#FFFFFF",
   },
   container: {
-    flex: 1,
-    paddingHorizontal: 15,
-    paddingVertical: 20,
+    // flex: 1,
+    paddingHorizontal: wp(5),
+    // paddingVertical: 20,
+    // gap: 9,
     // borderRadius: 12,
     // marginVertical: 10,
     // marginHorizontal: 10,
@@ -107,7 +119,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
   },
   appointmentsHeader: {
-    paddingVertical: 12,
+    paddingVertical:5,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -115,6 +127,7 @@ const styles = StyleSheet.create({
   appointmentsTitle: {
     fontSize: 22,
     fontWeight: 'bold',
+    paddingVertical:1
   },
   lightText: {
     color: '#333',
