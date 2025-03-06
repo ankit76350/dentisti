@@ -65,7 +65,10 @@ export default function Dashboard() {
         <DashboardHeader openDrawer={() => navigation.dispatch(DrawerActions.openDrawer())} />
 
         {/* Analytics */}
+        {/* <View style={{marginTop:20}}> */}
+
         <AnalyticsDashboard />
+        {/* </View> */}
 
 
 
@@ -92,7 +95,10 @@ export default function Dashboard() {
 
 
       </View>
+      {/* <View style={{marginTop:20}}> */}
+
       <BottomNavBar />
+      {/* </View> */}
 
     </ScreenWrapper>
   );
