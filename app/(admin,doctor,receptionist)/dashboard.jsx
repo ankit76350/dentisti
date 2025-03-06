@@ -64,7 +64,14 @@ export default function Dashboard() {
       <View style={[styles.mainContainer, theme === "dark" ? styles.darkBackground : styles.lightBackground]}>
         <DashboardHeader openDrawer={() => navigation.dispatch(DrawerActions.openDrawer())} />
 
-        {/* <View style={[styles.container, theme === "dark" ? styles.darkContainer : styles.lightContainer]}>
+        {/* Analytics */}
+        <AnalyticsDashboard />
+
+
+
+        {/* Appointments */}
+        {/* 
+        <View style={[styles.container, theme === "dark" ? styles.darkContainer : styles.lightContainer]}>
 
           <View style={styles.appointmentsHeader}>
             <Text style={[styles.appointmentsTitle, theme === "dark" ? styles.darkText : styles.lightText]}>
@@ -76,15 +83,16 @@ export default function Dashboard() {
             <SearchButton query={searchQuery} setQuery={setSearchQuery} />
             <Item />
           </View>
-        </View> */}
+        </View> 
+        */}
 
-<AnalyticsDashboard/>
-        
+
+
 
 
 
       </View>
-      <BottomNavBar/>
+      <BottomNavBar />
 
     </ScreenWrapper>
   );
@@ -122,7 +130,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
   },
   appointmentsHeader: {
-    paddingVertical:5,
+    paddingVertical: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -130,7 +138,7 @@ const styles = StyleSheet.create({
   appointmentsTitle: {
     fontSize: 22,
     fontWeight: 'bold',
-    paddingVertical:1
+    paddingVertical: 1
   },
   lightText: {
     color: '#333',

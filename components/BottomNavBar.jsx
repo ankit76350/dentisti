@@ -1,6 +1,6 @@
 import React from "react";
 import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { useColorScheme } from "react-native";
 
 const BottomNavBar = ({ navigation }) => {
@@ -9,22 +9,21 @@ const BottomNavBar = ({ navigation }) => {
 
   return (
     <View style={[styles.container, isDarkMode ? styles.darkBackground : styles.lightBackground]}>
-      <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate("Analytics")}> 
+      <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate("Analytics")}>
         <View style={styles.iconContainer}>
-        {/* expo/vector-icons */}
-        {/* <Ionicons name="analytics" size={24} color="black" /> */}
+
           <Ionicons name="analytics" size={24} color={isDarkMode ? "#fff" : "#000"} />
           <Text style={[styles.label, isDarkMode ? styles.darkText : styles.lightText]}>Analytics</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate("Revenue")}> 
+      <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate("Revenue")}>
         <View style={styles.iconContainer}>
-        {/* <FontAwesome6 name="money-check-dollar" size={24} color="black" /> */}
-          <Ionicons name="cash-outline" size={24} color={isDarkMode ? "#fff" : "#000"} />
+
+          <FontAwesome5 name="money-bill" size={24} color={isDarkMode ? "#fff" : "#000"} />
           <Text style={[styles.label, isDarkMode ? styles.darkText : styles.lightText]}>Revenue</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate("Appointments")}> 
+      <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate("Appointments")}>
         <View style={styles.iconContainer}>
           <Ionicons name="calendar-outline" size={24} color={isDarkMode ? "#fff" : "#000"} />
           <Text style={[styles.label, isDarkMode ? styles.darkText : styles.lightText]}>Appointments</Text>
