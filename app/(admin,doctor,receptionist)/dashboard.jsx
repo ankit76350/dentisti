@@ -13,6 +13,8 @@ import { DrawerActions } from '@react-navigation/native';
 import { wp } from '../../helpers/common';
 import BottomNavBar from '../../components/BottomNavBar';
 import AnalyticsDashboard from '../../components/AnalyticsDashboard';
+import FeedbackModal from '../../components/FeedbackModal';
+import CustomDropdown from '../../components/CustomDropDown';
 
 export default function Dashboard() {
   const navigation = useNavigation();
@@ -66,8 +68,9 @@ export default function Dashboard() {
 
         {/* Analytics */}
         {/* <View style={{marginTop:20}}> */}
-
         <AnalyticsDashboard />
+        
+        {/* <FeedbackModal/> */}
         {/* </View> */}
 
 

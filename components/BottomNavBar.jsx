@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
   },
   darkBackground: {
-    backgroundColor: "#2C3E50",
+    backgroundColor: "#1B263B",
   },
   lightBackground: {
     backgroundColor: "#FFFFFF",
