@@ -113,7 +113,8 @@ const AnalyticsDashboard = () => {
           <View>
             {/* <CustomDropDown options={options} value={value} setValue={setValue} optionTitle='Select a Year' selectTitle='Year' />
           <CustomDropDown options={options} value={value} setValue={setValue} optionTitle='Select a third' selectTitle='Third' /> */}
-            <FeedbackModal />
+            {/* <FeedbackModal /> */}
+            <CustomDropdown/>
           </View>
 
         </View>

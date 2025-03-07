@@ -116,7 +116,8 @@
 import React, { useState, useRef } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
-import { wp } from '../helpers/common';
+import { hp, wp } from '../helpers/common';
+import { AntDesign } from '@expo/vector-icons';
 
 const data = [
   { label: 'Item 1', value: '1' },
@@ -140,7 +141,7 @@ const CustomDropdown = () => {
     <View style={styles.container}>
       {/* Open Button */}
       <TouchableOpacity onPress={handleOpen}>
-        <Text style={styles.openButton}>Open</Text>
+      <AntDesign name="filter" size={24} color="black" />
       </TouchableOpacity>
 
       {/* Dropdown (Hidden UI, only opens via ref) */}
@@ -159,7 +160,7 @@ const CustomDropdown = () => {
         }}
         // mode="modal" // Opens dropdown as a modal
         renderLeftIcon={() => null} // Removes the dropdown icon
-        style={{ position: 'absolute', width: wp(50), height: 1, left:20, opacity: 0 }} // Hide the UI
+        style={{backgroundColor: '#49a3f1', position: 'absolute', width: wp(50), height: 1, left:wp(-45), top:hp(2), opacity: 0 }} // Hide the UI
       />
     </View>
   );
@@ -170,7 +171,7 @@ export default CustomDropdown;
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
   },
   openButton: {
     color: 'blue',
