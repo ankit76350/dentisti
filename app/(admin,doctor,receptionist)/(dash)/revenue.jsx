@@ -16,6 +16,7 @@ import AnalyticsDashboard from '../../../components/AnalyticsDashboard';
 import FeedbackModal from '../../../components/FeedbackModal';
 import CustomDropdown from '../../../components/CustomDropDown';
 import RevenueList from '../../../components/RevenueList';
+import TaskModal from '../../../components/TaskModal';
 
 export default function revenue() {
   const navigation = useNavigation();
@@ -58,18 +59,15 @@ export default function revenue() {
   return (
     <>
      <ScreenWrapper>
-      {/* ✅ Fixed Status Bar */}
-      <StatusBar
-        animated={true}
-        // backgroundColor={theme === "dark" ? "#0D1B2A" : "#49a3f1"}
-        // barStyle={theme === "dark" ? "light-content" : "dark-content"}
-      />
+
+   
 
       <View style={[styles.mainContainer, theme === "dark" ? styles.darkBackground : styles.lightBackground]}>
         <DashboardHeader openDrawer={() => navigation.dispatch(DrawerActions.openDrawer())} />
 
         {/* Analytics */}
         {/* <View style={{marginTop:20}}> */}
+        <TaskModal/>
 
         {/* <FeedbackModal/> */}
         {/* </View> */}
@@ -96,10 +94,10 @@ export default function revenue() {
 
         {/* Revenue */}
 
-        <View style={{marginHorizontal:10 , marginTop:10, marginBottom:hp(35)}}>
+        {/* <View style={{marginHorizontal:10 , marginTop:10, marginBottom:hp(35)}}>
 
           <RevenueList />
-        </View>
+        </View> */}
 
 
 
