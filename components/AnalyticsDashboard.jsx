@@ -157,7 +157,7 @@ const AnalyticsDashboard = () => {
               }}
             />
           </ScrollView>
-            <CustomDropdown/>
+           
         </View>
 
       </Card>

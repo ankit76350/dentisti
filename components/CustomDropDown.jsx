@@ -1,120 +1,5 @@
-// import React, { useState } from 'react';
-// import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-// import { Dropdown } from 'react-native-element-dropdown';
-// import AntDesign from '@expo/vector-icons/AntDesign';
-// import { hp, wp } from '../helpers/common';
-// import { Entypo } from '@expo/vector-icons';
-
-// const CustomDropDown = ({ options, value, setValue, optionTitle = '', selectTitle = '' }) => {
-//   const [isFocus, setIsFocus] = useState(false);
-
-//   return (
-//     <>
-//     {isFocus || value ? (
-//       <Text style={[styles.label, isFocus && { color: 'black' }]}>{!isFocus ? "You have selected" :`${optionTitle}`}</Text>
-//     ) : null}
-//     <View style={styles.container}>
-    
-//       <Dropdown
-//         style={[styles.dropdown, isFocus && { borderColor: '#007bff', shadowOpacity: 0.3 }]}
-//         placeholderStyle={styles.placeholderStyle}
-//         selectedTextStyle={styles.selectedTextStyle}
-//         inputSearchStyle={styles.inputSearchStyle}
-//         iconStyle={styles.iconStyle}
-//         data={options}
-//         search
-//         maxHeight={300}
-//         labelField="label"
-//         valueField="value"
-//         placeholder={!isFocus ? ` ${optionTitle}` : '...'}
-//         searchPlaceholder="Search..."
-//         value={value}
-//         onFocus={() => {
-//           console.log("hii");
-
-//           return setIsFocus(true)
-//         }
-//         }
-//         onBlur={() => setIsFocus(false)}
-//         onChange={(item) => {
-//           setValue(item.value);
-//           setIsFocus(false);
-//         }}
-//         renderRightIcon={() => (
-//           <AntDesign
-//             style={styles.icon}
-//             color={isFocus ? '#007bff' : 'gray'}
-//             name={isFocus ? 'up' : 'down'}
-//             size={24}
-//           />
-//         )}
-//       />
-//     </View>
-//     </>
-
-//   );
-// };
-
-// export default CustomDropDown;
-
-// const styles = StyleSheet.create({
-//   container: {
-//     backgroundColor: '#fff',
-//     paddingVertical: hp(1),
-//     marginHorizontal: 12,
-//     borderRadius: 10,
-//     elevation: 2, // Adds subtle shadow
-//     shadowColor: '#000',
-//     shadowOffset: { width: 0, height: 1 },
-//     shadowOpacity: 0.2,
-//     shadowRadius: 3,
-//   },
-//   dropdown: {
-//     height: 50,
-//     // borderColor: '#ccc',
-//     // borderWidth: 1,
-//     borderRadius: 8,
-//     paddingHorizontal: 12,
-//     width: wp(70),
-//     // backgroundColor: '#f9f9f9',
-//   },
-//   icon: {
-//     marginRight: 8,
-//     fontWeight:'100'
-//   },
-//   label: {
-//     position: 'absolute',
-//     backgroundColor: '#fff',
-//     left: 9,
-//     top: hp(2.5),
-//     zIndex: 999,
-//     paddingHorizontal: 8,
-//     fontSize: 16,
-//     fontWeight: 'bold',
-//     // borderWidth: 1,
-//   },
-//   placeholderStyle: {
-//     fontSize: 16,
-//     color: '#666',
-//   },
-//   selectedTextStyle: {
-//     fontSize: 16,
-//     fontWeight: '600',
-//     color: '#333',
-//   },
-//   inputSearchStyle: {
-//     height: hp(5),
-//     fontSize: 16,
-//     borderRadius: 5,
-//   },
-// });
-
-
-
-
-
 import React, { useState, useRef } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, useColorScheme } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import { hp, wp } from '../helpers/common';
 import { AntDesign } from '@expo/vector-icons';
@@ -125,9 +10,18 @@ const data = [
   { label: 'Item 3', value: '3' },
   { label: 'Item 4', value: '4' },
   { label: 'Item 5', value: '5' },
+  { label: 'Item 6', value: '6' },
+  { label: 'Item 7', value: '7' },
+  { label: 'Item 8', value: '8' },
+  { label: 'Item 9', value: '9' },
+  { label: 'Item 10', value: '10' },
+
 ];
 
 const CustomDropdown = () => {
+  const theme = useColorScheme();
+  const isDarkMode = theme === "dark";
+
   const dropdownRef = useRef(null);
   const [value, setValue] = useState(null);
 
@@ -141,7 +35,7 @@ const CustomDropdown = () => {
     <View style={styles.container}>
       {/* Open Button */}
       <TouchableOpacity onPress={handleOpen}>
-      <AntDesign name="filter" size={24} color="black" />
+        <AntDesign name="filter" size={24} color={isDarkMode ? `rgba(255, 255, 255, ${0.9})` : `rgba(0, 0, 0, ${1})`} />
       </TouchableOpacity>
 
       {/* Dropdown (Hidden UI, only opens via ref) */}
@@ -151,16 +45,32 @@ const CustomDropdown = () => {
         labelField="label"
         valueField="value"
         search
-        searchPlaceholder="Search..."
+        searchPlaceholder="Search a Year..."
         maxHeight={250}
         value={value}
         onChange={item => {
           setValue(item.value);
           dropdownRef.current?.close(); // Close after selection
         }}
-        // mode="modal" // Opens dropdown as a modal
+        mode="modal" // Opens dropdown as a modal
         renderLeftIcon={() => null} // Removes the dropdown icon
-        style={{backgroundColor: '#49a3f1', position: 'absolute', width: wp(50), height: 1, left:wp(-45), top:hp(2), opacity: 0 }} // Hide the UI
+        containerStyle={!isDarkMode ? styles.lightContainerStyle : styles.darkContainerStyle}
+        itemTextStyle={!isDarkMode ? styles.lightItemTextStyle : styles.darkItemTextStyle}
+        inputSearchStyle={!isDarkMode ? styles.lightInputSearchStyle : styles.darkInputSearchStyle}
+        selectedTextStyle={!isDarkMode ? styles.lightSelectedTextStyle : styles.darkSelectedTextStyle}
+        activeColor= {isDarkMode ? "#444" : "#D4D4D4"}
+        style={[
+          styles.dropdown,
+          {
+            position: 'absolute',
+            width: wp(50),
+            height: 1,
+            left: wp(-45),
+            top: hp(2),
+            opacity: 0
+          }
+        ]}
+
       />
     </View>
   );
@@ -173,9 +83,60 @@ const styles = StyleSheet.create({
     padding: 16,
     // backgroundColor: 'white',
   },
-  openButton: {
-    color: 'blue',
-    fontSize: 16,
-    textDecorationLine: 'underline',
+
+  // for dark theme
+  darkContainerStyle: {
+    backgroundColor: '#2C3E50',
+    borderRadius: wp(2),
+    borderColor: 'white',
+    borderWidth: wp(0.3),
+    height: hp(40)
   },
+  darkItemTextStyle: {
+    color: 'white'
+  },
+
+  darkInputSearchStyle: {
+    borderRadius: wp(2),
+    borderColor: 'white',
+    backgroundColor: '#1B263B', // Slightly darker than the container for contrast
+    color: 'white',
+    paddingHorizontal: wp(2),
+  },
+  darkSelectedTextStyle:{
+    color: '#FFD700' ,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+
+  // for light theme
+  lightContainerStyle: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: wp(2),
+    borderColor: 'gray',
+    borderWidth: wp(0.3),
+    height: hp(40)
+  },
+  lightItemTextStyle: {
+    color: 'black'
+  },
+
+  lightInputSearchStyle: {
+    borderRadius: wp(2),
+    borderColor: 'white',
+    backgroundColor: '#B3B3B3', // Slightly darker than the container for contrast
+    color: 'white',
+    paddingHorizontal: wp(2),
+  },
+  lightSelectedTextStyle:{
+    color: '#FFD700' ,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+
+
+  
+  
 });
+
+
