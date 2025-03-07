@@ -19,7 +19,7 @@ const CustomDrawerContent = (props) => {
             label="Dashboard"
             onPress={() =>
               router.push({
-                pathname: `/(${role})/dashboard`,
+                pathname: `/(${role})/(dash)/analytics`,
                 params: { userId: "Admin123", data: "Hello world Admin", role },
               })}
           />
@@ -72,7 +72,7 @@ const CustomDrawerContent = (props) => {
             label="Dashboard"
             onPress={() =>
               router.push({
-                pathname: `/(${role})/dashboard`,
+                pathname: `/(${role})/dashboard/analytics`,
                 params: { userId: `${role}123`, data: `Hello world ${role}`, role },
               })}
           />
@@ -117,7 +117,7 @@ const CustomDrawerContent = (props) => {
             label="Dashboard"
             onPress={() =>
               router.push({
-                pathname: `/(${role})/dashboard`,
+                pathname: `/(${role})/dashboard/analytics`,
                 params: { userId: "Admin123", data: "Hello world Admin", role },
               })}
           />

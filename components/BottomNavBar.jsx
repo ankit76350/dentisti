@@ -2,33 +2,50 @@ import React from "react";
 import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { useColorScheme } from "react-native";
+import role from '../assets/json/role'
+import { Link, useRouter } from "expo-router";
 
 const BottomNavBar = ({ navigation }) => {
   const theme = useColorScheme();
   const isDarkMode = theme === "dark";
+  const router = useRouter();
+
+  const navigateTo = (screen)=>{
+    console.log("role",role);
+    
+    router.replace(`/(${role})/(dash)/${screen}`); // Replace so it removes index from stack
+  }
 
   return (
     <View style={[styles.container, isDarkMode ? styles.darkBackground : styles.lightBackground]}>
-      <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate("Analytics")}>
-        <View style={styles.iconContainer}>
 
-          <Ionicons name="analytics" size={24} color={isDarkMode ? "#fff" : "#000"} />
-          <Text style={[styles.label, isDarkMode ? styles.darkText : styles.lightText]}>Analytics</Text>
-        </View>
+
+      <TouchableOpacity style={styles.iconButton} onPress={()=>navigateTo("analytics")}>
+          <View style={styles.iconContainer}>
+
+            <Ionicons name="analytics" size={24} color={isDarkMode ? "#fff" : "#000"} />
+            <Text style={[styles.label, isDarkMode ? styles.darkText : styles.lightText]}>Analytics</Text>
+          </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate("Revenue")}>
-        <View style={styles.iconContainer}>
 
+  
+      <TouchableOpacity style={styles.iconButton} onPress={()=>navigateTo("revenue")}>
+        <View style={styles.iconContainer}>
           <FontAwesome5 name="money-bill" size={24} color={isDarkMode ? "#fff" : "#000"} />
           <Text style={[styles.label, isDarkMode ? styles.darkText : styles.lightText]}>Revenue</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate("Appointments")}>
+
+
+
+ 
+      <TouchableOpacity style={styles.iconButton} onPress={()=>navigateTo("appointments")}>
         <View style={styles.iconContainer}>
           <Ionicons name="calendar-outline" size={24} color={isDarkMode ? "#fff" : "#000"} />
           <Text style={[styles.label, isDarkMode ? styles.darkText : styles.lightText]}>Appointments</Text>
         </View>
       </TouchableOpacity>
+
     </View>
   );
 };

@@ -68,7 +68,7 @@ export default function Dashboard() {
 
         {/* Analytics */}
         {/* <View style={{marginTop:20}}> */}
-        <AnalyticsDashboard />
+        {/* <AnalyticsDashboard /> */}
         
         {/* <FeedbackModal/> */}
         {/* </View> */}
@@ -92,6 +92,9 @@ export default function Dashboard() {
         </View> 
         */}
 
+<View>
+  <Text>Real Dashboard</Text>
+</View>
 
 
 

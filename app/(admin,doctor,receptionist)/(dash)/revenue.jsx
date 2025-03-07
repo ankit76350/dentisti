@@ -1,22 +1,22 @@
 import { View, Text, FlatList, StyleSheet, useColorScheme, StatusBar } from 'react-native';
-import DashboardHeader from '../../components/DashboardHeader';
-import ScreenWrapper from '../../components/ScreenWrapper';
-import SearchButton from '../../components/SearchButton';
+import DashboardHeader from '../../../components/DashboardHeader';
+import ScreenWrapper from '../../../components/ScreenWrapper';
+import SearchButton from '../../../components/SearchButton';
 import { useNavigation } from 'expo-router';
 import { useState, useRef, useEffect } from 'react';
-import { useFetch } from '../../hooks/useFetch';
-import { catalystURL } from '../../constants';
+import { useFetch } from '../../../hooks/useFetch';
+import { catalystURL } from '../../../constants';
 import { BlurView } from 'expo-blur';
-import DetailsBottomSheet from '../../components/DetailsBottomSheet';
-import Item from '../../components/Item';
+import DetailsBottomSheet from '../../../components/DetailsBottomSheet';
+import Item from '../../../components/Item';
 import { DrawerActions } from '@react-navigation/native';
-import { wp } from '../../helpers/common';
-import BottomNavBar from '../../components/BottomNavBar';
-import AnalyticsDashboard from '../../components/AnalyticsDashboard';
-import FeedbackModal from '../../components/FeedbackModal';
-import CustomDropdown from '../../components/CustomDropDown';
+import { wp } from '../../../helpers/common';
+import BottomNavBar from '../../../components/BottomNavBar';
+import AnalyticsDashboard from '../../../components/AnalyticsDashboard';
+import FeedbackModal from '../../../components/FeedbackModal';
+import CustomDropdown from '../../../components/CustomDropDown';
 
-export default function Dashboard() {
+export default function revenue() {
   const navigation = useNavigation();
   const { data: appointmentsData } = useFetch(`${catalystURL}admin/appointments`);
   const { data: doctorsData } = useFetch(`${catalystURL}admin/doctors`);
@@ -92,10 +92,12 @@ export default function Dashboard() {
         </View> 
         */}
 
-<View>
-  <Text>Real Dashboard</Text>
-</View>
 
+        {/* Revenue */}
+
+<View>
+  <Text>Revenue</Text>
+</View>
 
 
 
@@ -159,3 +161,18 @@ const styles = StyleSheet.create({
     color: '#FFF',
   },
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// export default Analytics

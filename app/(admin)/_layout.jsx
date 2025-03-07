@@ -2,13 +2,23 @@ import { Stack } from "expo-router";
 
 export default function AdminLayout() {
   return (
-    <Stack>
+    <Stack
+    screenOptions={{
+      
+      headerShown: false,
+
+    }}
+    >
 
       {/* Common Root */}
       <Stack.Screen
-        name="dashboard"
+        name="(dash)"
         options={{ headerShown: false }}
       />
+      {/* <Stack.Screen
+        name="dashboard"
+        options={{ headerShown: false }}
+      /> */}
       <Stack.Screen
         name="allpatients"
         options={{ title: 'Admin All Patients' }}
