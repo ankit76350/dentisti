@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StatusBar, StyleSheet, Image, useColorScheme } from "react-native";
+import { View, Text, TouchableOpacity, StatusBar, StyleSheet, Image, useColorScheme, SafeAreaView } from "react-native";
 import React, { useState } from 'react';
 import { hp, wp } from '../helpers/common';
 
@@ -6,12 +6,15 @@ const DashboardHeader = ({ openDrawer = () => {} }) => {
     const theme = useColorScheme(); // Detects system theme (light/dark)
 
     return (
+
+
         <View style={[styles.headerContainer, theme === "dark" ? styles.darkHeader : styles.lightHeader]}>
             <StatusBar
                 animated={true}
                 backgroundColor={theme === "dark" ? "#1B263B" : "#49a3f1"}
                 barStyle={theme === "dark" ? "light-content" : "dark-content"}
             />
+            
 
 {/* <StatusBar 
         animated={true}

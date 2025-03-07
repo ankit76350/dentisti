@@ -10,11 +10,12 @@ import { BlurView } from 'expo-blur';
 import DetailsBottomSheet from '../../../components/DetailsBottomSheet';
 import Item from '../../../components/Item';
 import { DrawerActions } from '@react-navigation/native';
-import { wp } from '../../../helpers/common';
+import { hp, wp } from '../../../helpers/common';
 import BottomNavBar from '../../../components/BottomNavBar';
 import AnalyticsDashboard from '../../../components/AnalyticsDashboard';
 import FeedbackModal from '../../../components/FeedbackModal';
 import CustomDropdown from '../../../components/CustomDropDown';
+import RevenueList from '../../../components/RevenueList';
 
 export default function revenue() {
   const navigation = useNavigation();
@@ -55,12 +56,13 @@ export default function revenue() {
   };
 
   return (
-    <ScreenWrapper>
+    <>
+     <ScreenWrapper>
       {/* ✅ Fixed Status Bar */}
       <StatusBar
         animated={true}
-        backgroundColor={theme === "dark" ? "#0D1B2A" : "#49a3f1"}
-        barStyle={theme === "dark" ? "light-content" : "dark-content"}
+        // backgroundColor={theme === "dark" ? "#0D1B2A" : "#49a3f1"}
+        // barStyle={theme === "dark" ? "light-content" : "dark-content"}
       />
 
       <View style={[styles.mainContainer, theme === "dark" ? styles.darkBackground : styles.lightBackground]}>
@@ -68,8 +70,7 @@ export default function revenue() {
 
         {/* Analytics */}
         {/* <View style={{marginTop:20}}> */}
-        {/* <AnalyticsDashboard /> */}
-        
+
         {/* <FeedbackModal/> */}
         {/* </View> */}
 
@@ -95,9 +96,11 @@ export default function revenue() {
 
         {/* Revenue */}
 
-<View>
-  <Text>Revenue</Text>
-</View>
+        <View style={{marginHorizontal:10 , marginTop:10, marginBottom:hp(35)}}>
+
+          <RevenueList />
+        </View>
+
 
 
 
@@ -109,6 +112,7 @@ export default function revenue() {
       {/* </View> */}
 
     </ScreenWrapper>
+    </>
   );
 }
 
