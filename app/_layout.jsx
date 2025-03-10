@@ -43,25 +43,31 @@ import { useRouter } from 'expo-router';
 import { BackHandler } from 'react-native';
 import { useEffect } from 'react';
 import role from '../assets/json/role'
+import { hp, wp } from "../helpers/common";
 
 const _layout = () => {
   const router = useRouter();
 
   useEffect(() => {
     const backAction = () => {
-      router.replace(`/(${role})/dashboard`); // Redirect to dashboard instead of closing app
+      router.replace(`/(${role})/(dash)/analytics`); // Redirect to dashboard instead of closing app
       return true; // Prevent default behavior (exiting the app)
     };
 
     BackHandler.addEventListener('hardwareBackPress', backAction);
-    
+
     return () => BackHandler.removeEventListener('hardwareBackPress', backAction);
   }, []);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <Drawer drawerContent={CustomDrawerContent} screenOptions={{ headerShown: false }}>
-      </Drawer>
+      <Drawer drawerContent={CustomDrawerContent} screenOptions={
+        {
+          headerShown: false,
+          drawerStyle: {
+            width: wp(75), 
+          },
+        }}></Drawer>
     </GestureHandlerRootView>
   );
 };
