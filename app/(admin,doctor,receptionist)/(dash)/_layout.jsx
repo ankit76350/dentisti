@@ -2,12 +2,16 @@ import React from 'react';
 import { Text, View, useColorScheme, StyleSheet } from 'react-native';
 import { Tabs } from 'expo-router';
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 export default function TabLayout() {
   const theme = useColorScheme();
   const isDarkMode = theme === "dark";
 
   return (
+    <BottomSheetModalProvider>
+
+
     <Tabs
       screenOptions={{
         tabBarStyle: { display: "none" } ,
@@ -19,6 +23,7 @@ export default function TabLayout() {
         tabBarShowLabel: false, // Hide default label
       }}
     />
+        </BottomSheetModalProvider>
   );
 }
 

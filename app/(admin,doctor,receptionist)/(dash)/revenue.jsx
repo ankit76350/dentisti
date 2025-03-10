@@ -16,7 +16,7 @@ import AnalyticsDashboard from '../../../components/AnalyticsDashboard';
 import FeedbackModal from '../../../components/FeedbackModal';
 import CustomDropdown from '../../../components/CustomDropDown';
 import RevenueList from '../../../components/RevenueList';
-import TaskModal from '../../../components/TaskModal';
+
 
 export default function revenue() {
   const navigation = useNavigation();
@@ -67,7 +67,7 @@ export default function revenue() {
 
         {/* Analytics */}
         {/* <View style={{marginTop:20}}> */}
-        <TaskModal/>
+
 
         {/* <FeedbackModal/> */}
         {/* </View> */}
@@ -94,10 +94,10 @@ export default function revenue() {
 
         {/* Revenue */}
 
-        {/* <View style={{marginHorizontal:10 , marginTop:10, marginBottom:hp(35)}}>
+        <View style={{marginHorizontal:10 , marginTop:10, marginBottom:hp(35)}}>
 
           <RevenueList />
-        </View> */}
+        </View>
 
 
 

@@ -1,4 +1,4 @@
-import { View, Text, FlatList, StyleSheet, useColorScheme, StatusBar } from 'react-native';
+import { View, Text, FlatList, StyleSheet, useColorScheme, StatusBar, Button } from 'react-native';
 import DashboardHeader from '../../../components/DashboardHeader';
 import ScreenWrapper from '../../../components/ScreenWrapper';
 import SearchButton from '../../../components/SearchButton';
@@ -10,11 +10,12 @@ import { BlurView } from 'expo-blur';
 import DetailsBottomSheet from '../../../components/DetailsBottomSheet';
 import Item from '../../../components/Item';
 import { DrawerActions } from '@react-navigation/native';
-import { wp } from '../../../helpers/common';
+import { hp, wp } from '../../../helpers/common';
 import BottomNavBar from '../../../components/BottomNavBar';
 import AnalyticsDashboard from '../../../components/AnalyticsDashboard';
 import FeedbackModal from '../../../components/FeedbackModal';
 import CustomDropdown from '../../../components/CustomDropDown';
+import BottomSheet from '../../../components/BottomSheet';
 
 export default function appointments() {
   const navigation = useNavigation();
@@ -48,10 +49,9 @@ export default function appointments() {
     return result ? result.name : "Not Found";
   }
 
-  const openDetails = (rowData) => {
-    setSelectedRow(rowData);
-    setIsSheetOpen(true);
-    bottomSheetRef.current?.expand();
+
+  const openBottomSheet = () => {
+    bottomSheetRef.current?.openModal(); // ✅ Call function from BottomSheet.js
   };
 
   return (
@@ -66,42 +66,31 @@ export default function appointments() {
       <View style={[styles.mainContainer, theme === "dark" ? styles.darkBackground : styles.lightBackground]}>
         <DashboardHeader openDrawer={() => navigation.dispatch(DrawerActions.openDrawer())} />
 
-        {/* Analytics */}
-        {/* <View style={{marginTop:20}}> */}
-        {/* <AnalyticsDashboard /> */}
-        
-        {/* <FeedbackModal/> */}
-        {/* </View> */}
-
-
 
         {/* Appointments */}
-        
+
         <View style={[styles.container, theme === "dark" ? styles.darkContainer : styles.lightContainer]}>
 
           <View style={styles.appointmentsHeader}>
+          </View>
+
+          <View style={{ alignItems: 'center', padding: 5, }}>
             <Text style={[styles.appointmentsTitle, theme === "dark" ? styles.darkText : styles.lightText]}>
               Appointments
             </Text>
-          </View>
-
-         <View style={{ alignItems: 'center', justifyContent: 'center' , padding:5}}>
             <SearchButton query={searchQuery} setQuery={setSearchQuery} />
-            <Item />
+            <Item showDetails={openBottomSheet} />
           </View>
-        </View> 
-       
+        </View>
 
 
-
-
-
+        {/* ✅ Pass the ref to BottomSheet */}
+        <BottomSheet ref={bottomSheetRef} />
 
       </View>
-      {/* <View style={{marginTop:20}}> */}
 
+      {/* Bottom Navbar */}
       <BottomNavBar />
-      {/* </View> */}
 
     </ScreenWrapper>
   );
@@ -110,6 +99,8 @@ export default function appointments() {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1, // ✅ Ensures full width & height for dark mode
+    // marginBottom:hp(63)
+// paddingBottom:hp(63)
   },
   darkBackground: {
     backgroundColor: "#0D1B2A", // ✅ Matches dark theme
@@ -129,6 +120,7 @@ const styles = StyleSheet.create({
     // shadowOpacity: 0.3,
     // shadowRadius: 6,
     // elevation: 6,
+    // marginBottom:hp(61)
   },
   lightContainer: {
     // backgroundColor: '#F9F9F9',
@@ -147,7 +139,9 @@ const styles = StyleSheet.create({
   appointmentsTitle: {
     fontSize: 22,
     fontWeight: 'bold',
-    paddingVertical: 1
+    paddingVertical: 1,
+    alignSelf:'flex-start',
+    marginBottom:5,
   },
   lightText: {
     color: '#333',
