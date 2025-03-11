@@ -42,7 +42,7 @@ import CustomDrawerContent from '../components/CustomDrawerContent';
 import { useRouter } from 'expo-router';
 import { BackHandler } from 'react-native';
 import { useEffect } from 'react';
-import role from '../assets/json/role'
+import {role} from '../assets/json/role'
 import { hp, wp } from "../helpers/common";
 
 const _layout = () => {

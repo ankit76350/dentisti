@@ -40,7 +40,8 @@ const Index = () => {
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-      router.replace(`/(${role})/(dash)/appointments`); // Replace so it removes index from stack
+      // router.replace(`/(${role})/(dash)/appointments`); // Replace so it removes index from stack
+      router.replace(`/(${role})/profiles`); // Replace so it removes index from stack
     }, 1000); 
   }, []);
 

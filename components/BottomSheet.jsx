@@ -1,66 +1,53 @@
-import React, { useCallback, useMemo, useRef ,useImperativeHandle, forwardRef } from 'react';
-import { View, Text, StyleSheet, Button, useColorScheme, Platform } from 'react-native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import React, { useCallback, useMemo, useRef, useImperativeHandle, forwardRef } from "react";
+import { View, Text, StyleSheet, useColorScheme, Platform } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
   BottomSheetModal,
   BottomSheetView,
   BottomSheetBackdrop,
-} from '@gorhom/bottom-sheet';
+} from "@gorhom/bottom-sheet";
+import { Ionicons, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 
-const BottomSheet = forwardRef((props, ref) => {
+const AppointmentBottomSheet = forwardRef((props, ref) => {
   const theme = useColorScheme();
-  const snapPoints = useMemo(() => ["25%", "50%"], []);
+  const snapPoints = useMemo(() => ["30%", "50%", "80%"], []);
   const bottomSheetModalRef = useRef(null);
 
-  // const handlePresentModalPress = useCallback(() => {
-  //   bottomSheetModalRef.current?.present();
-  // }, []);
-
   const handleSheetChanges = useCallback((index) => {
-    console.log('handleSheetChanges', index);
+    console.log("Sheet changed:", index);
   }, []);
 
   const renderBackdrop = useCallback(
     (props) => (
-      <BottomSheetBackdrop
-        {...props}
-        disappearsOnIndex={-1}
-        appearsOnIndex={2}
-      />
+      <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={2} />
     ),
     []
   );
-  // ✅ Expose function to parent
+
+  // Expose function to parent
   useImperativeHandle(ref, () => ({
     openModal: () => {
       bottomSheetModalRef.current?.present();
     },
   }));
 
-
   return (
-    // <GestureHandlerRootView style={[styles.container, theme === "dark" ? styles.darkBackground : styles.lightBackground]}>
-    <GestureHandlerRootView >
-      {/* <Button
-        onPress={handlePresentModalPress}
-        title="View Appointment Details"
-        color={theme === "dark" ? "#FFD700" : "#49a3f1"}
-      /> */}
+    <GestureHandlerRootView>
       <BottomSheetModal
-      // ref={bottomSheetModalRef} 
         ref={bottomSheetModalRef}
         onChange={handleSheetChanges}
         snapPoints={snapPoints}
         index={2}
         backdropComponent={renderBackdrop}
-        backgroundStyle={[theme === "dark" ? styles.darkCard : styles.lightCard]}
+        backgroundStyle={theme === "dark" ? styles.darkCard : styles.lightCard}
       >
         <BottomSheetView style={[styles.contentContainer, theme === "dark" ? styles.darkCard : styles.lightCard]}>
-          <Text style={styles.heading}>Appointment Details</Text>
-          {appointmentDetails.map(({ label, value }) => (
-            <View key={label} style={styles.detailRow}>
-              <Text style={[styles.label , theme === "dark" ? styles.darkColor : styles.lightColor] }>{label}:</Text>
-              <Text style={[styles.value ,theme === "dark" ? styles.darkColor : styles.lightColor]}>{value}</Text>
+          <Text style={styles.heading}>📅 Appointment Details</Text>
+          {appointmentDetails.map(({ label, value, icon }) => (
+            <View key={label} style={[ styles.infoRow , theme === "dark" ? styles.darkRow : styles.lightRow]}>
+              {icon}
+              {/* <Text style={[styles.label, theme === "dark" ? styles.darkColor : styles.lightColor]}>{label}:</Text> */}
+              <Text style={[styles.value, theme === "dark" ? styles.darkColor : styles.lightColor]}>{value}</Text>
             </View>
           ))}
         </BottomSheetView>
@@ -70,42 +57,24 @@ const BottomSheet = forwardRef((props, ref) => {
 });
 
 const appointmentDetails = [
-  { label: "Name", value: "Shreyas" },
-  { label: "Email", value: "shreyas@gmail.com" },
-  { label: "Phone No", value: "2212324565" },
-  { label: "Address", value: "Kolhapur" },
-  { label: "Gender", value: "Male" },
-  { label: "Date of Birth", value: "5/1/1998" },
-  { label: "Appointment Date", value: "3/28/2025, 11:52:00 AM" },
-  { label: "Doctor Name", value: "Dr Kedar" },
-  { label: "Hospital Name", value: "Shri Rama Clinics" },
-  { label: "Status", value: "Converted To Patient" },
+  { label: "Name", value: "Shreyas", icon: <Ionicons name="person" size={20} color="#49a3f1" /> },
+  { label: "Email", value: "shreyas@gmail.com", icon: <MaterialIcons name="email" size={20} color="#F8B400" /> },
+  { label: "Phone", value: "2212324565", icon: <FontAwesome5 name="phone-alt" size={18} color="#49a3f1" /> },
+  { label: "Address", value: "Kolhapur", icon: <Ionicons name="location" size={20} color="#F8B400" /> },
+  { label: "Gender", value: "Male", icon: <FontAwesome5 name="venus-mars" size={18} color="#49a3f1" /> },
+  { label: "DOB", value: "5/1/1998", icon: <MaterialIcons name="cake" size={20} color="#F8B400" /> },
+  { label: "Appointment Date", value: "3/28/2025, 11:52 AM", icon: <Ionicons name="calendar" size={20} color="#49a3f1" /> },
+  { label: "Doctor", value: "Dr. Kedar", icon: <FontAwesome5 name="user-md" size={18} color="#F8B400" /> },
+  { label: "Hospital", value: "Shri Rama Clinics", icon: <MaterialIcons name="local-hospital" size={20} color="#49a3f1" /> },
+  { label: "Status", value: "Converted To Patient", icon: <Ionicons name="checkmark-done" size={20} color="green" /> },
 ];
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  darkBackground: {
-    backgroundColor: "#1B263B",
-  },
-  lightBackground: {
-    backgroundColor: "#FFFFFF",
-  },
   contentContainer: {
     padding: 20,
-    // borderRadius: 12,
+    borderRadius: 15,
     ...Platform.select({
-      ios: {
-        // shadowColor: "#000",
-        // shadowOpacity: 0.2,
-        // shadowRadius: 5,
-        // shadowOffset: { width: 0, height: 4 },
-      },
-      android: {
-        elevation: 4,
-      },
+      android: { elevation: 5 },
     }),
   },
   darkCard: {
@@ -118,34 +87,52 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 10,
+    marginBottom: 15,
     color: "#49a3f1",
   },
   detailRow: {
     flexDirection: "row",
-    alignItems: "center", // Ensures elements are aligned properly
-    paddingVertical: 5,
+    alignItems: "center",
+    paddingVertical: 8,
     borderBottomWidth: 0.5,
     borderBottomColor: "#ccc",
   },
   label: {
     fontSize: 16,
     fontWeight: "bold",
-
-    flex: 1, // Makes sure labels take available space
+    flex: 1,
+    marginLeft: 8,
   },
   value: {
     fontSize: 16,
-
-    flex: 1, // Ensures values align properly
-    textAlign: "right", // Aligns text to the right
+    flex: 1,
+    // padding:2
+    // textAlign: "right",
+    marginLeft: 12,
   },
-  lightColor:{
-    color: "#33333",
+  lightColor: {
+    color: "#333",
   },
-  darkColor:{
+  darkColor: {
     color: "#FFFFFF",
-  }
+  },
+  infoRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal:20,
+
+    marginVertical: 1,
+    width: "100%",
+},
+darkRow:{
+  backgroundColor: "#0D1B2A",
+},
+lightRow:{
+  backgroundColor: "#f1f1f1",
+}
 });
 
-export default BottomSheet;
+export default AppointmentBottomSheet;

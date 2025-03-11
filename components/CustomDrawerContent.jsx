@@ -4,7 +4,6 @@ import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { Ionicons, FontAwesome5, MaterialIcons, FontAwesome, FontAwesome6, MaterialCommunityIcons } from "@expo/vector-icons";
 import { hp, wp } from "../helpers/common";
 
-
 const CustomDrawerContent = (props) => {
   const theme = useColorScheme();
   const isDarkMode = theme === "dark";
@@ -12,64 +11,61 @@ const CustomDrawerContent = (props) => {
   return (
     <DrawerContentScrollView
       {...props}
-      contentContainerStyle={styles.drawerContainer}
-      screenOptions={{
-        drawerStyle: {
-          width: 20, // Adjust this value to control the width
-        },
-      }}
+      contentContainerStyle={[
+        styles.drawerContainer,
+        isDarkMode ? styles.drawerContainerDark : styles.drawerContainerLight,
+      ]}
     >
       {/* Profile Section */}
       <View style={styles.profileSection}>
         <View style={styles.avatarContainer}>
-          <Image
-            source={{
-              uri: "https://cdn.dribbble.com/userupload/30614507/file/original-ccc111a8b4a3a17c76de7260755c86dc.png", // Replace with actual profile image
-            }}
-            style={styles.avatar}
-          />
+          <Image source={require("../assets/images/unnamed.jpg")} style={styles.avatar} />
         </View>
-        <Text style={styles.profileName}>Ankit Kumar</Text>
-        <Text style={styles.profileDesignation}>Developer</Text>
+        <Text style={[styles.profileName, isDarkMode ? styles.profileNameDarkColor : styles.profileNameLightColor]}>
+          Ankit Kumar
+        </Text>
+        <Text style={[styles.profileDesignation, isDarkMode ? styles.darkText : styles.lightText]}>
+          Developer
+        </Text>
       </View>
 
       {/* Menu Items */}
       <View style={styles.menuSection}>
         <DrawerItem
           label="Dashboard"
-          labelStyle={styles.menuLabel}
-          icon={() => <MaterialIcons name="dashboard" size={20} color="#555" />}
+          labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
+          icon={() => <MaterialIcons name="dashboard" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
           onPress={() => {}}
         />
         <DrawerItem
           label="Patients"
-          labelStyle={styles.menuLabel}
-          icon={() => <FontAwesome5 name="hospital-user" size={20} color="#555" />}
-          style={styles.activeItem}
+          labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
+          icon={() => <FontAwesome5 name="hospital-user" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
+          style={[styles.activeItem , isDarkMode ? styles.activeItemDark : styles.activeItemLight]}
           onPress={() => {}}
         />
         <DrawerItem
-          label="Calender View"
-          labelStyle={styles.menuLabel}
-          icon={() => <Ionicons name="calendar" size={20} color="#555" />}
+          label="Calendar View"
+          labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
+          icon={() => <Ionicons name="calendar" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
           onPress={() => {}}
         />
         <DrawerItem
           label="Staffs"
-          labelStyle={styles.menuLabel}
-          icon={() => <FontAwesome name="users" size={20} color="#555" />}
+          labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
+          icon={() => <FontAwesome name="users" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
           onPress={() => {}}
         />
         <DrawerItem
           label="Bills"
-          labelStyle={styles.menuLabel}
-          icon={() => <FontAwesome6 name="money-bills" size={20} color="#555" />}
+          labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
+          icon={() => <FontAwesome6 name="money-bills" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
           onPress={() => {}}
         />
         <DrawerItem
           label="Clinics"
-          labelStyle={styles.menuLabel}
-          icon={() => <FontAwesome5 name="hospital-alt" size={20} color="#555" />}
+          labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
+          icon={() => <FontAwesome5 name="hospital-alt" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
           onPress={() => {}}
         />
       </View>
@@ -78,8 +74,8 @@ const CustomDrawerContent = (props) => {
       <View style={styles.bottomSection}>
         <DrawerItem
           label="Profile"
-          labelStyle={styles.menuLabel}
-          icon={() => <FontAwesome name="user" size={20} color="#555" />}
+          labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
+          icon={() => <FontAwesome name="user" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
           onPress={() => {}}
         />
         <DrawerItem
@@ -89,7 +85,6 @@ const CustomDrawerContent = (props) => {
           onPress={() => {}}
         />
       </View>
-
     </DrawerContentScrollView>
   );
 };
@@ -97,9 +92,6 @@ const CustomDrawerContent = (props) => {
 const styles = StyleSheet.create({
   drawerContainer: {
     flex: 1,
-    backgroundColor: "#f8f9fa",
-    // backgroundColor: "black",
-    // paddingLeft: 40,
   },
   profileSection: {
     alignItems: "flex-start",
@@ -125,7 +117,6 @@ const styles = StyleSheet.create({
   },
   profileDesignation: {
     fontSize: 12,
-    color: "#777",
   },
   menuSection: {
     paddingTop: 0,
@@ -134,14 +125,47 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   activeItem: {
-    backgroundColor: "#9dcbf2",
+    // backgroundColor: "#9dcbf2",
     borderRadius: 50,
+    elevation: 3, // Added a subtle shadow effect
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
   },
   bottomSection: {
-    marginTop: "auto", // Pushes it to the bottom
+    marginTop: "auto",
     borderTopWidth: 1,
     borderTopColor: "#ddd",
     paddingTop: 10,
+  },
+
+  //! Light Theme
+  drawerContainerLight: {
+    backgroundColor: "#FFFFFF",
+  },
+  profileNameLightColor: {
+    color: "#333",
+  },
+  lightText: {
+    color: "#333",
+  },
+  activeItemLight:{
+    backgroundColor: "#9dcbf2",
+  },
+
+  //! Dark Theme
+  drawerContainerDark: {
+    backgroundColor: "#0D1B2A",
+  },
+  profileNameDarkColor: {
+    color: "#FFF",
+  },
+  darkText: {
+    color: "#FFF",
+  },
+  activeItemDark:{
+    backgroundColor: "black",
   },
 });
 
