@@ -1,6 +1,10 @@
 import { View, Text, TouchableOpacity, StatusBar, StyleSheet, Image, useColorScheme, SafeAreaView } from "react-native";
 import React, { useState } from 'react';
 import { hp, wp } from '../helpers/common';
+import { Feather, Ionicons } from "@expo/vector-icons";
+import Avatar from "./Avatar";
+import { theme as constantsTheme } from '../constants/theme'
+import {user} from '../assets/json/role'
 
 const DashboardHeader = ({ openDrawer = () => {} }) => {
     const theme = useColorScheme(); // Detects system theme (light/dark)
@@ -27,6 +31,7 @@ const DashboardHeader = ({ openDrawer = () => {} }) => {
                 <TouchableOpacity onPress={openDrawer}>
                     <Image style={styles.iconImage} source={require('../assets/images/logo.jpg')} />
                 </TouchableOpacity> 
+ 
                 <Text style={[styles.title, theme === "dark" ? styles.darkText : styles.lightText]}>Dentisti</Text>
             </View>
 
@@ -34,18 +39,26 @@ const DashboardHeader = ({ openDrawer = () => {} }) => {
             <View style={styles.menuContainer}>
                 <TouchableOpacity>
                     <Text style={[styles.menuText, theme === "dark" ? styles.darkText : styles.lightText]}>
-                        Notification
+                        {/* Notification */}
+                                   <Ionicons name="notifications-outline" size={hp(3.3)} color={"white"} />
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                {/* <TouchableOpacity>
                     <Text style={[styles.menuText, theme === "dark" ? styles.darkText : styles.lightText]}>
                         Toggle Theme
                     </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity>
-                    <Text style={[styles.menuText, theme === "dark" ? styles.darkText : styles.lightText]}>
-                        Profile
-                    </Text>
+                    {/* <Text style={[styles.menuText, theme === "dark" ? styles.darkText : styles.lightText]}> */}
+                        {/* Profile */}
+                    {/* <Feather name="user" size={24} color="black" /> */}
+                    {/* </Text> */}
+                    <Avatar
+                            uri={user?.image}
+                            size={hp(3.5)}
+                            rounded={constantsTheme.radius.xxl * 1.4}
+                            style={{ borderWidth: 2 }}
+                        />
                 </TouchableOpacity>
             </View>
         </View>
@@ -99,9 +112,11 @@ const styles = StyleSheet.create({
     menuContainer: {
         flexDirection: "row",
         alignItems: "center",
+        gap:2,
+        paddingHorizontal:wp(3)
     },
     menuText: {
         fontSize: wp(3),
-        marginRight: 10,
+        marginRight: 15,
     },
 });

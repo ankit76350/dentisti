@@ -27,11 +27,15 @@ import 'react-native-gesture-handler';
 import { StyleSheet, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
-import role from '../assets/json/role'
+import {role} from '../assets/json/role'
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
+  // const [role , setRole] = useState(role?.role)
+
+  console.log("role",role);
+  
 
   useEffect(() => {
     setTimeout(() => {

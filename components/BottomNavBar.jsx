@@ -2,7 +2,7 @@ import React from "react";
 import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { useColorScheme } from "react-native";
-import role from '../assets/json/role'
+import {role} from '../assets/json/role'
 import { Link, useRouter } from "expo-router";
 
 const BottomNavBar = ({ navigation }) => {
