@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity, StatusBar, useColorScheme } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity, StatusBar, useColorScheme, Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome6, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     header: {
         alignItems: "center",
         width: "100%",
-        paddingTop: 40,
+        paddingTop: Platform.OS === "ios" ? 80 : 40, // 80 for iOS, 40 for Android
         paddingBottom: 30,
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
@@ -77,7 +77,9 @@ const styles = StyleSheet.create({
     backButton: {
         position: "absolute",
         left: 20,
-        top: 45,
+        // paddingTop: Platform.OS === "ios" ? 80 : 40, // 80 for iOS, 40 for Android
+        top: Platform.OS === "ios" ? 70 : 20, // 80 for iOS, 40 for Android
+        // top: 45,
     },
     profileImage: {
         width: 90,
