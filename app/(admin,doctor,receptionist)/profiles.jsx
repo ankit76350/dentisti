@@ -1,200 +1,150 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  StyleSheet,
-  useColorScheme,
-  StatusBar,
-} from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import BackButton from "../../components/BackButton";
+import React from "react";
+import { View, Text, Image, StyleSheet, TouchableOpacity, StatusBar, useColorScheme, Platform } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { FontAwesome6, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
-const Notification = ({ navigation }) => {
-  const [notifications, setNotifications] = useState([
-    {
-      id: "1",
-      title: "SALE IS LIVE",
-      description: "Your appointment with Dr. Smith is confirmed for tomorrow at 10 AM.",
-      time: "1m ago",
-      unread: true,
-    },
-    {
-      id: "2",
-      title: "New App Update",
-      description: "New update available in the Dental Clinic App. Check it out!",
-      time: "1m ago",
-      unread: true,
-    },
-    {
-      id: "3",
-      title: "Profile Update Reminder",
-      description: "Reminder: Please complete your profile for better service.",
-      time: "10 Hrs ago",
-      unread: false,
-    },
-    {
-      id: "4",
-      title: "Dental Records Updated",
-      description: "Your dental records have been updated successfully.",
-      time: "15 Hrs ago",
-      unread: false,
-    },
-  ]);
-
-  const theme = useColorScheme();
-
-  // Remove Notification
-  const removeNotification = (id) => {
-    setNotifications(notifications.filter((item) => item.id !== id));
-  };
-
-  const renderNotificationItem = ({ item }) => {
-    const cardStyle = item.unread
-      ? theme === "dark"
-        ? styles.darkUnreadCard
-        : styles.lightUnreadCard
-      : theme === "dark"
-      ? styles.darkCard
-      : styles.lightCard;
+const Profiles = () => {
+    const navigation = useNavigation();
+    const theme = useColorScheme(); // Detects system theme (light/dark)
 
     return (
-      <View style={[styles.notificationItem, cardStyle, styles.shadow]}>
-        <View style={styles.iconContainer}>
-          <Ionicons
-            name="notifications-circle-sharp"
-            size={36}
-            color={theme === "dark" ? "#FFD700" : "#007AFF"}
-          />
-          {item.unread && <View style={styles.unreadDot} />}
-        </View>
-        <View style={styles.textContainer}>
-          <Text style={[styles.title, theme === "dark" ? styles.darkText : styles.lightText]}>{item.title}</Text>
-          <Text style={[styles.description, theme === "dark" ? styles.darkText : styles.lightText]}>{item.description}</Text>
-        </View>
-        <Text style={[styles.time, theme === "dark" ? styles.darkText : styles.lightText]}>{item.time}</Text>
+        <View style={[styles.container, theme === "dark" ? styles.darkBackground : styles.lightBackground]}>
+            <StatusBar
+                animated={true}
+                backgroundColor={theme === "dark" ? "#1B263B" : "#49a3f1"}
+                barStyle={theme === "dark" ? "light-content" : "dark-content"}
+            />
 
-        {/* Delete Button */}
-        <TouchableOpacity onPress={() => removeNotification(item.id)}>
-          <Ionicons name="trash-outline" size={22} color="red" style={styles.deleteIcon} />
-        </TouchableOpacity>
-      </View>
+            {/* Header Section */}
+            <View style={[styles.header, theme === "dark" ? styles.darkHeader : styles.lightHeader]}>
+                <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+                    <Ionicons name="arrow-back" size={24} color="white" />
+                </TouchableOpacity>
+                <Image source={require("../../assets/images/unnamed.jpg")} style={styles.profileImage} />
+                <Text style={[styles.name , theme === "dark" ? styles.darkText : styles.lightText]}>Ankit Kumar</Text>
+                <Text style={[styles.level , theme === "dark" ? styles.darkText : styles.lightText]}>Healthcare Professional</Text>
+            </View>
+
+            {/* User Information Section */}
+            <View style={[styles.infoContainer, theme === "dark" ? styles.darkCard : styles.lightCard]}>
+                <Text style={[styles.roleText, theme === "dark" ? styles.darkText : styles.lightText]}>ADMIN</Text>
+
+                <View style={[styles.infoRow, theme === "dark" ? styles.darkInfoRow : styles.lightInfoRow]}>
+                    <MaterialCommunityIcons name="email" size={22} color="#F8B400" />
+                    <Text style={[styles.infoText, theme === "dark" ? styles.darkText : styles.lightText]}>
+                        kedar7390@gmail.com
+                    </Text>
+                </View>
+
+                <View style={[styles.infoRow, theme === "dark" ? styles.darkInfoRow : styles.lightInfoRow]}>
+                    <FontAwesome6 name="phone" size={22} color="#49a3f1" />
+                    <Text style={[styles.infoText, theme === "dark" ? styles.darkText : styles.lightText]}>
+                        7840977390
+                    </Text>
+                </View>
+            </View>
+        </View>
     );
-  };
-
-  return (
-    <View style={[styles.container, theme === "dark" ? styles.darkBackground : styles.lightBackground]}>
-      <StatusBar
-        animated={true}
-        backgroundColor={theme === "dark" ? "#1B263B" : "#49a3f1"}
-        barStyle={theme === "dark" ? "light-content" : "dark-content"}
-      />
-
-      {/* Header Section */}
-      <View style={[styles.header, theme === "dark" ? styles.darkHeader : styles.lightHeader]}>
-        <BackButton />
-        <Text style={[styles.headerTitle, theme === "dark" ? styles.darkText : styles.lightText]}>Notifications</Text>
-        <Ionicons name="notifications-outline" size={24} color={theme === "dark" ? "#E0E0E0" : "white"} />
-      </View>
-
-      <FlatList
-        data={notifications}
-        keyExtractor={(item) => item.id}
-        renderItem={renderNotificationItem}
-        contentContainerStyle={styles.list}
-      />
-    </View>
-  );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 10,
-    alignItems: "center",
-  },
-  darkBackground: {
-    backgroundColor: "#0D1B2A",
-  },
-  lightBackground: {
-    backgroundColor: "#F5F5F5",
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "100%",
-    paddingTop: 40,
-    paddingBottom: 20,
-    justifyContent: "space-between",
-    paddingHorizontal: 15,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-  },
-  darkHeader: {
-    backgroundColor: "#1B263B",
-  },
-  lightHeader: {
-    backgroundColor: "#49a3f1",
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  list: {
-    width: "90%",
-    marginTop: 10,
-  },
-  notificationItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 12,
-    borderRadius: 15,
-    marginBottom: 10,
-  },
-  darkCard: {
-    backgroundColor: "black",
-  },
-  lightCard: {
-    backgroundColor: "#FFFFFF",
-  },
-  darkUnreadCard: {
-    backgroundColor: "#334E68",
-  },
-  lightUnreadCard: {
-    backgroundColor: "#D6EAF8",
-  },
-  iconContainer: {
-    position: "relative",
-    marginRight: 10,
-    alignItems: "center",
-  },
-  unreadDot: {
-    position: "absolute",
-    top: 0,
-    right: 0,
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: "red",
-  },
-  textContainer: { flex: 1 },
-  title: { fontSize: 14, fontWeight: "bold" },
-  description: { fontSize: 12, marginTop: 3 },
-  time: { fontSize: 12, color: "#777" },
-  deleteIcon: { marginLeft: 10 },
-  darkText: { color: "white" },
-  lightText: { color: "#333" },
-
-  // Shadow Effect for Right and Left Side
-  shadow: {
-    shadowColor: "#000",
-    shadowOffset: { width: 5, height: 5 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 6, // For Android
-  },
+    container: {
+        flex: 1,
+        alignItems: "center",
+    },
+    darkBackground: {
+        // backgroundColor: "#1B263B", // Dark theme background
+        backgroundColor: "#0D1B2A", // Dark theme background
+    },
+    lightBackground: {
+        backgroundColor: "#F5F5F5", // Light theme background
+    },
+    header: {
+        alignItems: "center",
+        width: "100%",
+        paddingTop: Platform.OS === "ios" ? 80 : 40, // 80 for iOS, 40 for Android
+        paddingBottom: 30,
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20,
+        position: "relative",
+    },
+    darkHeader: {
+        backgroundColor: "#1B263B", // Dark theme navbar
+    },
+    lightHeader: {
+        backgroundColor: "#49a3f1", // Light theme navbar
+    },
+    backButton: {
+        position: "absolute",
+        left: 20,
+        // paddingTop: Platform.OS === "ios" ? 80 : 40, // 80 for iOS, 40 for Android
+        top: Platform.OS === "ios" ? 70 : 20, // 80 for iOS, 40 for Android
+        // top: 45,
+    },
+    profileImage: {
+        width: 90,
+        height: 90,
+        borderRadius: 45,
+        marginTop: 10,
+        borderWidth: 3,
+        borderColor: "#F8B400",
+    },
+    name: {
+        fontSize: 22,
+        fontWeight: "bold",
+        marginTop: 10,
+    },
+    level: {
+        fontSize: 14,
+        opacity: 0.8,
+        marginBottom: 5,
+    },
+    infoContainer: {
+        width: "90%",
+        borderRadius: 15,
+        padding: 20,
+        marginTop: -20,
+        alignItems: "center",
+        shadowColor: "black",
+        shadowOpacity: 0.15,
+        shadowRadius: 10,
+        elevation: 5,
+    },
+    darkCard: {
+        backgroundColor: "#2C3E50", // Dark theme card
+    },
+    lightCard: {
+        backgroundColor: "white", // Light theme card
+    },
+    roleText: {
+        fontSize: 18,
+        fontWeight: "bold",
+        marginBottom: 10,
+    },
+    darkText: {
+        color: "#E0E0E0", // Text color in dark mode
+    },
+    lightText: {
+        color: "#333", // Text color in light mode
+    },
+    infoRow: {
+        flexDirection: "row",
+        alignItems: "center",
+        borderRadius: 10,
+        padding: 10,
+        marginVertical: 5,
+        width: "100%",
+    },
+    darkInfoRow: {
+        backgroundColor: "#324A5F",
+    },
+    lightInfoRow: {
+        backgroundColor: "#f1f1f1",
+    },
+    infoText: {
+        fontSize: 14,
+        marginLeft: 10,
+    },
 });
 
-export default Notification;
+export default Profiles;

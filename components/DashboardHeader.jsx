@@ -33,7 +33,7 @@ const DashboardHeader = ({ openDrawer = () => { } }) => {
 
             {/* Menu Options */}
             <View style={styles.menuContainer}>
-                <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("notification")}>
                     <Text style={[styles.menuText, theme === "dark" ? styles.darkText : styles.lightText]}>
                         <Ionicons name="notifications-outline" size={hp(3.3)} color={"white"} />
                     </Text>

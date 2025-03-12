@@ -7,10 +7,12 @@ import {
   StyleSheet,
   useColorScheme,
   StatusBar,
+  Platform,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "expo-router";
 
-const Notification = ({ navigation }) => {
+const Notification = () => {
   const [notifications, setNotifications] = useState([
     {
       id: "1",
@@ -40,9 +42,135 @@ const Notification = ({ navigation }) => {
       time: "15 Hrs ago",
       unread: false,
     },
+    {
+      id: "3",
+      title: "Profile Update Reminder",
+      description: "Reminder: Please complete your profile for better service.",
+      time: "10 Hrs ago",
+      unread: false,
+    },
+    {
+      id: "4",
+      title: "Dental Records Updated",
+      description: "Your dental records have been updated successfully.",
+      time: "15 Hrs ago",
+      unread: false,
+    },
+    {
+      id: "3",
+      title: "Profile Update Reminder",
+      description: "Reminder: Please complete your profile for better service.",
+      time: "10 Hrs ago",
+      unread: false,
+    },
+    {
+      id: "4",
+      title: "Dental Records Updated",
+      description: "Your dental records have been updated successfully.",
+      time: "15 Hrs ago",
+      unread: false,
+    },
+    {
+      id: "3",
+      title: "Profile Update Reminder",
+      description: "Reminder: Please complete your profile for better service.",
+      time: "10 Hrs ago",
+      unread: false,
+    },
+    {
+      id: "4",
+      title: "Dental Records Updated",
+      description: "Your dental records have been updated successfully.",
+      time: "15 Hrs ago",
+      unread: false,
+    },
+    {
+      id: "3",
+      title: "Profile Update Reminder",
+      description: "Reminder: Please complete your profile for better service.",
+      time: "10 Hrs ago",
+      unread: false,
+    },
+    {
+      id: "4",
+      title: "Dental Records Updated",
+      description: "Your dental records have been updated successfully.",
+      time: "15 Hrs ago",
+      unread: false,
+    },
+    {
+      id: "3",
+      title: "Profile Update Reminder",
+      description: "Reminder: Please complete your profile for better service.",
+      time: "10 Hrs ago",
+      unread: false,
+    },
+    {
+      id: "4",
+      title: "Dental Records Updated",
+      description: "Your dental records have been updated successfully.",
+      time: "15 Hrs ago",
+      unread: false,
+    },
+    {
+      id: "3",
+      title: "Profile Update Reminder",
+      description: "Reminder: Please complete your profile for better service.",
+      time: "10 Hrs ago",
+      unread: false,
+    },
+    {
+      id: "4",
+      title: "Dental Records Updated",
+      description: "Your dental records have been updated successfully.",
+      time: "15 Hrs ago",
+      unread: false,
+    },
+    {
+      id: "3",
+      title: "Profile Update Reminder",
+      description: "Reminder: Please complete your profile for better service.",
+      time: "10 Hrs ago",
+      unread: false,
+    },
+    {
+      id: "4",
+      title: "Dental Records Updated",
+      description: "Your dental records have been updated successfully.",
+      time: "15 Hrs ago",
+      unread: false,
+    },
+    {
+      id: "3",
+      title: "Profile Update Reminder",
+      description: "Reminder: Please complete your profile for better service.",
+      time: "10 Hrs ago",
+      unread: false,
+    },
+    {
+      id: "4",
+      title: "Dental Records Updated",
+      description: "Your dental records have been updated successfully.",
+      time: "15 Hrs ago",
+      unread: false,
+    },
+    {
+      id: "3",
+      title: "Profile Update Reminder",
+      description: "Reminder: Please complete your profile for better service.",
+      time: "10 Hrs ago",
+      unread: false,
+    },
+    {
+      id: "4",
+      title: "Dental Records Updated",
+      description: "Your dental records have been updated successfully.",
+      time: "15 Hrs ago",
+      unread: false,
+    },
   ]);
-
   const theme = useColorScheme();
+  const navigation = useNavigation();
 
   // Function to remove notification
   const removeNotification = (id) => {
@@ -92,7 +220,7 @@ const Notification = ({ navigation }) => {
 
       <FlatList
         data={notifications}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item , index) => index}
         renderItem={renderNotificationItem}
         contentContainerStyle={styles.list}
       />
@@ -101,7 +229,11 @@ const Notification = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 15 },
+  container: { 
+    flex: 1, 
+     paddingTop: Platform.OS === "ios" ? 60 : 10, // 60 for iOS, 10 for Android
+     paddingHorizontal:15
+  },
   darkBackground: { backgroundColor: "#0D1B2A" },
   lightBackground: { backgroundColor: "#F5F5F5" },
   header: {
