@@ -16,7 +16,7 @@ const BackButton = ({screen="analytics"}) => {
     }
     return (
 
-        <TouchableOpacity style={styles.backButton} onPress={() => navgateTo() }>
+        <TouchableOpacity style={styles.backButton} onPress={() => navgateTo() } >
             <Ionicons name="arrow-back" size={24} color="white" />
         </TouchableOpacity>
 

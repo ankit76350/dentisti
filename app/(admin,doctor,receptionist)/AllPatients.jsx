@@ -1,10 +1,12 @@
 // app/(admin,doctor,receptionist)/AllPatients.tsx
 import { DrawerActions } from '@react-navigation/native';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
-import { View, Text, Button, ScrollView } from 'react-native';
+import { View, Text, Button, ScrollView, useColorScheme } from 'react-native';
 import Table from '../../components/Table';
 import { useFetch } from '../../hooks/useFetch';
 import { catalystURL } from '../../constants';
+import ScreenContainer from '../../components/ScreenContainer';
+import { Entypo, Ionicons } from '@expo/vector-icons';
 
 export default function AllPatients() {
   const navigation = useNavigation()
@@ -31,17 +33,25 @@ export default function AllPatients() {
     }
 
   }
+
+  const theme = useColorScheme();
+
+  const isDark = theme === "dark";
   return (
     <>
 
-      <Button title="Open Drawer" onPress={() => navigation.dispatch(DrawerActions.openDrawer())} />
-      <Button title="Go Back" onPress={() => navigation.goBack()} />
+      <ScreenContainer
+        title="Patients"
+        addIconComponent={
+          <Entypo name="dots-three-vertical" size={20} color="black" />
+        }
+        backScreen="analytics"
+      >
 
-      <ScrollView>
-        <View style={{ backgroundColor: 'white', flex: 1 }}>
-          <Table tableData={patientsData || []} loading={loading} tableHeader={tableHeader} tableContentKey={tableContentKey} errorMessage={error} populate={populate} />
-        </View>
-      </ScrollView>
+       <Text>
+       All patients
+        </Text> 
+      </ScreenContainer>
     </>
   );
 }

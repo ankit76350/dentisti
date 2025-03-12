@@ -3,10 +3,14 @@ import { View, Text, Image, StyleSheet, useColorScheme } from "react-native";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { Ionicons, FontAwesome5, MaterialIcons, FontAwesome, FontAwesome6, MaterialCommunityIcons } from "@expo/vector-icons";
 import { hp, wp } from "../helpers/common";
+import { useRouter } from "expo-router";
+import {role} from '../assets/json/role'
+
 
 const CustomDrawerContent = (props) => {
   const theme = useColorScheme();
   const isDarkMode = theme === "dark";
+  const router = useRouter();
 
   return (
     <DrawerContentScrollView
@@ -42,7 +46,7 @@ const CustomDrawerContent = (props) => {
           labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
           icon={() => <FontAwesome5 name="hospital-user" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
           style={[styles.activeItem , isDarkMode ? styles.activeItemDark : styles.activeItemLight]}
-          onPress={() => {}}
+          onPress={() => router.push(`/(${role})/allpatients`)}
         />
         <DrawerItem
           label="Calendar View"
@@ -54,7 +58,8 @@ const CustomDrawerContent = (props) => {
           label="Staffs"
           labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
           icon={() => <FontAwesome name="users" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
-          onPress={() => {}}
+          onPress={() => router.push(`/(${role})/allstaff`)}
+
         />
         <DrawerItem
           label="Bills"
