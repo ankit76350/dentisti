@@ -11,7 +11,7 @@ import {
 import { Feather, FontAwesome5, FontAwesome6, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Header from "../../components/Header";
 import ScreenContainer from "../../components/ScreenContainer";
-
+import SearchButton from '../../components/SearchButton';
 const approvalsData = [
   {
     id: "1",
@@ -157,6 +157,7 @@ const ApprovalScreen = () => {
 
   const renderItem = ({ item }) => (
     <View style={[styles.card, isDark && styles.darkCard]}>
+      
       {/* Top Row: Buttons and Name */}
       <View style={styles.topRow}>
         <Text style={[styles.name, isDark && styles.darkText]}>{item.name}</Text>
@@ -213,7 +214,11 @@ const ApprovalScreen = () => {
         }
         backScreen="analytics"
       >
-        <FlatList data={approvalsData} renderItem={renderItem} keyExtractor={(item, index) => index} />
+               <View style={{ alignItems: 'center', paddingHorizontal:35,  paddingTop:5 }}>
+        <SearchButton />
+        </View>
+          <FlatList data={approvalsData} renderItem={renderItem} keyExtractor={(item, index) => index} />
+
       </ScreenContainer>
 
     </>
