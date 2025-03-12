@@ -4,10 +4,12 @@ import { hp, wp } from '../helpers/common';
 import { Feather, Ionicons } from "@expo/vector-icons";
 import Avatar from "./Avatar";
 import { theme as constantsTheme } from '../constants/theme'
-import {user} from '../assets/json/role'
+import { user } from '../assets/json/role'
+import { useNavigation } from "@react-navigation/native";
 
-const DashboardHeader = ({ openDrawer = () => {} }) => {
-    const theme = useColorScheme(); // Detects system theme (light/dark)
+const DashboardHeader = ({ openDrawer = () => { } }) => {
+    const theme = useColorScheme(); 
+    const navigation = useNavigation();
 
     return (
 
@@ -18,20 +20,14 @@ const DashboardHeader = ({ openDrawer = () => {} }) => {
                 backgroundColor={theme === "dark" ? "#1B263B" : "#49a3f1"}
                 barStyle={theme === "dark" ? "light-content" : "dark-content"}
             />
-            
 
-{/* <StatusBar 
-        animated={true}
-        backgroundColor={theme === "dark" ? "#0D1B2A" : "#49a3f1"}
-        barStyle={theme === "dark" ? "light-content" : "dark-content"}
-      /> */}
 
             {/* Logo & Title */}
             <View style={styles.logoContainer}>
                 <TouchableOpacity onPress={openDrawer}>
                     <Image style={styles.iconImage} source={require('../assets/images/logo.jpg')} />
-                </TouchableOpacity> 
- 
+                </TouchableOpacity>
+
                 <Text style={[styles.title, theme === "dark" ? styles.darkText : styles.lightText]}>Dentisti</Text>
             </View>
 
@@ -39,26 +35,17 @@ const DashboardHeader = ({ openDrawer = () => {} }) => {
             <View style={styles.menuContainer}>
                 <TouchableOpacity>
                     <Text style={[styles.menuText, theme === "dark" ? styles.darkText : styles.lightText]}>
-                        {/* Notification */}
-                                   <Ionicons name="notifications-outline" size={hp(3.3)} color={"white"} />
+                        <Ionicons name="notifications-outline" size={hp(3.3)} color={"white"} />
                     </Text>
                 </TouchableOpacity>
-                {/* <TouchableOpacity>
-                    <Text style={[styles.menuText, theme === "dark" ? styles.darkText : styles.lightText]}>
-                        Toggle Theme
-                    </Text>
-                </TouchableOpacity> */}
-                <TouchableOpacity>
-                    {/* <Text style={[styles.menuText, theme === "dark" ? styles.darkText : styles.lightText]}> */}
-                        {/* Profile */}
-                    {/* <Feather name="user" size={24} color="black" /> */}
-                    {/* </Text> */}
+                <TouchableOpacity onPress={() => navigation.navigate("profiles")}>
+
                     <Avatar
-                            uri={user?.image}
-                            size={hp(3.5)}
-                            rounded={constantsTheme.radius.xxl * 1.4}
-                            style={{ borderWidth: 2 }}
-                        />
+                        uri={user?.image}
+                        size={hp(3.5)}
+                        rounded={constantsTheme.radius.xxl * 1.4}
+                        style={{ borderWidth: 2 }}
+                    />
                 </TouchableOpacity>
             </View>
         </View>
@@ -112,8 +99,8 @@ const styles = StyleSheet.create({
     menuContainer: {
         flexDirection: "row",
         alignItems: "center",
-        gap:2,
-        paddingHorizontal:wp(3)
+        gap: 2,
+        paddingHorizontal: wp(3)
     },
     menuText: {
         fontSize: wp(3),

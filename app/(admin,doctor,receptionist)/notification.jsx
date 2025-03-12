@@ -9,7 +9,6 @@ import {
   StatusBar,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import BackButton from "../../components/BackButton";
 
 const Notification = ({ navigation }) => {
   const [notifications, setNotifications] = useState([
@@ -45,43 +44,34 @@ const Notification = ({ navigation }) => {
 
   const theme = useColorScheme();
 
-  // Remove Notification
+  // Function to remove notification
   const removeNotification = (id) => {
     setNotifications(notifications.filter((item) => item.id !== id));
   };
 
-  const renderNotificationItem = ({ item }) => {
-    const cardStyle = item.unread
-      ? theme === "dark"
-        ? styles.darkUnreadCard
-        : styles.lightUnreadCard
-      : theme === "dark"
-      ? styles.darkCard
-      : styles.lightCard;
+  const renderNotificationItem = ({ item }) => (
+    <View style={[
+      styles.notificationItem,
+      theme === "dark" ? styles.darkCard : styles.lightCard,
+      item.unread && (theme === "dark" ? styles.unreadNotificationDark : styles.unreadNotification)
+    ]}>
 
-    return (
-      <View style={[styles.notificationItem, cardStyle, styles.shadow]}>
-        <View style={styles.iconContainer}>
-          <Ionicons
-            name="notifications-circle-sharp"
-            size={36}
-            color={theme === "dark" ? "#FFD700" : "#007AFF"}
-          />
-          {item.unread && <View style={styles.unreadDot} />}
-        </View>
-        <View style={styles.textContainer}>
-          <Text style={[styles.title, theme === "dark" ? styles.darkText : styles.lightText]}>{item.title}</Text>
-          <Text style={[styles.description, theme === "dark" ? styles.darkText : styles.lightText]}>{item.description}</Text>
-        </View>
-        <Text style={[styles.time, theme === "dark" ? styles.darkText : styles.lightText]}>{item.time}</Text>
-
-        {/* Delete Button */}
-        <TouchableOpacity onPress={() => removeNotification(item.id)}>
-          <Ionicons name="trash-outline" size={22} color="red" style={styles.deleteIcon} />
-        </TouchableOpacity>
+      <View style={styles.iconContainer}>
+        <Ionicons name="notifications-circle-sharp" size={36} color={theme === "dark" ? "#FFD700" : "#007AFF"} />
+        {item.unread && <View style={styles.unreadDot} />}
       </View>
-    );
-  };
+      <View style={styles.textContainer}>
+        <Text style={[styles.title, theme === "dark" ? styles.darkText : styles.lightText]}>{item.title}</Text>
+        <Text style={[styles.description, theme === "dark" ? styles.darkText : styles.lightText]}>{item.description}</Text>
+      </View>
+      <Text style={[styles.time, theme === "dark" ? styles.darkText : styles.lightText]}>{item.time}</Text>
+
+      {/* Delete Icon */}
+      <TouchableOpacity onPress={() => removeNotification(item.id)}>
+        <Ionicons name="trash-outline" size={24} color="red" style={styles.deleteIcon} />
+      </TouchableOpacity>
+    </View>
+  );
 
   return (
     <View style={[styles.container, theme === "dark" ? styles.darkBackground : styles.lightBackground]}>
@@ -91,11 +81,13 @@ const Notification = ({ navigation }) => {
         barStyle={theme === "dark" ? "light-content" : "dark-content"}
       />
 
-      {/* Header Section */}
+      {/* Header */}
       <View style={[styles.header, theme === "dark" ? styles.darkHeader : styles.lightHeader]}>
-        <BackButton />
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="arrow-back" size={24} color={theme === "dark" ? "#E0E0E0" : "black"} />
+        </TouchableOpacity>
         <Text style={[styles.headerTitle, theme === "dark" ? styles.darkText : styles.lightText]}>Notifications</Text>
-        <Ionicons name="notifications-outline" size={24} color={theme === "dark" ? "#E0E0E0" : "white"} />
+        <Ionicons name="notifications-outline" size={24} color={theme === "dark" ? "#E0E0E0" : "black"} />
       </View>
 
       <FlatList
@@ -109,61 +101,42 @@ const Notification = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 10,
-    alignItems: "center",
-  },
-  darkBackground: {
-    backgroundColor: "#0D1B2A",
-  },
-  lightBackground: {
-    backgroundColor: "#F5F5F5",
-  },
+  container: { flex: 1, padding: 15 },
+  darkBackground: { backgroundColor: "#0D1B2A" },
+  lightBackground: { backgroundColor: "#F5F5F5" },
   header: {
     flexDirection: "row",
     alignItems: "center",
-    width: "100%",
-    paddingTop: 40,
-    paddingBottom: 20,
     justifyContent: "space-between",
-    paddingHorizontal: 15,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    paddingVertical: 10,
+    marginBottom: 10,
   },
-  darkHeader: {
-    backgroundColor: "#1B263B",
-  },
-  lightHeader: {
-    backgroundColor: "#49a3f1",
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  list: {
-    width: "90%",
-    marginTop: 10,
-  },
+  headerTitle: { fontSize: 18, fontWeight: "bold", textAlign: "center" },
+  list: { marginTop: 10 },
   notificationItem: {
     flexDirection: "row",
     alignItems: "center",
     padding: 12,
-    borderRadius: 15,
+    borderRadius: 10,
     marginBottom: 10,
+
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 4,
   },
   darkCard: {
-    backgroundColor: "black",
+    backgroundColor: "#1B263B", // Dark Navy Blue
   },
   lightCard: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#FFF",
   },
-  darkUnreadCard: {
-    backgroundColor: "#334E68",
+  unreadNotification: {
+    backgroundColor: "#E8F0FE", // Light mode unread background
   },
-  lightUnreadCard: {
-    backgroundColor: "#D6EAF8",
+  unreadNotificationDark: {
+    backgroundColor: "#1E2A38", // Dark mode unread background
   },
   iconContainer: {
     position: "relative",
@@ -184,17 +157,8 @@ const styles = StyleSheet.create({
   description: { fontSize: 12, marginTop: 3 },
   time: { fontSize: 12, color: "#777" },
   deleteIcon: { marginLeft: 10 },
-  darkText: { color: "white" },
+  darkText: { color: "#E0E0E0" },
   lightText: { color: "#333" },
-
-  // Shadow Effect for Right and Left Side
-  shadow: {
-    shadowColor: "#000",
-    shadowOffset: { width: 5, height: 5 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 6, // For Android
-  },
 });
 
 export default Notification;
