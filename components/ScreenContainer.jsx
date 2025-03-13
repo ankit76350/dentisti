@@ -3,11 +3,12 @@ import React from 'react'
 import Header from './Header'
 
 const ScreenContainer = ({
-    title="",
-    addIconComponent= null,
-     children ,
-     backScreen
-    }) => {
+    title = "",
+    addIconComponent = null,
+    children,
+    backScreen,
+    navigateTo = ()=>{}
+}) => {
     const theme = useColorScheme();
     const isDark = theme === "dark";
     return (
@@ -23,7 +24,7 @@ const ScreenContainer = ({
                 title={title}
                 showBackButton={true}
                 showAddButton={true}
-                onAddPress={() => console.log("Add User Pressed")}
+                onAddPress={navigateTo}
                 addIconComponent={addIconComponent}
                 screen={backScreen}
             />
@@ -39,9 +40,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: 15,
- 
+
     },
-    lightContainer:{
+    lightContainer: {
         backgroundColor: "white",
     },
     darkContainer: {

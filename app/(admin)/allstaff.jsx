@@ -12,6 +12,7 @@ import { Feather, FontAwesome5, FontAwesome6, Ionicons, MaterialCommunityIcons }
 import Header from "../../components/Header";
 import ScreenContainer from "../../components/ScreenContainer";
 import SearchButton from '../../components/SearchButton';
+import { useNavigation } from "expo-router";
 const approvalsData = [
   {
     id: "1",
@@ -154,6 +155,7 @@ const approvalsData = [
 const ApprovalScreen = () => {
   const theme = useColorScheme();
   const isDark = theme === "dark";
+      const navigation = useNavigation();
 
   const renderItem = ({ item }) => (
     <View style={[styles.card, isDark && styles.darkCard]}>
@@ -162,7 +164,8 @@ const ApprovalScreen = () => {
       <View style={styles.topRow}>
         <Text style={[styles.name, isDark && styles.darkText]}>{item.name}</Text>
         <View style={styles.actionButtons}>
-          <TouchableOpacity style={styles.iconButton}>
+          <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate("addataffform")}>
+          {/* navigateTo={() => navigation.navigate("addataffform")} */}
             <Feather name="edit" size={19} color="#2ECC71" />
             {/* <Ionicons name="edit" size={22} color="#E74C3C" /> */}
           </TouchableOpacity>
@@ -213,8 +216,10 @@ const ApprovalScreen = () => {
           <Ionicons name="person-add" size={24} color={isDark ? "#FFFFFF" : "#000"} />
         }
         backScreen="analytics"
+        navigateTo={() => navigation.navigate("addataffform")}
+   
       >
-               <View style={{ alignItems: 'center', paddingHorizontal:35,  paddingTop:5 }}>
+        <View style={{ alignItems: 'center', paddingHorizontal:35,  paddingTop:5 }}>
         <SearchButton />
         </View>
           <FlatList data={approvalsData} renderItem={renderItem} keyExtractor={(item, index) => index} />
