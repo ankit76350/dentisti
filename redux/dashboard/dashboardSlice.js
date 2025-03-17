@@ -48,6 +48,25 @@ export const fetchHospitalData = createAsyncThunk(
 
             if (!response.ok) {
                 const errorData = await response.json();
+                return rejectWithValue(errorData.message || "Failed to fetch hospitals revenue");
+            }
+
+            return await response.json();
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+//! Hospital
+export const fetchHospitalRevenue = createAsyncThunk(
+    "dashboard/fetchHospitalRevenue",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await fetch(`${catalystURL}/admin/revenue`);
+
+            if (!response.ok) {
+                const errorData = await response.json();
                 return rejectWithValue(errorData.message || "Failed to fetch hospitals data");
             }
 
@@ -75,6 +94,11 @@ export const dashboardSlice = createSlice({
         hospitalsState: {
             isLoading: false,
             hospitalsData: [],
+            isError: null,
+        },
+        hospitalsRevenueState: {
+            isLoading: false,
+            hospitalsRevenue: [],
             isError: null,
         },
     },
@@ -119,6 +143,19 @@ export const dashboardSlice = createSlice({
             .addCase(fetchHospitalData.rejected, (state, action) => {
                 state.hospitalsState.isLoading = false;
                 state.hospitalsState.isError = action.payload || "Unknown error from hospitals api";
+            })
+            //Todo : hospitals Revenue
+            .addCase(fetchHospitalRevenue.pending, (state) => {
+                state.hospitalsRevenueState.isLoading = true;
+                state.hospitalsRevenueState.isError = null;
+            })
+            .addCase(fetchHospitalRevenue.fulfilled, (state, action) => {
+                state.hospitalsRevenueState.isLoading = false;
+                state.hospitalsRevenueState.hospitalsRevenue = action.payload;
+            })
+            .addCase(fetchHospitalRevenue.rejected, (state, action) => {
+                state.hospitalsRevenueState.isLoading = false;
+                state.hospitalsRevenueState.isError = action.payload || "Unknown error from revenue api";
             });
     },
 });

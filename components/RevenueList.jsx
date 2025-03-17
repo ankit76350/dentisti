@@ -3,32 +3,18 @@ import { View, Text, StyleSheet, FlatList, useColorScheme } from "react-native";
 import { Card } from "react-native-paper";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 
-const revenueData = [
-  { name: "Rama Clinics", revenue: 4000, progress: 0.1 },
-  { name: "Shree Clinic", revenue: 3900, progress: 0.08 },
-  { name: "Apollo Hospital", revenue: 41900, progress: 1 },
-  { name: "Sharada Clinic", revenue: 10000, progress: 0.25 },
-  { name: "Rama Clinics", revenue: 4000, progress: 0.1 },
-  { name: "Shree Clinic", revenue: 3900, progress: 0.08 },
-  { name: "Apollo Hospital", revenue: 41900, progress: 1 },
-  { name: "Sharada Clinic", revenue: 10000, progress: 0.25 },
-  { name: "Rama Clinics", revenue: 4000, progress: 0.1 },
-  { name: "Shree Clinic", revenue: 3900, progress: 0.08 },
-  { name: "Apollo Hospital", revenue: 41900, progress: 1 },
-  { name: "Sharada Clinic", revenue: 10000, progress: 0.25 },
-  { name: "Rama Clinics", revenue: 4000, progress: 0.1 },
-  { name: "Shree Clinic", revenue: 3900, progress: 0.08 },
-  { name: "Apollo Hospital", revenue: 41900, progress: 1 },
-  { name: "Sharada Clinic", revenue: 10000, progress: 0.25 },
-  { name: "Rama Clinics", revenue: 4000, progress: 0.1 },
-  { name: "Shree Clinic", revenue: 3900, progress: 0.08 },
-  { name: "Apollo Hospital", revenue: 41900, progress: 1 },
-  { name: "Sharada Clinic", revenue: 10000, progress: 0.25 },
-];
+// const revenueData = [
+//   { hospitalName: "Rama Clinics", revenue: 4000, progress: 0.1 },
+// ];
 
-const RevenueList = () => {
+const RevenueList = ({revenueData=[]}) => {
   const theme = useColorScheme();
   const isDarkMode = theme === "dark";
+  const maxRevenueHospital = revenueData.reduce((max, hospital) => hospital.revenue > max.revenue ? hospital : max, revenueData[0]);
+
+  const progress = (revenue)=> { 
+    return revenue / maxRevenueHospital.revenue
+  }
 
   return (
     <Card style={[styles.card, isDarkMode ? styles.darkCard : styles.lightCard]}>
@@ -38,10 +24,10 @@ const RevenueList = () => {
         keyExtractor={(item , index) => index}
         renderItem={({ item }) => (
           <View style={styles.itemContainer}>
-            <Text style={[styles.itemText, isDarkMode ? styles.darkText : styles.lightText]}>{item.name}</Text>
+            <Text style={[styles.itemText, isDarkMode ? styles.darkText : styles.lightText]}>{item.hospitalName}</Text>
             <Text style={[styles.revenueText, isDarkMode ? styles.darkText : styles.lightText]}>₹{item.revenue}</Text>
             <View style={styles.progressBarBackground}>
-              <View style={[styles.progressBar, { width: `${item.progress * 100}%` }]} />
+              <View style={[styles.progressBar, { width: `${progress(item.revenue)* 100}%` }]} />
             </View>
           </View>
         )}

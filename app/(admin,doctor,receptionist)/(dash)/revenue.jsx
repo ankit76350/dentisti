@@ -1,114 +1,42 @@
-import { View, Text, FlatList, StyleSheet, useColorScheme, StatusBar } from 'react-native';
+import { View, StyleSheet, useColorScheme} from 'react-native';
 import DashboardHeader from '../../../components/DashboardHeader';
 import ScreenWrapper from '../../../components/ScreenWrapper';
-import SearchButton from '../../../components/SearchButton';
 import { useNavigation } from 'expo-router';
-import { useState, useRef, useEffect } from 'react';
-import { useFetch } from '../../../hooks/useFetch';
-import { catalystURL } from '../../../constants';
-import { BlurView } from 'expo-blur';
-import DetailsBottomSheet from '../../../components/DetailsBottomSheet';
-import Item from '../../../components/Item';
 import { DrawerActions } from '@react-navigation/native';
 import { hp, wp } from '../../../helpers/common';
 import BottomNavBar from '../../../components/BottomNavBar';
-import AnalyticsDashboard from '../../../components/AnalyticsDashboard';
-import FeedbackModal from '../../../components/FeedbackModal';
-import CustomDropdown from '../../../components/CustomDropDown';
 import RevenueList from '../../../components/RevenueList';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchHospitalRevenue } from '../../../redux/dashboard/dashboardSlice';
+import { useEffect } from 'react';
 
 
 export default function revenue() {
   const navigation = useNavigation();
-  const { data: appointmentsData } = useFetch(`${catalystURL}admin/appointments`);
-  const { data: doctorsData } = useFetch(`${catalystURL}admin/doctors`);
+  const theme = useColorScheme(); 
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const [selectedRow, setSelectedRow] = useState(null);
-  const bottomSheetRef = useRef(null);
-
-  const theme = useColorScheme(); // Detects system theme (light/dark)
-
+  //Todo start: redux things
+  const dispatch = useDispatch()
   useEffect(() => {
-    if (!searchQuery.trim()) {
-      setFilteredData(appointmentsData);
-    } else {
-      setFilteredData(
-        appointmentsData?.filter(
-          (item) =>
-            item?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            item?.phone_no?.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-      );
-    }
-  }, [appointmentsData, searchQuery]);
-
-  function populate(rowId) {
-    const result = doctorsData?.find(item => item.ROWID === rowId);
-    return result ? result.name : "Not Found";
-  }
-
-  const openDetails = (rowData) => {
-    setSelectedRow(rowData);
-    setIsSheetOpen(true);
-    bottomSheetRef.current?.expand();
-  };
+    dispatch(fetchHospitalRevenue())
+  }, [])
+  const dashboardState = useSelector((state) => state.dashboard);
+  //Todo end: redux things
 
   return (
     <>
      <ScreenWrapper>
 
-   
-
       <View style={[styles.mainContainer, theme === "dark" ? styles.darkBackground : styles.lightBackground]}>
         <DashboardHeader openDrawer={() => navigation.dispatch(DrawerActions.openDrawer())} />
 
-        {/* Analytics */}
-        {/* <View style={{marginTop:20}}> */}
-
-
-        {/* <FeedbackModal/> */}
-        {/* </View> */}
-
-
-
-        {/* Appointments */}
-        {/* 
-        <View style={[styles.container, theme === "dark" ? styles.darkContainer : styles.lightContainer]}>
-
-          <View style={styles.appointmentsHeader}>
-            <Text style={[styles.appointmentsTitle, theme === "dark" ? styles.darkText : styles.lightText]}>
-              Appointments
-            </Text>
-          </View>
-
-         <View style={{ alignItems: 'center', justifyContent: 'center' , padding:5}}>
-            <SearchButton query={searchQuery} setQuery={setSearchQuery} />
-            <Item />
-          </View>
-        </View> 
-        */}
-
-
         {/* Revenue */}
-
         <View style={{marginHorizontal:10 , marginTop:10, marginBottom:hp(35)}}>
-
-          <RevenueList />
+          <RevenueList revenueData={dashboardState.hospitalsRevenueState.hospitalsRevenue}/>
         </View>
-
-
-
-
-
       </View>
-      {/* <View style={{marginTop:20}}> */}
-
+    
       <BottomNavBar />
-      {/* </View> */}
-
     </ScreenWrapper>
     </>
   );
