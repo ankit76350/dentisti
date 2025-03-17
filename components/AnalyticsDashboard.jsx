@@ -1,13 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, StyleSheet, useColorScheme } from "react-native";
-import { Card, IconButton } from "react-native-paper";
+import { Card } from "react-native-paper";
 import { BarChart } from "react-native-chart-kit";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Svg, { Circle } from "react-native-svg";
-import CustomDropDown from "./CustomDropDown";
-import FeedbackModal from "./FeedbackModal";
 import { FontAwesome5, Fontisto, MaterialCommunityIcons } from "@expo/vector-icons";
-import CustomDropdown from "./CustomDropDown";
+import FilterYear from "./FilterYear";
 
 
 const CircularProgress = ({ progress, size = 40, strokeWidth = 5, color = "#49a3f1" }) => {
@@ -40,17 +38,61 @@ const CircularProgress = ({ progress, size = 40, strokeWidth = 5, color = "#49a3
 
 
 
-const AnalyticsDashboard = () => {
+const AnalyticsDashboard = ({ dashboardState = {} }) => {
   const theme = useColorScheme();
   const isDarkMode = theme === "dark";
+  const [totalAppointment, setTotalAppointment] = useState();
+  const [totalClinics, setTotalClinics] = useState();
+  const [totalDoctors, setTotalDoctors] = useState();
+  const [appointments, setAppointments] = useState([]);
+  const [monthlyAppointmentsCount, setMonthlyAppointmentsCount] = useState([0,0,0,0,0,0,0,0,0,0,0,0]);
+
+
+
 
   // ! Filter thing : Start
-  const [value, setValue] = useState('');
+  const [year, setYear] = useState(2025);
   const options = [
+    { label: "2025", value: "2025" },
+    { label: "2024", value: "2024" },
     { label: "2023", value: "2023" },
-    { label: "2024", value: "2024" }
+    { label: "2022", value: "2022" },
+    { label: "2021", value: "2021" },
+    { label: "2020", value: "2020" }
   ];
   // ! Filter thing : End
+
+
+  //Todo : filter monthly appointments
+  const getMonthlyCountsForYear = (data, year) => {
+    let monthlyCounts = Array(12).fill(0); 
+
+    data.forEach(item => {
+      const date = new Date(item.date_time.replace(" ", "T")); 
+      const itemYear = date.getFullYear(); 
+      const itemMonth = date.getMonth(); 
+
+      if (itemYear === year) {
+        monthlyCounts[itemMonth]++; 
+      }
+    });
+
+    return monthlyCounts;
+  };
+  //Todo : filter monthly appointments
+
+
+  useEffect(() => {
+    setTotalAppointment(dashboardState.appointmentState.appointmentsData.length);
+    setTotalClinics(dashboardState.hospitalsState.hospitalsData.length);
+    setTotalDoctors(dashboardState.doctorsState.doctorsData.length);
+    setAppointments(dashboardState.appointmentState.appointmentsData);
+  }, [dashboardState])
+
+  useEffect(()=>{
+    const allMonthcounts = getMonthlyCountsForYear(appointments, year)
+    setMonthlyAppointmentsCount(allMonthcounts)
+  },[appointments , year])
 
   return (
     <ScrollView
@@ -62,11 +104,11 @@ const AnalyticsDashboard = () => {
       {/* Total Appointments Card */}
       <Card style={[styles.card, isDarkMode ? styles.darkCard : styles.lightCard]}>
         <View style={styles.cardContent}>
-     
-        <FontAwesome5 name="calendar-day" size={wp(7)} color={isDarkMode ? `rgba(255, 255, 255, ${0.9})` : `rgba(0, 0, 0, ${1})`} />
+
+          <FontAwesome5 name="calendar-day" size={wp(7)} color={isDarkMode ? `rgba(255, 255, 255, ${0.9})` : `rgba(0, 0, 0, ${1})`} />
           <View>
             <Text style={[styles.title, isDarkMode ? styles.darkText : styles.lightText]}>Total Appointments</Text>
-            <Text style={[styles.count, isDarkMode ? styles.darkText : styles.lightText]}>119</Text>
+            <Text style={[styles.count, isDarkMode ? styles.darkText : styles.lightText]}>{totalAppointment}</Text>
           </View>
           <CircularProgress progress={0.7} size={50} strokeWidth={7} color="#49a3f1" />
         </View>
@@ -76,11 +118,10 @@ const AnalyticsDashboard = () => {
       {/* Total Clinics Card */}
       <Card style={[styles.card, isDarkMode ? styles.darkCard : styles.lightCard]}>
         <View style={styles.cardContent}>
-        <MaterialCommunityIcons name="office-building-outline" size={wp(7)} color={isDarkMode ? `rgba(255, 255, 255, ${0.9})` : `rgba(0, 0, 0, ${1})`} />
-          {/* <IconButton icon="hospital-building" size={wp(7)} color="#28a745" /> */}
+          <MaterialCommunityIcons name="office-building-outline" size={wp(7)} color={isDarkMode ? `rgba(255, 255, 255, ${0.9})` : `rgba(0, 0, 0, ${1})`} />
           <View>
             <Text style={[styles.title, isDarkMode ? styles.darkText : styles.lightText]}>Total Clinics</Text>
-            <Text style={[styles.count, isDarkMode ? styles.darkText : styles.lightText]}>12</Text>
+            <Text style={[styles.count, isDarkMode ? styles.darkText : styles.lightText]}>{totalClinics}</Text>
           </View>
           <CircularProgress progress={0.5} size={50} strokeWidth={7} color="#28a745" />
         </View>
@@ -89,11 +130,11 @@ const AnalyticsDashboard = () => {
       {/* Total Doctors Card */}
       <Card style={[styles.card, isDarkMode ? styles.darkCard : styles.lightCard]}>
         <View style={styles.cardContent}>
-        <Fontisto name="doctor" size={wp(7)} color={isDarkMode ? `rgba(255, 255, 255, ${0.9})` : `rgba(0, 0, 0, ${1})`} />
-          {/* <IconButton icon="doctor" size={wp(7)} color="#f39c12" /> */}
+          <Fontisto name="doctor" size={wp(7)} color={isDarkMode ? `rgba(255, 255, 255, ${0.9})` : `rgba(0, 0, 0, ${1})`} />
+
           <View>
             <Text style={[styles.title, isDarkMode ? styles.darkText : styles.lightText]}>Total Doctors</Text>
-            <Text style={[styles.count, isDarkMode ? styles.darkText : styles.lightText]}>21</Text>
+            <Text style={[styles.count, isDarkMode ? styles.darkText : styles.lightText]}>{totalDoctors}</Text>
           </View>
           <CircularProgress progress={0.6} size={50} strokeWidth={7} color="#f39c12" />
         </View>
@@ -111,10 +152,7 @@ const AnalyticsDashboard = () => {
           </View>
 
           <View>
-            {/* <CustomDropDown options={options} value={value} setValue={setValue} optionTitle='Select a Year' selectTitle='Year' />
-          <CustomDropDown options={options} value={value} setValue={setValue} optionTitle='Select a third' selectTitle='Third' /> */}
-            {/* <FeedbackModal /> */}
-            <CustomDropdown/>
+            <FilterYear options={options} value={year}  setValue={setYear}/>
           </View>
 
         </View>
@@ -128,7 +166,7 @@ const AnalyticsDashboard = () => {
                   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
                   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
                 ],
-                datasets: [{ data: [2 || 0, 5 || 0, 1.7 || 0, 2.7 || 0, 3.5 || 0, 4.2 || 0, 5.8 || 0, 6.1 || 0, 3.9 || 0, 4.5 || 0, 5.2 || 0, 6.7 || 0] }],
+                datasets: [{ data: monthlyAppointmentsCount }],
               }}
 
               width={500} // Increased width for better spacing
@@ -157,7 +195,7 @@ const AnalyticsDashboard = () => {
               }}
             />
           </ScrollView>
-           
+
         </View>
 
       </Card>
@@ -183,7 +221,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: wp(5)
   },
-  title: { flex:1, color:'green', fontSize: wp(4), fontWeight: "bold" },
+  title: { flex: 1, color: 'green', fontSize: wp(4), fontWeight: "bold" },
   count: { fontSize: wp(6), fontWeight: "bold" },
   darkText: { color: "#FFF" },
   lightText: { color: "#333" },

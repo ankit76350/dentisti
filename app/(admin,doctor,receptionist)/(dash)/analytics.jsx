@@ -1,62 +1,34 @@
-import { View, Text, FlatList, StyleSheet, useColorScheme, StatusBar } from 'react-native';
+import { View,  StyleSheet, useColorScheme, StatusBar } from 'react-native';
 import DashboardHeader from '../../../components/DashboardHeader';
 import ScreenWrapper from '../../../components/ScreenWrapper';
-import SearchButton from '../../../components/SearchButton';
 import { useNavigation } from 'expo-router';
-import { useState, useRef, useEffect } from 'react';
-import { useFetch } from '../../../hooks/useFetch';
-import { catalystURL } from '../../../constants';
-import { BlurView } from 'expo-blur';
-import DetailsBottomSheet from '../../../components/DetailsBottomSheet';
-import Item from '../../../components/Item';
 import { DrawerActions } from '@react-navigation/native';
 import { wp } from '../../../helpers/common';
 import BottomNavBar from '../../../components/BottomNavBar';
 import AnalyticsDashboard from '../../../components/AnalyticsDashboard';
-import FeedbackModal from '../../../components/FeedbackModal';
-import CustomDropdown from '../../../components/CustomDropDown';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchAppointmentsData, fetchDoctersData, fetchHospitalData } from '../../../redux/dashboard/dashboardSlice';
+
 
 export default function analytics() {
   const navigation = useNavigation();
-  const { data: appointmentsData } = useFetch(`${catalystURL}admin/appointments`);
-  const { data: doctorsData } = useFetch(`${catalystURL}admin/doctors`);
-
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const [selectedRow, setSelectedRow] = useState(null);
-  const bottomSheetRef = useRef(null);
-
-  const theme = useColorScheme(); // Detects system theme (light/dark)
-
+  const theme = useColorScheme(); 
+  //Todo start: redux things
+  const dispatch = useDispatch()
   useEffect(() => {
-    if (!searchQuery.trim()) {
-      setFilteredData(appointmentsData);
-    } else {
-      setFilteredData(
-        appointmentsData?.filter(
-          (item) =>
-            item?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            item?.phone_no?.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-      );
-    }
-  }, [appointmentsData, searchQuery]);
+    dispatch(fetchAppointmentsData())
+    dispatch(fetchHospitalData())
+    dispatch(fetchDoctersData())
+  }, [])
+  const dashboardState = useSelector((state) => state.dashboard);
+  // console.log("dashboardState",dashboardState);
+  
+  //Todo end: redux things
 
-  function populate(rowId) {
-    const result = doctorsData?.find(item => item.ROWID === rowId);
-    return result ? result.name : "Not Found";
-  }
-
-  const openDetails = (rowData) => {
-    setSelectedRow(rowData);
-    setIsSheetOpen(true);
-    bottomSheetRef.current?.expand();
-  };
 
   return (
     <ScreenWrapper>
-      {/* ✅ Fixed Status Bar */}
       <StatusBar
         animated={true}
         backgroundColor={theme === "dark" ? "#0D1B2A" : "#49a3f1"}
@@ -65,44 +37,9 @@ export default function analytics() {
 
       <View style={[styles.mainContainer, theme === "dark" ? styles.darkBackground : styles.lightBackground]}>
         <DashboardHeader openDrawer={() => navigation.dispatch(DrawerActions.openDrawer())} />
-
-        {/* Analytics */}
-        {/* <View style={{marginTop:20}}> */}
-        <AnalyticsDashboard />
-        
-        {/* <FeedbackModal/> */}
-        {/* </View> */}
-
-
-
-        {/* Appointments */}
-        {/* 
-        <View style={[styles.container, theme === "dark" ? styles.darkContainer : styles.lightContainer]}>
-
-          <View style={styles.appointmentsHeader}>
-            <Text style={[styles.appointmentsTitle, theme === "dark" ? styles.darkText : styles.lightText]}>
-              Appointments
-            </Text>
-          </View>
-
-         <View style={{ alignItems: 'center', justifyContent: 'center' , padding:5}}>
-            <SearchButton query={searchQuery} setQuery={setSearchQuery} />
-            <Item />
-          </View>
-        </View> 
-        */}
-
-
-
-
-
-
+        <AnalyticsDashboard dashboardState={dashboardState}/>
       </View>
-      {/* <View style={{marginTop:20}}> */}
-
       <BottomNavBar />
-      {/* </View> */}
-
     </ScreenWrapper>
   );
 }
@@ -157,17 +94,3 @@ const styles = StyleSheet.create({
   },
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-// export default Analytics

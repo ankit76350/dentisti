@@ -4,26 +4,13 @@ import { Dropdown } from 'react-native-element-dropdown';
 import { hp, wp } from '../helpers/common';
 import { AntDesign } from '@expo/vector-icons';
 
-const data = [
-  { label: 'Item 1', value: '1' },
-  { label: 'Item 2', value: '2' },
-  { label: 'Item 3', value: '3' },
-  { label: 'Item 4', value: '4' },
-  { label: 'Item 5', value: '5' },
-  { label: 'Item 6', value: '6' },
-  { label: 'Item 7', value: '7' },
-  { label: 'Item 8', value: '8' },
-  { label: 'Item 9', value: '9' },
-  { label: 'Item 10', value: '10' },
 
-];
 
-const CustomDropdown = () => {
+const FilterYear = ({value, setValue ,options=[] }) => {
   const theme = useColorScheme();
   const isDarkMode = theme === "dark";
 
   const dropdownRef = useRef(null);
-  const [value, setValue] = useState(null);
 
   const handleOpen = () => {
     if (dropdownRef.current) {
@@ -41,7 +28,7 @@ const CustomDropdown = () => {
       {/* Dropdown (Hidden UI, only opens via ref) */}
       <Dropdown
         ref={dropdownRef}
-        data={data}
+        data={options}
         labelField="label"
         valueField="value"
         search
@@ -49,7 +36,8 @@ const CustomDropdown = () => {
         maxHeight={250}
         value={value}
         onChange={item => {
-          setValue(item.value);
+          const valueInToNumber = item.value
+          setValue(Number(item.value));
           dropdownRef.current?.close(); // Close after selection
         }}
         mode="modal" // Opens dropdown as a modal
@@ -76,7 +64,7 @@ const CustomDropdown = () => {
   );
 };
 
-export default CustomDropdown;
+export default FilterYear;
 
 const styles = StyleSheet.create({
   container: {
