@@ -1,38 +1,13 @@
 import React from "react";
 import { View, Text, FlatList, StyleSheet, useColorScheme, TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { hp, wp } from "../helpers/common";
+import {formatDateToIST, formatTimeToIST} from '../utils/formatTime'
 
-const data = [
-  { id: "1", name: "John Doe", phone: "+91 98765 43210", time: "12:30 PM", date: "05 Mar 2025", status: "online" },
-  { id: "2", name: "Emily Smith", phone: "+91 98234 56789", time: "1:45 PM", date: "05 Mar 2025", status: "offline" },
-  { id: "3", name: "Michael Brown", phone: "+91 98567 12345", time: "3:15 PM", date: "05 Mar 2025", status: "online" },
-  { id: "4", name: "Sophia Wilson", phone: "+91 98123 87654", time: "4:50 PM", date: "05 Mar 2025", status: "offline" },
-  { id: "1", name: "John Doe", phone: "+91 98765 43210", time: "12:30 PM", date: "05 Mar 2025", status: "online" },
-  { id: "2", name: "Emily Smith", phone: "+91 98234 56789", time: "1:45 PM", date: "05 Mar 2025", status: "offline" },
-  { id: "3", name: "Michael Brown", phone: "+91 98567 12345", time: "3:15 PM", date: "05 Mar 2025", status: "online" },
-  { id: "4", name: "Sophia Wilson", phone: "+91 98123 87654", time: "4:50 PM", date: "05 Mar 2025", status: "offline" },
-  { id: "1", name: "John Doe", phone: "+91 98765 43210", time: "12:30 PM", date: "05 Mar 2025", status: "online" },
-  { id: "2", name: "Emily Smith", phone: "+91 98234 56789", time: "1:45 PM", date: "05 Mar 2025", status: "offline" },
-  { id: "3", name: "Michael Brown", phone: "+91 98567 12345", time: "3:15 PM", date: "05 Mar 2025", status: "online" },
-  { id: "4", name: "Sophia Wilson", phone: "+91 98123 87654", time: "4:50 PM", date: "05 Mar 2025", status: "offline" },
-  { id: "1", name: "John Doe", phone: "+91 98765 43210", time: "12:30 PM", date: "05 Mar 2025", status: "online" },
-  { id: "2", name: "Emily Smith", phone: "+91 98234 56789", time: "1:45 PM", date: "05 Mar 2025", status: "offline" },
-  { id: "3", name: "Michael Brown", phone: "+91 98567 12345", time: "3:15 PM", date: "05 Mar 2025", status: "online" },
-  { id: "4", name: "Sophia Wilson", phone: "+91 98123 87654", time: "4:50 PM", date: "05 Mar 2025", status: "offline" },
-  { id: "1", name: "John Doe", phone: "+91 98765 43210", time: "12:30 PM", date: "05 Mar 2025", status: "online" },
-  { id: "2", name: "Emily Smith", phone: "+91 98234 56789", time: "1:45 PM", date: "05 Mar 2025", status: "offline" },
-  { id: "3", name: "Michael Brown", phone: "+91 98567 12345", time: "3:15 PM", date: "05 Mar 2025", status: "online" },
-  { id: "4", name: "Sophia Wilson", phone: "+91 98123 87654", time: "4:50 PM", date: "05 Mar 2025", status: "offline" },
-  { id: "1", name: "John Doe", phone: "+91 98765 43210", time: "12:30 PM", date: "05 Mar 2025", status: "online" },
-  { id: "2", name: "Emily Smith", phone: "+91 98234 56789", time: "1:45 PM", date: "05 Mar 2025", status: "offline" },
-  { id: "3", name: "Michael Brown", phone: "+91 98567 12345", time: "3:15 PM", date: "05 Mar 2025", status: "online" },
-  { id: "4", name: "Ankit", phone: "+91 98123 87654", time: "4:50 PM", date: "05 Mar 2025", status: "offline" },
-
-
-];
-const Item = ({ showDetails = () => { } }) => {
+const Item = ({ showDetails = () => { }  , data=[]}) => {
   const theme = useColorScheme();
+ 
+
 
   return (
     <View style={[styles.container, theme === "dark" ? styles.darkBackground : styles.lightBackground]}>
@@ -43,7 +18,7 @@ const Item = ({ showDetails = () => { } }) => {
         renderItem={({ item, index }) => (
 
           <TouchableOpacity
-            onPress={showDetails}
+            onPress={()=>showDetails(item.ROWID)}
             style={[
               styles.notificationCard,
               theme === "dark" ? styles.darkCard : styles.lightCard,
@@ -54,18 +29,16 @@ const Item = ({ showDetails = () => { } }) => {
             <View style={styles.textContainer}>
               <Text style={[styles.title, theme === "dark" ? styles.darkText : styles.lightText]}>{item.name}</Text>
               <Text style={[styles.description]}>
-                {item.phone}
+                {item.phone_no}
               </Text>
             </View>
             <View style={styles.timeContainer}>
-              <Text style={styles.time}>{item.time}</Text>
-              <Text style={styles.date}>{item.date}</Text>
+              <Text style={styles.time}>{formatDateToIST(item.date_time)}</Text>
+              <Text style={styles.date}>{formatTimeToIST(item.date_time)}</Text>
             </View>
-            <Ionicons
-              name={item.status === "online" ? "checkmark-circle" : "alert-circle"}
-              size={24}
-              color={item.status === "online" ? "green" : "red"}
-            />
+
+
+            {renderStatusIcon(item.status)}
           </TouchableOpacity>
         )}
       />
@@ -146,3 +119,18 @@ const styles = StyleSheet.create({
 });
 
 export default Item;
+
+const renderStatusIcon = (status) => {
+  switch (status) {
+    case "Pending":
+      return <MaterialIcons name="pending-actions" size={20} color="orange" />;
+    case "cancel":
+      return <MaterialCommunityIcons name="cancel" size={20} color="red" />;
+    case "Attended":
+      return <MaterialIcons name="co-present" size={20} color="blue" />;
+    case "Converted To Patient":
+      return <Ionicons name="checkmark-circle" size={20} color="green" />;
+    default:
+      return <MaterialIcons name="help-outline" size={20} color="gray" />;
+  }
+};

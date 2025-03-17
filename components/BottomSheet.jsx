@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useImperativeHandle, forwardRef } from "react";
+import React, { useCallback, useMemo, useRef, useImperativeHandle, forwardRef, useState } from "react";
 import { View, Text, StyleSheet, useColorScheme, Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
@@ -9,6 +9,7 @@ import {
 import { Ionicons, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 
 const AppointmentBottomSheet = forwardRef((props, ref) => {
+  const [details, setDetails] = useState(null);
   const theme = useColorScheme();
   const snapPoints = useMemo(() => ["30%", "50%", "80%"], []);
   const bottomSheetModalRef = useRef(null);
@@ -29,7 +30,24 @@ const AppointmentBottomSheet = forwardRef((props, ref) => {
     openModal: () => {
       bottomSheetModalRef.current?.present();
     },
+    getDetails: (selectedDetails) => {
+      setDetails(selectedDetails)
+    },
   }));
+
+
+  const appointmentDetails = [
+    { label: "Name", value: details?.name, icon: <Ionicons name="person" size={20} color="#49a3f1" /> },
+    { label: "Email", value: details?.email, icon: <MaterialIcons name="email" size={20} color="#F8B400" /> },
+    { label: "Phone", value: details?.phoneNo, icon: <FontAwesome5 name="phone-alt" size={18} color="#49a3f1" /> },
+    { label: "Address", value: details?.address, icon: <Ionicons name="location" size={20} color="#F8B400" /> },
+    { label: "Gender", value: details?.gender, icon: <FontAwesome5 name="venus-mars" size={18} color="#49a3f1" /> },
+    { label: "DOB", value: details?.dob, icon: <MaterialIcons name="cake" size={20} color="#F8B400" /> },
+    { label: "Appointment Date", value: details?.appointmentDate, icon: <Ionicons name="calendar" size={20} color="#49a3f1" /> },
+    { label: "Doctor", value: details?.doctorName, icon: <FontAwesome5 name="user-md" size={18} color="#F8B400" /> },
+    { label: "Hospital", value: details?.hospitalName, icon: <MaterialIcons name="local-hospital" size={20} color="#49a3f1" /> },
+    { label: "Status", value: details?.status, icon: renderStatusIcon(details?.status) },
+  ];
 
   return (
     <GestureHandlerRootView>
@@ -43,31 +61,25 @@ const AppointmentBottomSheet = forwardRef((props, ref) => {
       >
         <BottomSheetView style={[styles.contentContainer, theme === "dark" ? styles.darkCard : styles.lightCard]}>
           <Text style={styles.heading}>📅 Appointment Details</Text>
-          {appointmentDetails.map(({ label, value, icon }) => (
-            <View key={label} style={[ styles.infoRow , theme === "dark" ? styles.darkRow : styles.lightRow]}>
-              {icon}
-              {/* <Text style={[styles.label, theme === "dark" ? styles.darkColor : styles.lightColor]}>{label}:</Text> */}
-              <Text style={[styles.value, theme === "dark" ? styles.darkColor : styles.lightColor]}>{value}</Text>
-            </View>
-          ))}
+
+          {
+            details ? (appointmentDetails.map(({ label, value, icon }) => (
+              <View key={label} style={[styles.infoRow, theme === "dark" ? styles.darkRow : styles.lightRow]}>
+                {icon}
+                {/* <Text style={[styles.label, theme === "dark" ? styles.darkColor : styles.lightColor]}>{label}:</Text> */}
+                <Text style={[styles.value, theme === "dark" ? styles.darkColor : styles.lightColor]}>{value}</Text>
+              </View>
+            ))) : (<Text style={[styles.value, theme === "dark" ? styles.darkColor : styles.lightColor]}>
+              No details available.
+            </Text>)
+          }
         </BottomSheetView>
       </BottomSheetModal>
     </GestureHandlerRootView>
   );
 });
 
-const appointmentDetails = [
-  { label: "Name", value: "Shreyas", icon: <Ionicons name="person" size={20} color="#49a3f1" /> },
-  { label: "Email", value: "shreyas@gmail.com", icon: <MaterialIcons name="email" size={20} color="#F8B400" /> },
-  { label: "Phone", value: "2212324565", icon: <FontAwesome5 name="phone-alt" size={18} color="#49a3f1" /> },
-  { label: "Address", value: "Kolhapur", icon: <Ionicons name="location" size={20} color="#F8B400" /> },
-  { label: "Gender", value: "Male", icon: <FontAwesome5 name="venus-mars" size={18} color="#49a3f1" /> },
-  { label: "DOB", value: "5/1/1998", icon: <MaterialIcons name="cake" size={20} color="#F8B400" /> },
-  { label: "Appointment Date", value: "3/28/2025, 11:52 AM", icon: <Ionicons name="calendar" size={20} color="#49a3f1" /> },
-  { label: "Doctor", value: "Dr. Kedar", icon: <FontAwesome5 name="user-md" size={18} color="#F8B400" /> },
-  { label: "Hospital", value: "Shri Rama Clinics", icon: <MaterialIcons name="local-hospital" size={20} color="#49a3f1" /> },
-  { label: "Status", value: "Converted To Patient", icon: <Ionicons name="checkmark-done" size={20} color="green" /> },
-];
+
 
 const styles = StyleSheet.create({
   contentContainer: {
@@ -119,20 +131,36 @@ const styles = StyleSheet.create({
   infoRow: {
     flexDirection: "row",
     alignItems: "center",
-  
+
     borderRadius: 10,
     paddingVertical: 10,
-    paddingHorizontal:20,
+    paddingHorizontal: 20,
 
     marginVertical: 1,
     width: "100%",
-},
-darkRow:{
-  backgroundColor: "#0D1B2A",
-},
-lightRow:{
-  backgroundColor: "#f1f1f1",
-}
+  },
+  darkRow: {
+    backgroundColor: "#0D1B2A",
+  },
+  lightRow: {
+    backgroundColor: "#f1f1f1",
+  }
 });
 
 export default AppointmentBottomSheet;
+
+
+const renderStatusIcon = (status) => {
+  switch (status) {
+    case "Pending":
+      return <MaterialIcons name="pending-actions" size={20} color="orange" />;
+    case "cancel":
+      return <MaterialCommunityIcons name="cancel" size={20} color="red" />;
+    case "Attended":
+      return <MaterialIcons name="co-present" size={20} color="blue" />;
+    case "Converted To Patient":
+      return <Ionicons name="checkmark-circle" size={20} color="green" />;
+    default:
+      return <MaterialIcons name="help-outline" size={20} color="gray" />;
+  }
+};

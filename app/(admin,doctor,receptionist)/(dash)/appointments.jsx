@@ -1,58 +1,78 @@
-import { View, Text, FlatList, StyleSheet, useColorScheme, StatusBar, Button } from 'react-native';
+import { View, Text,  StyleSheet, useColorScheme, StatusBar, } from 'react-native';
 import DashboardHeader from '../../../components/DashboardHeader';
 import ScreenWrapper from '../../../components/ScreenWrapper';
 import SearchButton from '../../../components/SearchButton';
 import { useNavigation } from 'expo-router';
 import { useState, useRef, useEffect } from 'react';
-import { useFetch } from '../../../hooks/useFetch';
-import { catalystURL } from '../../../constants';
-import { BlurView } from 'expo-blur';
-import DetailsBottomSheet from '../../../components/DetailsBottomSheet';
 import Item from '../../../components/Item';
 import { DrawerActions } from '@react-navigation/native';
-import { hp, wp } from '../../../helpers/common';
+import { wp } from '../../../helpers/common';
 import BottomNavBar from '../../../components/BottomNavBar';
-import AnalyticsDashboard from '../../../components/AnalyticsDashboard';
-import FeedbackModal from '../../../components/FeedbackModal';
-import CustomDropdown from '../../../components/CustomDropDown';
 import BottomSheet from '../../../components/BottomSheet';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAppointmentsData, fetchDoctersData, fetchHospitalData } from '../../../redux/dashboard/dashboardSlice'
+import {formatDateToIST, formatTimeToIST} from '../../../utils/formatTime'
 
 export default function appointments() {
   const navigation = useNavigation();
-  const { data: appointmentsData } = useFetch(`${catalystURL}admin/appointments`);
-  const { data: doctorsData } = useFetch(`${catalystURL}admin/doctors`);
-
+  const bottomSheetRef = useRef(null);
+  
+  const theme = useColorScheme(); // Detects system theme (light/dark)  
+  
+  //Todo start: redux things
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchAppointmentsData())
+    dispatch(fetchDoctersData())
+    dispatch(fetchHospitalData())
+  }, [])
+  const stateDashboard = useSelector((state) => state.dashboard);
+  //Todo end: redux things
+  
+  
+  //Todo Start: filter data 
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const [selectedRow, setSelectedRow] = useState(null);
-  const bottomSheetRef = useRef(null);
-
-  const theme = useColorScheme(); // Detects system theme (light/dark)
-
   useEffect(() => {
     if (!searchQuery.trim()) {
-      setFilteredData(appointmentsData);
+      setFilteredData(stateDashboard.appointmentState.appointmentsData);
     } else {
       setFilteredData(
-        appointmentsData?.filter(
+        stateDashboard.appointmentState.appointmentsData?.filter(
           (item) =>
-            item?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            item?.phone_no?.toLowerCase().includes(searchQuery.toLowerCase())
+            item?.name?.toLowerCase().includes(searchQuery.toLowerCase())
         )
       );
     }
-  }, [appointmentsData, searchQuery]);
+  }, [stateDashboard.appointmentState.appointmentsData, searchQuery]);
+  //Todo end: filter data 
+  
+  
+  //Todo start: show details 
+  var selectedDetails = {}
+  const openBottomSheet = async (ROWID) => {
 
-  function populate(rowId) {
-    const result = doctorsData?.find(item => item.ROWID === rowId);
-    return result ? result.name : "Not Found";
-  }
+    const selectedAppointment = filteredData.find((currItem )=>{return currItem.ROWID ===  ROWID})
+    const selectedDoctor = stateDashboard?.doctorsState?.doctorsData?.find(item => item.ROWID === selectedAppointment.doctor_id);
+    const selectedHospital = stateDashboard?.hospitalsState?.hospitalsData?.find(item => item.ROWID === selectedAppointment.hospital_id);
 
+     selectedDetails = {
+      name: selectedAppointment.name,
+      email: selectedAppointment.email,
+      phoneNo: selectedAppointment.phone_no,
+      address: selectedAppointment.address,
+      gender: selectedAppointment.gender,
+      dob: formatDateToIST(selectedAppointment.date_of_birth),
+      appointmentDate: `${formatDateToIST(selectedAppointment.date_time)}, ${formatTimeToIST(selectedAppointment.date_time)} `,
+      doctorName: selectedDoctor?.name || "N/A",
+      hospitalName: selectedHospital?.hospital_name || "N/A",
+      status: selectedAppointment.status,
+    };
 
-  const openBottomSheet = () => {
-    bottomSheetRef.current?.openModal(); // ✅ Call function from BottomSheet.js
+    bottomSheetRef.current?.openModal(); 
+    bottomSheetRef.current?.getDetails(selectedDetails); 
   };
+  //Todo end: show details 
 
   return (
     <ScreenWrapper>
@@ -78,8 +98,11 @@ export default function appointments() {
             <Text style={[styles.appointmentsTitle, theme === "dark" ? styles.darkText : styles.lightText]}>
               Appointments
             </Text>
+            {/* //! search button */}
             <SearchButton query={searchQuery} setQuery={setSearchQuery} />
-            <Item showDetails={openBottomSheet} />
+            {/* //! apponment data */}
+            <Item showDetails={openBottomSheet} data={filteredData} />
+
           </View>
         </View>
 
@@ -100,7 +123,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1, // ✅ Ensures full width & height for dark mode
     // marginBottom:hp(63)
-// paddingBottom:hp(63)
+    // paddingBottom:hp(63)
   },
   darkBackground: {
     backgroundColor: "#0D1B2A", // ✅ Matches dark theme
@@ -140,8 +163,8 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
     paddingVertical: 1,
-    alignSelf:'flex-start',
-    marginBottom:5,
+    alignSelf: 'flex-start',
+    marginBottom: 5,
   },
   lightText: {
     color: '#333',

@@ -5,29 +5,29 @@ import { useNavigation } from "@react-navigation/native";
 import { role } from "../assets/json/role";
 import { useRouter } from "expo-router";
 
-const Header = ({ 
-  title, 
-  showBackButton = true, 
-  showAddButton = false, 
-  onAddPress, 
+const Header = ({
+  title,
+  showBackButton = true,
+  showAddButton = false,
+  onAddPress,
   addIconComponent = null,
-  screen=''
+  screen = ''
 }) => {
   const theme = useColorScheme();
   const navigation = useNavigation();
   const isDark = theme === "dark";
-    const router = useRouter();
-  const navgateTo = ()=>{
-    // navigation.goBack()
-     router.replace(`/(${role})/(dash)/${screen}`);
-}
+  const router = useRouter();
+  const navgateTo = () => {
+    navigation.goBack()
+    //  router.replace(`/(${role})/(dash)/${screen}`);
+  }
 
   return (
     <View style={[styles.header, isDark && styles.darkHeader]}>
-    
-      
+
+
       {showBackButton && (
-        <TouchableOpacity onPress={() => navgateTo() }  style={styles.backButton}>
+        <TouchableOpacity onPress={() => navgateTo()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color={isDark ? "#FFFFFF" : "#000"} />
         </TouchableOpacity>
       )}
@@ -36,7 +36,7 @@ const Header = ({
 
       {showAddButton ? (
         <TouchableOpacity onPress={onAddPress} style={styles.addButton} >
-          {addIconComponent}  
+          {addIconComponent}
         </TouchableOpacity>
       ) : (
         <View style={styles.placeholder} /> // Empty space for alignment
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingTop: Platform.OS === "ios" ? 60 : 10, 
+    paddingTop: Platform.OS === "ios" ? 60 : 10,
   },
   darkHeader: {
     backgroundColor: "#0D1B2A",
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   headerTitle: { fontSize: 18, fontWeight: "bold" },
   darkText: { color: "#FFFFFF" },
   addButton: { padding: 5 },
-  placeholder: { width: 30 }, 
+  placeholder: { width: 30 },
 });
 
 export default Header;

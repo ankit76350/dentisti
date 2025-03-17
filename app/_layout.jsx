@@ -1,56 +1,38 @@
-// import { GestureHandlerRootView } from 'react-native-gesture-handler';
-// import { Drawer } from 'expo-router/drawer';
-// import CustomDrawerContent from '../components/CustomDrawerContent'
-// import { useRouter } from 'expo-router';
-// import { useEffect, useState } from 'react';
-// import role from '../assets/json/role'
-// const _layout = () => {
-//   return (
-//    <MainLayout/>
-//   );
-// }
-
-// const MainLayout = () => {
-//   // const [role, setRole] = useState("admin")
-//   // const router = useRouter()
-//   // useEffect(() => {
-
-//   //     if (role) {
-//   //       router.replace(`/(${role})/dashboard`)
-//   //     } 
-
-//   // }, [])
-// return (  
-// <GestureHandlerRootView style={{ flex: 1 }}
-// screenOptions={{headerShown:false}}
-// >
-//   <Drawer
-//     drawerContent={CustomDrawerContent}
-//     screenOptions={{ headerShown: false }}
-//   >
-//   </Drawer>
-// </GestureHandlerRootView>
-// )}
-
-// export default _layout
-
 
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Drawer } from 'expo-router/drawer';
 import CustomDrawerContent from '../components/CustomDrawerContent';
-import { useRouter } from 'expo-router';
+import { useRouter ,useNavigation} from 'expo-router';
 import { BackHandler } from 'react-native';
 import { useEffect } from 'react';
 import {role} from '../assets/json/role'
 import { hp, wp } from "../helpers/common";
+import { rdxStore } from '../redux/rdxStore';
+import { Provider } from "react-redux"
 
 const _layout = () => {
+  return (
+    <Provider store={rdxStore}>
+
+   <MainLayout/>
+    </Provider>
+  );
+}
+
+
+
+
+const MainLayout = () => {
+
   const router = useRouter();
+  const navigation = useNavigation();
+  
 
   useEffect(() => {
     const backAction = () => {
-      router.replace(`/(${role})/(dash)/analytics`); // Redirect to dashboard instead of closing app
+      navigation.goBack()
+      // router.replace(`/(${role})/(dash)/analytics`); // Redirect to dashboard instead of closing app
       return true; // Prevent default behavior (exiting the app)
     };
 
@@ -71,5 +53,8 @@ const _layout = () => {
     </GestureHandlerRootView>
   );
 };
+
+
+
 
 export default _layout;
