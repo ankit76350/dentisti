@@ -1,23 +1,24 @@
-import { StatusBar, StyleSheet, Text, useColorScheme, View } from 'react-native'
-import React from 'react'
-import Header from './Header'
+import { StatusBar, StyleSheet, Text, useColorScheme, View } from 'react-native';
+import React from 'react';
+import Header from './Header';
 
 const ScreenContainer = ({
     title = "",
     addIconComponent = null,
     children,
     backScreen,
-    navigateTo = ()=>{}
+    lightBgColor = 'white',
+    navigateTo = () => {}
 }) => {
     const theme = useColorScheme();
     const isDark = theme === "dark";
-    return (
-        <View style={[styles.container, isDark ? styles.darkContainer : styles.lightContainer]}>
 
+    return (
+        <View style={[styles.container, { backgroundColor: isDark ? "#0D1B2A" : lightBgColor }]}>
             <StatusBar
                 animated={true}
-                backgroundColor={theme === "dark" ? "#0D1B2A" : "white"}
-                barStyle={theme === "dark" ? "light-content" : "dark-content"}
+                backgroundColor={isDark ? "#0D1B2A" : lightBgColor}
+                barStyle={isDark ? "light-content" : "dark-content"}
             />
 
             <Header
@@ -31,21 +32,14 @@ const ScreenContainer = ({
 
             {children}
         </View>
-    )
-}
+    );
+};
 
-export default ScreenContainer
+export default ScreenContainer;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: 15,
-
     },
-    lightContainer: {
-        backgroundColor: "white",
-    },
-    darkContainer: {
-        backgroundColor: "#0D1B2A",
-    },
-})
+});

@@ -30,7 +30,7 @@ const addstafform = () => {
     setForm({ ...form, [key]: value });
   };
 
-  const roleOptions = [
+  const role = [
     { label: "Doctor", value: "Doctor" },
     { label: "Receptionist", value: "Receptionist" },
   ];
@@ -67,8 +67,8 @@ const addstafform = () => {
           <LabelledInputField label="Username" value={form.username} onChangeText={(text) => handleChange("username", text)} />
           <LabelledInputField label="Phone" value={form.phone} onChangeText={(text) => handleChange("phone", text)} keyboardType="phone-pad" />
           <LabelledInputField label="Role" value={form.role} onChangeText={(text) => handleChange("role", text)} />
-          <Select label="Hospital Name" data={data} onChange={handleSelection} search={true} />
-          <Select label="Role" data={roleOptions   } onChange={handleSelection} search={false} />
+          <Select label="Hospital Name" data={role} onChange={handleSelection} search={true} />
+          <Select label="Role" data={role} onChange={handleSelection} search={false} />
 
           {/* Submit Button */}
           <TouchableOpacity style={[styles.button, theme === "dark" ? styles.darkButton : styles.lightButton]}>

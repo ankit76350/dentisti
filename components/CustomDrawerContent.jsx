@@ -65,13 +65,14 @@ const CustomDrawerContent = (props) => {
           label="Bills"
           labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
           icon={() => <FontAwesome6 name="money-bills" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
-          onPress={() => {}}
-        />
+          onPress={() => router.push(`/(${role})/allbills`)}
+          />
         <DrawerItem
           label="Clinics"
           labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
           icon={() => <FontAwesome5 name="hospital-alt" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
-          onPress={() => {}}
+          onPress={() => router.push(`/(${role})/allclinics`)}
+          // onPress={() => {}}
         />
       </View>
 

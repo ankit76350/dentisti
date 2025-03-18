@@ -39,7 +39,9 @@ const Header = ({
           {addIconComponent}
         </TouchableOpacity>
       ) : (
-        <View style={styles.placeholder} /> // Empty space for alignment
+        <TouchableOpacity onPress={onAddPress} style={styles.addButton} >
+        {/* {addIconComponent} */}
+      </TouchableOpacity>
       )}
     </View>
   );
@@ -60,7 +62,7 @@ const styles = StyleSheet.create({
   headerTitle: { fontSize: 18, fontWeight: "bold" },
   darkText: { color: "#FFFFFF" },
   addButton: { padding: 5 },
-  placeholder: { width: 30 },
+  placeholder: { width: 30, },
 });
 
 export default Header;
