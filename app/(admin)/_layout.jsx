@@ -3,11 +3,11 @@ import { Stack } from "expo-router";
 export default function AdminLayout() {
   return (
     <Stack
-    screenOptions={{
-      
-      headerShown: false,
+      screenOptions={{
 
-    }}
+        headerShown: false,
+
+      }}
     >
 
       {/* Common Root */}
@@ -34,8 +34,8 @@ export default function AdminLayout() {
         options={{ title: 'Admin All Staff' }}
       />
       <Stack.Screen
-        name="addataffform"
-        options={{ title: 'Admin All Staff' }}
+        name="addstafform"
+        options={{ title: 'Add Staff' }}
       />
       <Stack.Screen
         name="allbills"

@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, useColorScheme } from 'react-native';
+import React, {  useRef } from 'react';
+import { StyleSheet, View, TouchableOpacity, useColorScheme } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import { hp, wp } from '../helpers/common';
 import { AntDesign } from '@expo/vector-icons';

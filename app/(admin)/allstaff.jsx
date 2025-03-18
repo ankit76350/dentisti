@@ -1,177 +1,71 @@
-import React from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  Image,
-  StyleSheet,
-  useColorScheme,
-} from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet, useColorScheme } from "react-native";
 import { Feather, FontAwesome5, FontAwesome6, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Header from "../../components/Header";
 import ScreenContainer from "../../components/ScreenContainer";
 import SearchButton from '../../components/SearchButton';
 import { useNavigation } from "expo-router";
-const approvalsData = [
-  {
-    id: "1",
-    name: "Abhay",
-    email: "abhay@gmail.com",
-    username: "abhay@gmail.com",
-    phone: "1234567857",
-    hospital: "Aman Clinic",
-    role: "Receptionist",
-    status: "pending",
-  },
-  {
-    id: "2",
-    name: "Rohan Vikas Shinde",
-    email: "rohanshinde@gmail.com",
-    username: "rohan@gmail.com",
-    phone: "8007503557",
-    hospital: "Rohan Clinic",
-    role: "Doctor",
-  },
-  {
-    id: "3",
-    name: "Ankit",
-    email: "ankit@gmail.com",
-    username: "Ankit@123",
-    phone: "1234568546",
-    hospital: "",
-    role: "Doctor",
-  },
-  {
-    id: "4",
-    name: "Ankit K",
-    email: "ankitk@gmail.com",
-    username: "Ankit@123",
-    phone: "8007546254",
-    hospital: "",
-    role: "Receptionist",
-  },
-  {
-    id: "5",
-    name: "Dr. Pranay",
-    email: "pranayg@gmail.com",
-    username: "p21",
-    phone: "9645457333",
-    hospital: "Pranay Clinic",
-    role: "Doctor",
-  },
-  {
-    id: "4",
-    name: "Ankit K",
-    email: "ankitk@gmail.com",
-    username: "Ankit@123",
-    phone: "8007546254",
-    hospital: "",
-    role: "Receptionist",
-  },
-  {
-    id: "5",
-    name: "Dr. Pranay",
-    email: "pranayg@gmail.com",
-    username: "p21",
-    phone: "9645457333",
-    hospital: "Pranay Clinic",
-    role: "Doctor",
-  },
-  {
-    id: "4",
-    name: "Ankit K",
-    email: "ankitk@gmail.com",
-    username: "Ankit@123",
-    phone: "8007546254",
-    hospital: "",
-    role: "Receptionist",
-  },
-  {
-    id: "5",
-    name: "Dr. Pranay",
-    email: "pranayg@gmail.com",
-    username: "p21",
-    phone: "9645457333",
-    hospital: "Pranay Clinic",
-    role: "Doctor",
-  },
-  {
-    id: "4",
-    name: "Ankit K",
-    email: "ankitk@gmail.com",
-    username: "Ankit@123",
-    phone: "8007546254",
-    hospital: "",
-    role: "Receptionist",
-  },
-  {
-    id: "5",
-    name: "Dr. Pranay",
-    email: "pranayg@gmail.com",
-    username: "p21",
-    phone: "9645457333",
-    hospital: "Pranay Clinic",
-    role: "Doctor",
-  },
-  {
-    id: "4",
-    name: "Ankit K",
-    email: "ankitk@gmail.com",
-    username: "Ankit@123",
-    phone: "8007546254",
-    hospital: "",
-    role: "Receptionist",
-  },
-  {
-    id: "5",
-    name: "Dr. Pranay",
-    email: "pranayg@gmail.com",
-    username: "p21",
-    phone: "9645457333",
-    hospital: "Pranay Clinic",
-    role: "Doctor",
-  },
-  {
-    id: "4",
-    name: "Ankit K",
-    email: "ankitk@gmail.com",
-    username: "Ankit@123",
-    phone: "8007546254",
-    hospital: "",
-    role: "Receptionist",
-  },
-  {
-    id: "5",
-    name: "Dr. Pranay",
-    email: "pranayg@gmail.com",
-    username: "p21",
-    phone: "9645457333",
-    hospital: "Pranay Clinic",
-    role: "Doctor",
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserData } from "../../redux/user/userSlice";
+import { fetchHospitalData } from "../../redux/dashboard/dashboardSlice";
 
-const ApprovalScreen = () => {
+
+
+const allstaff = () => {
   const theme = useColorScheme();
   const isDark = theme === "dark";
-      const navigation = useNavigation();
+  const navigation = useNavigation();
+  //Todo start: redux things
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchUserData())
+    dispatch(fetchHospitalData())
+
+  }, [])
+  const userState = useSelector((state) => state.user);
+  const hospitals = useSelector((state) => state.dashboard.hospitalsState.hospitalsData);
+  //  console.log("userState",userState.userState.usersData);
+  //  console.log("hospitals",hospitals);
+
+  //Todo end: redux things
+  const [staffData, setStaffData] = useState([]);
+
+  useEffect(() => {
+    setStaffData(userState.userState.usersData);
+  }, [userState])
+
+
+  const populate = (hospitalId) => {
+    if (!hospitalId) {
+      return "N/A"
+    }
+    const hospital = hospitals.find(item => item.ROWID == hospitalId)
+    return hospital.hospital_name
+  }
+
+  const navigateTo = (item) => {
+    let staffInfo = {...item}
+    const hospital_name = populate(item.hospital_id)
+    staffInfo.hospital_name = hospital_name
+    navigation.navigate("addstafform", { staffInfo });
+  }
+
+
 
   const renderItem = ({ item }) => (
     <View style={[styles.card, isDark && styles.darkCard]}>
-      
+
       {/* Top Row: Buttons and Name */}
       <View style={styles.topRow}>
         <Text style={[styles.name, isDark && styles.darkText]}>{item.name}</Text>
         <View style={styles.actionButtons}>
-          <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate("addataffform")}>
-          {/* navigateTo={() => navigation.navigate("addataffform")} */}
+
+          <TouchableOpacity style={styles.iconButton} onPress={() => navigateTo(item)}>
             <Feather name="edit" size={19} color="#2ECC71" />
-            {/* <Ionicons name="edit" size={22} color="#E74C3C" /> */}
           </TouchableOpacity>
+
           <TouchableOpacity style={styles.iconButton}>
             <MaterialCommunityIcons name="delete-empty-outline" size={22} color="#E74C3C" />
-            {/* <Ionicons name="checkmark-circle" size={22} color="#2ECC71" /> */}
           </TouchableOpacity>
         </View>
       </View>
@@ -200,14 +94,13 @@ const ApprovalScreen = () => {
           <View style={styles.infoRow}>
             <FontAwesome5 name="hospital-alt" size={14} color={isDark ? "#f6f6f6" : "#555"} />
             <Text style={[styles.infoText, isDark && styles.hospitalText]}>
-              {item.hospital || "N/A"}
+              {populate(item.hospital_id) || "N/A"}
             </Text>
           </View>
         </View>
       </View>
     </View>
   );
-
   return (
     <>
       <ScreenContainer
@@ -216,13 +109,13 @@ const ApprovalScreen = () => {
           <Ionicons name="person-add" size={24} color={isDark ? "#FFFFFF" : "#000"} />
         }
         backScreen="analytics"
-        navigateTo={() => navigation.navigate("addataffform")}
-   
+        navigateTo={() => navigation.navigate("addstafform")}
+
       >
-        <View style={{ alignItems: 'center', paddingHorizontal:35,  paddingTop:5 }}>
-        <SearchButton />
+        <View style={{ alignItems: 'center', paddingHorizontal: 35, paddingTop: 5 }}>
+          <SearchButton />
         </View>
-          <FlatList data={approvalsData} renderItem={renderItem} keyExtractor={(item, index) => index} />
+        <FlatList data={staffData} renderItem={renderItem} keyExtractor={(item, index) => index} />
 
       </ScreenContainer>
 
@@ -311,4 +204,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ApprovalScreen;
+export default allstaff;
