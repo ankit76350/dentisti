@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: theme.myColors.buttonColor,
         height: hp(6),
+        width:'100%',
         justifyContent: 'center',
         alignItems: 'center',
         borderCurve: 'continuous',

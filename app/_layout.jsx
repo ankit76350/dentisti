@@ -3,10 +3,10 @@
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Drawer } from 'expo-router/drawer';
 import CustomDrawerContent from '../components/CustomDrawerContent';
-import { useRouter ,useNavigation} from 'expo-router';
+import { useRouter, useNavigation } from 'expo-router';
 import { BackHandler } from 'react-native';
 import { useEffect } from 'react';
-import {role} from '../assets/json/role'
+import { role } from '../assets/json/role'
 import { hp, wp } from "../helpers/common";
 import { rdxStore } from '../redux/rdxStore';
 import { Provider } from "react-redux"
@@ -14,8 +14,7 @@ import { Provider } from "react-redux"
 const _layout = () => {
   return (
     <Provider store={rdxStore}>
-
-   <MainLayout/>
+      <MainLayout />
     </Provider>
   );
 }
@@ -27,7 +26,7 @@ const MainLayout = () => {
 
   const router = useRouter();
   const navigation = useNavigation();
-  
+
 
   useEffect(() => {
     const backAction = () => {
@@ -47,7 +46,7 @@ const MainLayout = () => {
         {
           headerShown: false,
           drawerStyle: {
-            width: wp(75), 
+            width: wp(75),
           },
         }}></Drawer>
     </GestureHandlerRootView>

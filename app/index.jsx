@@ -40,7 +40,7 @@ const Index = () => {
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-      router.replace(`/(${role})/(dash)/analytics`); // Replace so it removes index from stack
+      // router.replace(`/(${role})/(dash)/analytics`); // Replace so it removes index from stack
       // router.replace(`/(${role})/(dash)/appointments`); // Replace so it removes index from stack
       // router.replace(`/(${role})/profiles`); // Replace so it removes index from stack
       // router.replace(`/(${role})/notification`); // Replace so it removes index from stack
@@ -48,7 +48,8 @@ const Index = () => {
       // router.replace(`/(${role})/addataffform`); // Replace so it removes index from stack
       // router.replace(`/(${role})/allpatients`); // Replace so it removes index from stack
       // router.replace(`/(${role})/allbills`); // Replace so it removes index from stack
-      // router.replace(`/(${role})/allclinics`); // Replace so it removes index from stack
+      router.replace(`/(${role})/allclinics`); // Replace so it removes index from stack
+      // router.replace(`/(${role})/(clinics)`); // Replace so it removes index from stack
     }, 1000); 
   }, []);
 

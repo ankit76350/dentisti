@@ -1,7 +1,12 @@
 import { Feather, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, useColorScheme } from "react-native";
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, useColorScheme,Image } from "react-native";
 import ScreenContainer from "../../components/ScreenContainer";
+import ClinicsDetails from "../../components/ClinicsDetails";
+import { useNavigation, useRouter } from "expo-router";
+import Modal from "../../components/Modal";
+import CustomInput from "../../components/CustomInput";
+import CustomButton from "../../components/CustomButton";
 
 const initialFeedData = [
   { id: "1", name: "Twiggy", location: "Pune, Hinjawadi" },
@@ -14,17 +19,23 @@ const allclinics = () => {
   const [feedData, setFeedData] = useState(initialFeedData);
   const theme = useColorScheme();
   const isDark = theme === "dark";
-
+  const navigation = useNavigation();
+  const router = useRouter();
   const handleEdit = (id) => {
-    alert(`Edit item with ID: ${id}`);
+    // alert(`Edit item with ID: ${id}`);
+    router.push("/(clinics)/doctors"); // Redirect to the Doctors tab
+  };
+  const navigateTo = (id) => {
+    // alert(`Edit item with ID: ${id}`);
+    router.push("/(clinics)/doctors"); // Redirect to the Doctors tab
   };
 
   const handleRemove = (id) => {
     setFeedData(feedData.filter((item) => item.id !== id));
   };
-
+  const [isModalVisible, setModalVisible] = useState(false);
   const renderItem = ({ item }) => (
-    <View style={[styles.card, isDark && styles.darkCard]}>
+    <TouchableOpacity style={[styles.card, isDark && styles.darkCard]} onPress={() => navigateTo(item.id)}>
       <View style={styles.avatar}>
         <FontAwesome5 name="hospital" size={20} color={isDark ? "#f6f6f6" : "black"} />
       </View>
@@ -33,18 +44,33 @@ const allclinics = () => {
         <Text style={[styles.action, isDark && styles.darkTextSecondary]}>{item.location}</Text>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.iconButton} onPress={() => handleEdit(item.id)}>
+        <TouchableOpacity style={styles.iconButton} onPress={() => setModalVisible(true)}>
           <Feather name="edit" size={19} color="#2ECC71" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.iconButton} onPress={() => handleRemove(item.id)}>
           <MaterialIcons name="delete-outline" size={22} color="#E74C3C" />
         </TouchableOpacity>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
     <ScreenContainer title="Clinics" lightBgColor={isDark ? "#0D1B2A" : "#F8F8F8"}>
+
+       <View style={styles.container}>
+          
+            {/* Reusable Modal */}
+            <Modal isVisible={isModalVisible} onClose={() => setModalVisible(false)}>
+          
+
+                <CustomInput placeholder="Enter details..." />
+                <CustomInput placeholder="Enter more details..." />
+                <CustomButton title="Submit" />
+ 
+            </Modal>
+        </View>
+
+
       <FlatList data={feedData} renderItem={renderItem} keyExtractor={(item) => item.id} />
     </ScreenContainer>
   );
@@ -102,6 +128,48 @@ const styles = StyleSheet.create({
   iconButton: {
     marginLeft: 8,
   },
+//   container: {
+//     flex: 1,
+//     justifyContent: "center",
+//     alignItems: "center",
+//     backgroundColor: "#f5f5f5",
+// },
+openButton: {
+    backgroundColor: "#007bff",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 25,
+    elevation: 3,
+},
+buttonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 16,
+},
+// image: {
+//     width: 80,
+//     height: 80,
+//     borderRadius: 40,
+//     marginBottom: 10,
+// },
+title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 5,
+},
+description: {
+    textAlign: "center",
+    fontSize: 14,
+    color: "#555",
+    marginBottom: 20,
+},
+actionButton: {
+    backgroundColor: "#28a745",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 25,
+    elevation: 3,
+},
 });
 
 export default allclinics;
