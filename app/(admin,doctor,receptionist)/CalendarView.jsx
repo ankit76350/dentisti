@@ -49,7 +49,7 @@ export default function calendarview() {
       >
 
        <Text>
-       Calender
+       Calender 
         </Text> 
       </ScreenContainer>
     </>
