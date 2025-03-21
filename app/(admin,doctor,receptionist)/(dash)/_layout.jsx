@@ -23,7 +23,7 @@ export default function TabLayout() {
         tabBarShowLabel: false, // Hide default label
       }}
     />
-        </BottomSheetModalProvider>
+    </BottomSheetModalProvider>
   );
 }
 

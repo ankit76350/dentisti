@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable } from 'react-native'
+import { StyleSheet, Text, View, Pressable, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { hp, wp } from '../helpers/common'
 import { theme } from '../constants/theme'
@@ -19,9 +19,9 @@ const CustomButton = ({
     };
 
     return (
-        <Pressable onPress={onPress} style={[styles.button, buttonStyle, hasShadow && shadowStyle]}>
+        <TouchableOpacity onPress={onPress} style={[styles.button, buttonStyle, hasShadow && shadowStyle]}>
             <Text style={[styles.text, textStyle]}>{title}</Text>
-        </Pressable>
+        </TouchableOpacity>
     )
 }
 

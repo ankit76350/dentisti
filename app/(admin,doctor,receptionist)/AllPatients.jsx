@@ -1,57 +1,66 @@
-// app/(admin,doctor,receptionist)/AllPatients.tsx
-import { DrawerActions } from '@react-navigation/native';
-import { useLocalSearchParams, useNavigation } from 'expo-router';
-import { View, Text, Button, ScrollView, useColorScheme } from 'react-native';
-import Table from '../../components/Table';
-import { useFetch } from '../../hooks/useFetch';
-import { catalystURL } from '../../constants';
-import ScreenContainer from '../../components/ScreenContainer';
-import { Entypo, Ionicons } from '@expo/vector-icons';
+import React, { useEffect, useState } from "react";
+import { View, FlatList, useColorScheme } from "react-native";
+import ScreenContainer from "../../components/ScreenContainer";
+import SearchButton from '../../components/SearchButton';
+import { useNavigation } from "expo-router";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserData } from "../../redux/user/userSlice";
+import { fetchHospitalData } from "../../redux/dashboard/dashboardSlice";
+import InfoCard from "../../components/InfoCard.jsx"; 
 
-export default function AllPatients() {
-  const navigation = useNavigation()
-
-  const { data: patientsData, loading, error } = useFetch(`${catalystURL}admin/patients`);
-  const { data: doctorsData } = useFetch(`${catalystURL}admin/doctors`);
-  const { data: hospitalsData } = useFetch(`${catalystURL}admin/hospitals`);
-  const tableHeader = ["Name", "DOB", "Gender", "Date of Admission", "Doctor", "Hospital", "Phone", "Address"]
-  const tableContentKey = ["patient_name", "date_of_birth", "gender", "date_of_admission", { populdateId: "doctor_id" }, { populdateId: "hospital_id" }, "phone", "address"]
-
-  function populate(rowId) {
-    const doctorName = doctorsData?.find(item => item.ROWID === rowId)?.name;
-    const hospitalName = hospitalsData?.find(item => item.ROWID === rowId)?.hospital_name;
-
-    if (!doctorName && !hospitalName) {
-      return "Not Found"
-    }
-
-    if (doctorName) {
-      return doctorName
-    }
-    if (hospitalName) {
-      return hospitalName
-    }
-
-  }
-
+const allstaff = () => {
   const theme = useColorScheme();
-
   const isDark = theme === "dark";
+  const navigation = useNavigation();
+  
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchUserData());
+    dispatch(fetchHospitalData());
+  }, []);
+
+  const userState = useSelector((state) => state.user);
+  const hospitals = useSelector((state) => state.dashboard.hospitalsState.hospitalsData);
+  const [staffData, setStaffData] = useState([]);
+
+  useEffect(() => {
+    setStaffData(userState.userState.usersData);
+  }, [userState]);
+
+  const populate = (hospitalId) => {
+    if (!hospitalId) {
+      return "N/A";
+    }
+    const hospital = hospitals.find(item => item.ROWID == hospitalId);
+    return hospital?.hospital_name || "N/A";
+  };
+
+  const navigateTo = (item) => {
+    let staffInfo = { ...item };
+    staffInfo.hospital_name = populate(item.hospital_id);
+    navigation.navigate("addstafform", { staffInfo });
+  };
+
   return (
     <>
-
       <ScreenContainer
-        title="Patients"
-        addIconComponent={
-          <Entypo name="dots-three-vertical" size={20} color="black" />
-        }
-        backScreen="analytics"
-      >
+        title="Patient Information"
+        addIconComponent={null}
 
-       <Text>
-       All patients
-        </Text> 
+      >
+        <View style={{ alignItems: 'center', paddingHorizontal: 35, paddingTop: 5 }}>
+          <SearchButton />
+        </View>
+        <FlatList
+          data={staffData}
+          renderItem={({ item }) => (
+            <InfoCard item={item} navigateTo={navigateTo} populate={populate} borderColor="#E91E63"/>
+          )}
+          keyExtractor={(_, index) => index.toString()}
+        />
       </ScreenContainer>
     </>
   );
-}
+};
+
+export default allstaff;

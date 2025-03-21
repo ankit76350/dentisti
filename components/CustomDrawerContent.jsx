@@ -39,13 +39,14 @@ const CustomDrawerContent = (props) => {
           label="Dashboard"
           labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
           icon={() => <MaterialIcons name="dashboard" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
+          style={[styles.activeItem , isDarkMode ? styles.activeItemDark : styles.activeItemLight]}
           onPress={() => {}}
         />
         <DrawerItem
           label="Patients"
           labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
           icon={() => <FontAwesome5 name="hospital-user" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
-          style={[styles.activeItem , isDarkMode ? styles.activeItemDark : styles.activeItemLight]}
+  
           onPress={() => router.push(`/(${role})/allpatients`)}
         />
         <DrawerItem
@@ -124,6 +125,7 @@ const styles = StyleSheet.create({
   },
   profileDesignation: {
     fontSize: 12,
+    // marginBottom: 10,
   },
   menuSection: {
     paddingTop: 0,
@@ -139,6 +141,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.2,
     shadowRadius: 10,
+    marginTop:10,
   },
   bottomSection: {
     marginTop: "auto",

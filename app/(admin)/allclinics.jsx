@@ -1,8 +1,7 @@
-import { Feather, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
+import { Entypo,  Feather, FontAwesome, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, useColorScheme,Image } from "react-native";
 import ScreenContainer from "../../components/ScreenContainer";
-import ClinicsDetails from "../../components/ClinicsDetails";
 import { useNavigation, useRouter } from "expo-router";
 import Modal from "../../components/Modal";
 import CustomInput from "../../components/CustomInput";
@@ -60,11 +59,10 @@ const allclinics = () => {
        <View style={styles.container}>
           
             {/* Reusable Modal */}
-            <Modal isVisible={isModalVisible} onClose={() => setModalVisible(false)}>
-          
+            <Modal isVisible={isModalVisible} onClose={() => setModalVisible(false)} title="Update Hospital Info">
 
-                <CustomInput placeholder="Enter details..." />
-                <CustomInput placeholder="Enter more details..." />
+                <CustomInput placeholder="Hospital Name *" icon={<FontAwesome name="hospital-o" size={24} color={isDark ? styles.darkColor.color : styles.lightColor.color} />}  />
+                <CustomInput placeholder="Location *" icon={<Entypo name="location-pin" size={24}  color={isDark ? styles.darkColor.color : styles.lightColor.color} />}   />
                 <CustomButton title="Submit" />
  
             </Modal>
@@ -169,6 +167,14 @@ actionButton: {
     paddingHorizontal: 20,
     borderRadius: 25,
     elevation: 3,
+},
+
+lightColor:{
+  color: "black",
+},
+darkColor:{
+  color: "white",
+
 },
 });
 
