@@ -32,7 +32,12 @@ const allclinics = () => {
   const handleRemove = (id) => {
     setFeedData(feedData.filter((item) => item.id !== id));
   };
+
+  //! Modal thing start
   const [isModalVisible, setModalVisible] = useState(false);
+  const [title, setTitle] = useState("");
+  //! Modal thing end
+  
   const renderItem = ({ item }) => (
     <TouchableOpacity style={[styles.card, isDark && styles.darkCard]} onPress={() => navigateTo(item.id)}>
       <View style={styles.avatar}>
@@ -43,7 +48,7 @@ const allclinics = () => {
         <Text style={[styles.action, isDark && styles.darkTextSecondary]}>{item.location}</Text>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.iconButton} onPress={() => setModalVisible(true)}>
+        <TouchableOpacity style={styles.iconButton} onPress={() => {setModalVisible(true) , setTitle("Update Hospital Info")} }>
           <Feather name="edit" size={19} color="#2ECC71" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.iconButton} onPress={() => handleRemove(item.id)}>
@@ -54,12 +59,13 @@ const allclinics = () => {
   );
 
   return (
-    <ScreenContainer title="Clinics" lightBgColor={isDark ? "#0D1B2A" : "#F8F8F8"}>
+    <ScreenContainer title="Clinics" lightBgColor={isDark ? "#0D1B2A" : "#F8F8F8"} addIconComponent={<MaterialIcons name="local-hospital" size={24} color={isDark ? styles.darkColor.color : styles.lightColor.color} />} 
+    navigateTo={()=>{console.log("hii"), setModalVisible(true) , setTitle("Add New Hospital");}}>
 
        <View style={styles.container}>
           
             {/* Reusable Modal */}
-            <Modal isVisible={isModalVisible} onClose={() => setModalVisible(false)} title="Update Hospital Info">
+            <Modal isVisible={isModalVisible} onClose={() => setModalVisible(false)} title={title}>
 
                 <CustomInput placeholder="Hospital Name *" icon={<FontAwesome name="hospital-o" size={24} color={isDark ? styles.darkColor.color : styles.lightColor.color} />}  />
                 <CustomInput placeholder="Location *" icon={<Entypo name="location-pin" size={24}  color={isDark ? styles.darkColor.color : styles.lightColor.color} />}   />
