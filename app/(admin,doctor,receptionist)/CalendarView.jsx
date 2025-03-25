@@ -300,19 +300,8 @@
 //       {/* Selected Date */}
 //       <Text style={styles.selectedDateText}>Events on {selectedDate}:</Text>
 
-//       {/* Time Slot Selection */}
-//       <View style={styles.pickerContainer}>
-//         <Text style={styles.label}>Select Time Slot:</Text>
-//         <Picker
-//           selectedValue={selectedTime}
-//           style={styles.picker}
-//           onValueChange={(itemValue) => setSelectedTime(itemValue)}
-//         >
-//           {timeSlots.map((time) => (
-//             <Picker.Item key={time} label={time} value={time} />
-//           ))}
-//         </Picker>
-//       </View>
+   
+  
 
 //       {/* Event List for Selected Time Slot */}
 //       <FlatList
@@ -561,90 +550,154 @@
 
 
 
-import React, { useCallback, useState } from 'react';
-import { View, Text, StyleSheet, useColorScheme } from 'react-native';
-import { Agenda } from 'react-native-calendars';
-import { FAB } from 'react-native-paper';
-import ScreenContainer from '../../components/ScreenContainer';
 
-const CalendarScreen = () => {
-  const theme = useColorScheme();
-  const isDarkMode = theme === "dark";
 
-  const [selectedDate, setSelectedDate] = useState(null);
+
+
+
+
+
+
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, TextInput, FlatList, StyleSheet, Alert } from "react-native";
+import { Calendar } from "react-native-calendars";
+import { Picker } from "@react-native-picker/picker"; // Import Picker
+
+const getCurrentDate = () => {
+  const today = new Date();
+  return today.toISOString().split("T")[0]; // Format: YYYY-MM-DD
+};
+
+const EventCalendar = () => {
+  const [selectedDate, setSelectedDate] = useState(getCurrentDate());
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [calendarVisible, setCalendarVisible] = useState(false);
+  const [newEvent, setNewEvent] = useState("");
+  const [selectedTime, setSelectedTime] = useState("09:00 AM"); // Default time slot
+
   const [events, setEvents] = useState({
-    '2025-03-24': [{ title: 'Meeting with Team', time: '10:00 AM' }],
-    '2025-03-25': [
-      { title: 'Client Call', time: '3:00 PM' },
-      { title: 'Design Review', time: '5:00 PM' }
-    ],
-    '2025-03-26': [{ title: 'Project Deadline', time: 'All Day' }]
+    "2025-03-05": { "09:00 AM": ["Team Meeting"], "02:00 PM": ["Project Review"] },
+    "2025-03-10": { "10:00 AM": ["Doctor's Appointment"] },
+    "2025-03-15": { "05:00 PM": ["Friend's Birthday Party"] },
   });
 
-  const renderEventItem = useCallback((item) => (
-    <View style={[styles.eventItem, isDarkMode ? styles.darkEventItem : styles.lightEventItem]}>
-      <Text style={[styles.eventTitle, isDarkMode ? styles.darkText : styles.lightText]}>{item.title}</Text>
-      <Text style={[styles.eventTime, isDarkMode ? styles.darkText : styles.lightText]}>{item.time}</Text>
-    </View>
-  ), [isDarkMode]);
+  // Time slots
+  const timeSlots = [
+    "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM",
+    "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM",
+    "05:00 PM", "06:00 PM", "07:00 PM", "08:00 PM"
+  ];
+
+  // Generate last 20 years dynamically
+  const yearOptions = Array.from({ length: 20 }, (_, i) => new Date().getFullYear() - i);
+
+  // Marked dates on calendar
+  const markedDates = Object.keys(events).reduce((acc, date) => {
+    acc[date] = { marked: true, dotColor: "red" };
+    return acc;
+  }, {});
+
+  markedDates[selectedDate] = { selected: true, selectedColor: "blue" };
+
+  // Add event to selected date & time
+  const addEvent = () => {
+    if (!newEvent.trim()) {
+      Alert.alert("Event cannot be empty!");
+      return;
+    }
+
+    setEvents((prevEvents) => ({
+      ...prevEvents,
+      [selectedDate]: {
+        ...prevEvents[selectedDate],
+        [selectedTime]: prevEvents[selectedDate]?.[selectedTime]
+          ? [...prevEvents[selectedDate][selectedTime], newEvent]
+          : [newEvent],
+      },
+    }));
+
+    setNewEvent("");
+  };
 
   return (
-    <ScreenContainer title="Calendar View">
-      <View style={[styles.container, isDarkMode ? styles.darkBackground : styles.lightBackground]}>
-        <Agenda
-          items={selectedDate ? { [selectedDate]: events[selectedDate] || [] } : events}
-          selected={selectedDate || '2025-03-24'}
-          onDayPress={(day) => setSelectedDate(day.dateString)}
-          renderItem={renderEventItem}
-          renderEmptyDate={() => (
-            <View style={styles.emptyDate}>
-              <Text style={[styles.emptyText, isDarkMode ? styles.darkText : styles.lightText]}>No events for this date</Text>
-            </View>
-          )}
-          theme={{
-            backgroundColor: isDarkMode ? "#0D1B2A" : "#FFFFFF",
-            calendarBackground: isDarkMode ? "#2C3E50" : "#FFFFFF",
-            // backgroundColor: '#F5F5F5',  // Change this to your preferred color
-            // calendarBackground: '#F5F5F5', // Background of the calendar view
-            selectedDayBackgroundColor: "#49a3f1",
-            selectedDayTextColor: "#FFFFFF",
-            todayTextColor: "#f39c12",
-            dayTextColor: isDarkMode ? "#FFF" : "#333",
-            textDisabledColor: "#d9e1e8",
-            dotColor: "#49a3f1",
-            selectedDotColor: "#FFFFFF",
-            arrowColor: "#49a3f1",
-            monthTextColor: "#49a3f1",
-            agendaTodayColor: "#49a3f1",
-            agendaKnobColor: "#49a3f1",
-          }}
-        />
-        <FAB style={[styles.fab, isDarkMode ? styles.darkFab : styles.lightFab]} icon="plus" onPress={() => alert('Add Event')} />
+    <View style={styles.container}>
+      {/* Year Selector */}
+      <View style={styles.pickerContainer}>
+        <Text style={styles.label}>Select Year:</Text>
+        <Picker
+          selectedValue={selectedYear.toString()} // Convert to string
+          style={styles.picker}
+          onValueChange={(itemValue) => setSelectedYear(parseInt(itemValue))}
+        >
+          {yearOptions.map((year) => (
+            <Picker.Item key={year} label={year.toString()} value={year.toString()} />
+          ))}
+        </Picker>
       </View>
-    </ScreenContainer>
+
+      {/* Toggle Calendar Button */}
+      <TouchableOpacity style={styles.toggleButton} onPress={() => setCalendarVisible(!calendarVisible)}>
+        <Text style={styles.toggleButtonText}>
+          {calendarVisible ? "Hide Calendar" : "Show Calendar"}
+        </Text>
+      </TouchableOpacity>
+
+      {/* Calendar Component */}
+      {calendarVisible && (
+        <Calendar
+          onDayPress={(day) => setSelectedDate(day.dateString)}
+          markedDates={markedDates}
+          enableSwipeMonths
+          hideExtraDays
+          theme={{
+            todayTextColor: "red",
+            arrowColor: "blue",
+            textDayFontWeight: "bold",
+          }}
+          current={`${selectedYear}-01-01`}
+        />
+      )}
+
+      {/* Selected Date */}
+      <Text style={styles.selectedDateText}>Events on {selectedDate}:</Text>
+
+   
+  
+
+      {/* Event List for Selected Time Slot */}
+      <FlatList
+        data={events[selectedDate]?.[selectedTime] || []}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => <Text style={styles.eventItem}>• {item}</Text>}
+      />
+
+      {/* Input for Adding Events */}
+      <TextInput
+        style={styles.input}
+        placeholder="Add Event"
+        value={newEvent}
+        onChangeText={setNewEvent}
+      />
+
+      <TouchableOpacity style={styles.addButton} onPress={addEvent}>
+        <Text style={styles.addButtonText}>Add Event</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
+export default EventCalendar;
+
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  darkBackground: { backgroundColor: "#0D1B2A" },
-  lightBackground: { backgroundColor: "#FFFFFF" },
-  
-  eventItem: { padding: 10, marginVertical: 5, borderRadius: 5 },
-  darkEventItem: { backgroundColor: "#2C3E50" },
-  lightEventItem: { backgroundColor: "#e3f2fd" },
-
-  eventTitle: { fontSize: 16, fontWeight: "bold" },
-  eventTime: { fontSize: 14 },
-  darkText: { color: "#FFF" },
-  lightText: { color: "#333" },
-
-  emptyDate: { padding: 20, alignItems: "center" },
-  emptyText: { fontSize: 16 },
-
-  fab: { position: "absolute", right: 20, bottom: 20 },
-  darkFab: { backgroundColor: "#49a3f1" },
-  lightFab: { backgroundColor: "#f39c12" },
+  container: { flex: 1, padding: 20, backgroundColor: "#f5f5f5" },
+  pickerContainer: { flexDirection: "row", alignItems: "center", marginBottom: 10 },
+  label: { fontSize: 16, marginRight: 10 },
+  picker: { height: 50, width: 150 },
+  toggleButton: { backgroundColor: "blue", padding: 12, borderRadius: 5, alignItems: "center", marginBottom: 10 },
+  toggleButtonText: { color: "white", fontWeight: "bold" },
+  selectedDateText: { fontSize: 18, fontWeight: "bold", marginVertical: 10 },
+  eventItem: { fontSize: 16, marginVertical: 4, backgroundColor: "#e0f7fa", padding: 10, borderRadius: 5 },
+  input: { borderWidth: 1, borderColor: "#ccc", padding: 10, borderRadius: 5, marginVertical: 10 },
+  addButton: { backgroundColor: "blue", padding: 12, alignItems: "center", borderRadius: 5 },
+  addButtonText: { color: "white", fontWeight: "bold" },
 });
-
-export default CalendarScreen;
