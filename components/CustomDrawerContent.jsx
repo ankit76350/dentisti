@@ -83,7 +83,7 @@ const CustomDrawerContent = (props) => {
           labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
           icon={() => <FontAwesome name="user" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
           onPress={() => router.push(`/(${role})/profiles`)}
-          // onPress={() => router.push(`/profiles`)}
+          // onPress={() => router.push(`/profiles/calendarview`)}
         />
         <DrawerItem
           label="Logout"
