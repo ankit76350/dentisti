@@ -10,77 +10,92 @@ import { fetchHospitalData } from "../../redux/dashboard/dashboardSlice";
 import { useDispatch, useSelector } from "react-redux";
 import usePost from "../../hooks/usePost";
 import { catalystURL } from "../../constants";
+import usePut from "../../hooks/usePut";
+import { fetchUserData } from "../../redux/user/userSlice";
 
 
 const addstafform = () => {
   const theme = useColorScheme();
-  const route = useRoute(); // Get route params
-  const staffInfo = route?.params?.staffInfo || {}; // Avoid undefined issues
+  const route = useRoute();
 
+  const dispatch = useDispatch();
 
+  // Extracting parameters from route
+  const staffInfo = route?.params?.staffInfo || {};
+  const title = route?.params?.title || "";
+  const updating = route?.params?.update || false;
+
+  // State for form fields
   const [form, setForm] = useState({
-    name: "",
-    email: "",
-    password: "",
-    username: "",
-    phone: "",
-    hospitalName: "Shri Rama clinics",
-    role: "Doctor",
+    name: staffInfo.name || "",
+    email: staffInfo.email || "",
+    password: staffInfo.password || "",
+    username: staffInfo.username || "",
+    phone: staffInfo.phone || "",
+    hospitalName: staffInfo.hospital_name || "",
+    role: staffInfo.role || "",
   });
 
+
+  //Todo Start: handle inputfiled
   const handleChange = (key, value) => {
     setForm({ ...form, [key]: value });
   };
 
-  const role = [
-    { label: "Doctor", value: "Doctor" },
-    { label: "Receptionist", value: "Receptionist" },
-  ];
-
   const handleSelection = (keyName, item) => {
     setForm({ ...form, [keyName]: item.value });
   };
+  //Todo End: handle inputfiled
 
 
 
+  //Todo: Start Hospital info
   const [totalClinics, setTotalClinics] = useState([]);
   const dashboardState = useSelector((state) => state.dashboard);
-  const dispatch = useDispatch()
-  const [hospital, setHospital] = useState([])
+  const hospitals = useSelector((state) => state.dashboard.hospitalsState.hospitalsData);
+  const [hospital, setHospital] = useState([]);
+
 
   useEffect(() => {
-    dispatch(fetchHospitalData())
-  }, [])
+    dispatch(fetchHospitalData());
+  }, []);
 
   useEffect(() => {
     setTotalClinics(dashboardState.hospitalsState.hospitalsData);
-  }, [dashboardState])
+  }, [dashboardState]);
 
 
   useEffect(() => {
-    setHospital(totalClinics.map((currItem) => { return { label: currItem.hospital_name, value: currItem.hospital_name } }))
-  }, [totalClinics])
+    setHospital(totalClinics.map(currItem => ({ label: currItem.hospital_name, value: currItem.hospital_name })));
+  }, [totalClinics]);
+
+  const findHospitalId = (hospitalName) => {
+    if (!hospitalName) return null;
+    const hospital = hospitals.find(item => item.hospital_name === hospitalName);
+    return hospital?.ROWID || null;
+  };
+
+  function removeHospitalName(userObj) {
+    delete userObj.hospitalName;
+    return userObj;
+  }
+  //Todo: End Hospital info
 
 
-  // Data submisssion adding
+  //Add New new staff data
   const { loading, error, postData } = usePost();
-  const url = `${catalystURL}admin/user`
+  const url = `${catalystURL}admin/user`;
 
   const submitStaffData = async () => {
     if (validateStaffForm(form)) {
-      try {
-        const response = await postData(url, form);
+      const hospital_id = findHospitalId(form.hospitalName);
+      let updatedUser = removeHospitalName(form);
 
+      try {
+        const response = await postData(url, { ...updatedUser, hospital_id });
         if (response && response.success) {
-          setForm({
-            name: "",
-            email: "",
-            password: "",
-            username: "",
-            phone: "",
-            hospitalName: "",
-            role: "",
-          })
+          setForm({ name: "", email: "", password: "", username: "", phone: "", hospital_id: "", role: "" });
+             dispatch(fetchUserData());
           Alert.alert("Success", "Staff data submitted successfully.");
         } else {
           Alert.alert("Error", error || "Something went wrong.");
@@ -93,10 +108,33 @@ const addstafform = () => {
 
 
 
+  // Update existing staff data
+  const { updateData } = usePut();
+  const handleUpdate = async () => {
+    if (validateStaffForm(form)) {
+      const hospital_id = findHospitalId(form.hospitalName);
+      let updatedUser = removeHospitalName(form);
+      try {
+        const response = await updateData(`${catalystURL}admin/user/${staffInfo.ROWID}`, { ...updatedUser, hospital_id });
+        if (response && response.success) {
+          setForm({ name: "", email: "", password: "", username: "", phone: "", hospital_id: "", role: "" });
+             dispatch(fetchUserData());
+          Alert.alert("Success", "Staff data updated successfully.");
+        } else {
+          Alert.alert("Error", error || "Something went wrong.");
+        }
+      } catch (err) {
+        Alert.alert("Error", err.message || "Failed to update data.");
+      }
+    }
+  };
+
+
+
   return (
     <>
 
-      <BackButton title="Add New Staff" />
+      <BackButton title={title || "Add New Staff"} />
       <ScrollView contentContainerStyle={[styles.container, theme === "dark" ? styles.darkContainer : styles.lightContainer]}>
         <StatusBar
           animated={true}
@@ -139,9 +177,14 @@ const addstafform = () => {
 
 
           {/* Submit Button */}
-          <TouchableOpacity style={[styles.button, theme === "dark" ? styles.darkButton : styles.lightButton]} onPress={submitStaffData}>
+          {!updating ? (<TouchableOpacity style={[styles.button, theme === "dark" ? styles.darkButton : styles.lightButton]} onPress={submitStaffData}>
             {!loading ? (<Text style={styles.buttonText}>Add</Text>) : (<Text style={styles.buttonText}>Adding...</Text>)}
-          </TouchableOpacity>
+          </TouchableOpacity>) :
+            (<TouchableOpacity style={[styles.button, theme === "dark" ? styles.darkButton : styles.lightButton]} onPress={handleUpdate}>
+              {!loading ? (<Text style={styles.buttonText}>Update</Text>) : (<Text style={styles.buttonText}>Updating...</Text>)}
+            </TouchableOpacity>)
+          }
+
 
         </View>
       </ScrollView>

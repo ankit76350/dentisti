@@ -7,14 +7,15 @@ import { useNavigation } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "../../redux/user/userSlice";
 import { fetchHospitalData } from "../../redux/dashboard/dashboardSlice";
-import InfoCard from "../../components/InfoCard.jsx"; 
+import InfoCard from "../../components/InfoCard.jsx";
+import Loading from "../../components/Loading.jsx";
 
 const allstaff = () => {
   const theme = useColorScheme();
   const isDark = theme === "dark";
   const navigation = useNavigation();
-  
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(fetchUserData());
     dispatch(fetchHospitalData());
@@ -39,7 +40,7 @@ const allstaff = () => {
   const navigateTo = (item) => {
     let staffInfo = { ...item };
     staffInfo.hospital_name = populate(item.hospital_id);
-    navigation.navigate("addstafform", { staffInfo });
+    navigation.navigate("stafform", { staffInfo, title: "Update Staff Info", update: true });
   };
 
   return (
@@ -50,18 +51,22 @@ const allstaff = () => {
           <Ionicons name="person-add" size={24} color={isDark ? "#FFFFFF" : "#000"} />
         }
         backScreen="analytics"
-        navigateTo={() => navigation.navigate("addstafform")}
+        navigateTo={() => navigation.navigate("stafform")}
       >
         <View style={{ alignItems: 'center', paddingHorizontal: 35, paddingTop: 5 }}>
           <SearchButton />
         </View>
-        <FlatList
-          data={staffData}
-          renderItem={({ item }) => (
-            <InfoCard item={item} navigateTo={navigateTo} populate={populate} editIcon={true} removeIcon={true} borderColor="#2196F3"/>
-          )}
-          keyExtractor={(_, index) => index.toString()}
-        />
+
+        {userState.userState.isLoading ? (
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginBottom: 100 }}>
+            <Loading />
+          </View>) : (<FlatList
+            data={staffData}
+            renderItem={({ item }) => (
+              <InfoCard item={item} navigateTo={navigateTo} populate={populate} editIcon={true} removeIcon={true} borderColor="#2196F3" />
+            )}
+            keyExtractor={(_, index) => index.toString()}
+          />)}
       </ScreenContainer>
     </>
   );

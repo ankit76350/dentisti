@@ -5,7 +5,7 @@
 // // import Dashboard from '../app/(admin,doctor,receptionist)/dashboard'
 // // import role from '../assets/json/role'
 // // const index = () => {
-  
+
 // //   return (
 
 // //     <>
@@ -24,40 +24,42 @@
 
 
 import 'react-native-gesture-handler';
-import { StyleSheet, Text, View } from 'react-native';
+import { View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
-import {role} from '../assets/json/role'
+import { role } from '../assets/json/role'
+import Loading from "../components/Loading";
 
-const Index = () => {
+const index = () => {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   // const [role , setRole] = useState(role?.role)
 
-  console.log("role",role);
-  
+  console.log("role", role);
+
 
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-      router.replace(`/(${role})/(dash)/analytics`); // Replace so it removes index from stack
+      router.replace(`/(${role})/(dash)/analytics`); // Replace so it removes i from stack
       // router.replace(`/(${role})/(dash)/appointments`); // Replace so it removes index from stack
       // router.replace(`/(${role})/profiles`); // Replace so it removes index from stack
       // router.replace(`/(${role})/notification`); // Replace so it removes index from stack
       // router.replace(`/(${role})/allstaff`); // Replace so it removes index from stack
-      // router.replace(`/(${role})/addstafform`); // Replace so it removes index from stack
+      // router.replace(`/(${role})/stafform`); // Replace so it removes index from stack
       // router.replace(`/(${role})/allpatients`); // Replace so it removes index from stack
       // router.replace(`/(${role})/allbills`); // Replace so it removes index from stack
       // router.replace(`/(${role})/allclinics`); // Replace so it removes index from stack
       // router.replace(`/(${role})/(clinics)`); // Replace so it removes index from stack
       // router.replace(`/(${role})/calendarview`); // Replace so it removes index from stack
-    }, 1000); 
+    }, 1000);
   }, []);
 
   if (isLoading) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Loading...</Text>
+        {/* <Text>Loading...</Text> */}
+        <Loading />
       </View>
     );
   }
@@ -65,4 +67,4 @@ const Index = () => {
   return null;
 };
 
-export default Index;
+export default index;
