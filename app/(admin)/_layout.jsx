@@ -20,7 +20,7 @@ export default function AdminLayout() {
         options={{ headerShown: false }}
       /> */}
       <Stack.Screen
-        name="allpatients"
+        name="patients"
         options={{ title: 'Admin All Patients' }}
       />
       <Stack.Screen

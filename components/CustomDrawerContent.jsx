@@ -46,7 +46,7 @@ const CustomDrawerContent = (props) => {
           label="Patients"
           labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
           icon={() => <FontAwesome5 name="hospital-user" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
-          onPress={() => router.push(`/(${role})/allpatients`)}
+          onPress={() => router.push(`/(${role})/patients`)}
           />
         <DrawerItem
           label="Calendar View"

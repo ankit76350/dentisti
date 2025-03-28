@@ -67,6 +67,8 @@ const allstaff = () => {
             )}
             keyExtractor={(_, index) => index.toString()}
           />)}
+
+          
       </ScreenContainer>
     </>
   );
