@@ -1,19 +1,21 @@
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, useColorScheme, StatusBar } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, useColorScheme, StatusBar, Alert } from "react-native";
 import LabelledInputField from '../../components/LabelledInputField';
 import Select from '../../components/Select';
 import { hp, wp } from '../../helpers/common';
 import BackButton from "../../components/BackButton";
 import { useRoute } from "@react-navigation/native";
+import { validateStaffForm } from '../../helpers/validator';
+import { fetchHospitalData } from "../../redux/dashboard/dashboardSlice";
+import { useDispatch, useSelector } from "react-redux";
+import usePost from "../../hooks/usePost";
+import { catalystURL } from "../../constants";
 
 
 const addstafform = () => {
   const theme = useColorScheme();
-  // const { staffInfo } = route.params || {}; 
   const route = useRoute(); // Get route params
   const staffInfo = route?.params?.staffInfo || {}; // Avoid undefined issues
-
-  console.log("route", route); // Check if params exist
 
 
   const [form, setForm] = useState({
@@ -22,8 +24,8 @@ const addstafform = () => {
     password: "",
     username: "",
     phone: "",
-    hospitalName: "",
-    role: "",
+    hospitalName: "Shri Rama clinics",
+    role: "Doctor",
   });
 
   const handleChange = (key, value) => {
@@ -35,9 +37,61 @@ const addstafform = () => {
     { label: "Receptionist", value: "Receptionist" },
   ];
 
-  const handleSelection = (item) => {
-    console.log("Selected:", item);
+  const handleSelection = (keyName, item) => {
+    setForm({ ...form, [keyName]: item.value });
   };
+
+
+
+  const [totalClinics, setTotalClinics] = useState([]);
+  const dashboardState = useSelector((state) => state.dashboard);
+  const dispatch = useDispatch()
+  const [hospital, setHospital] = useState([])
+
+  useEffect(() => {
+    dispatch(fetchHospitalData())
+  }, [])
+
+  useEffect(() => {
+    setTotalClinics(dashboardState.hospitalsState.hospitalsData);
+  }, [dashboardState])
+
+
+  useEffect(() => {
+    setHospital(totalClinics.map((currItem) => { return { label: currItem.hospital_name, value: currItem.hospital_name } }))
+  }, [totalClinics])
+
+
+  // Data submisssion adding
+  const { loading, error, postData } = usePost();
+  const url = `${catalystURL}admin/user`
+
+  const submitStaffData = async () => {
+    if (validateStaffForm(form)) {
+      try {
+        const response = await postData(url, form);
+
+        if (response && response.success) {
+          setForm({
+            name: "",
+            email: "",
+            password: "",
+            username: "",
+            phone: "",
+            hospitalName: "",
+            role: "",
+          })
+          Alert.alert("Success", "Staff data submitted successfully.");
+        } else {
+          Alert.alert("Error", error || "Something went wrong.");
+        }
+      } catch (err) {
+        Alert.alert("Error", err.message || "Failed to submit data.");
+      }
+    }
+  };
+
+
 
   return (
     <>
@@ -52,11 +106,7 @@ const addstafform = () => {
 
         {/* Header */}
         <View style={[styles.header, theme === "dark" ? styles.darkHeader : styles.lightHeader]}>
-          {/* <View style={{alignSelf:''}}> */}
 
-          {/* <Text style={styles.title}>Add New Staff</Text> */}
-          {/* <Text style={styles.subtitle}>Add Staff</Text> */}
-          {/* </View> */}
         </View>
 
         {/* Form Container */}
@@ -66,14 +116,33 @@ const addstafform = () => {
           <LabelledInputField label="Password" value={form.password} onChangeText={(text) => handleChange("password", text)} secureTextEntry />
           <LabelledInputField label="Username" value={form.username} onChangeText={(text) => handleChange("username", text)} />
           <LabelledInputField label="Phone" value={form.phone} onChangeText={(text) => handleChange("phone", text)} keyboardType="phone-pad" />
-          <LabelledInputField label="Role" value={form.role} onChangeText={(text) => handleChange("role", text)} />
-          <Select label="Hospital Name" data={role} onChange={handleSelection} search={true} />
-          <Select label="Role" data={role} onChange={handleSelection} search={false} />
+          <Select
+            label="Hospital Name"
+            keyName="hospitalName"
+            data={hospital}
+            onChange={handleSelection}
+            search={true}
+            value={form.hospitalName} // Predefined value
+          />
+
+          <Select
+            label="Role"
+            keyName="role"
+            data={[
+              { label: "Doctor", value: "Doctor" },
+              { label: "Receptionist", value: "Receptionist" },
+            ]}
+            onChange={handleSelection}
+            search={false}
+            value={form.role} // Predefined value
+          />
+
 
           {/* Submit Button */}
-          <TouchableOpacity style={[styles.button, theme === "dark" ? styles.darkButton : styles.lightButton]}>
-            <Text style={styles.buttonText}>Add</Text>
+          <TouchableOpacity style={[styles.button, theme === "dark" ? styles.darkButton : styles.lightButton]} onPress={submitStaffData}>
+            {!loading ? (<Text style={styles.buttonText}>Add</Text>) : (<Text style={styles.buttonText}>Adding...</Text>)}
           </TouchableOpacity>
+
         </View>
       </ScrollView>
     </>

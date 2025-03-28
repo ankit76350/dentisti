@@ -6,25 +6,26 @@ import { useNavigation } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "../../redux/user/userSlice";
 import { fetchHospitalData } from "../../redux/dashboard/dashboardSlice";
-import InfoCard from "../../components/InfoCard.jsx"; 
+import PatientsInfoCard from "../../components/PatientsInfoCard"; 
+import { fetchPatientsData } from "../../redux/patients/patientsSlice.js";
 
 const allstaff = () => {
-  const theme = useColorScheme();
-  const isDark = theme === "dark";
   const navigation = useNavigation();
-  
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(fetchUserData());
     dispatch(fetchHospitalData());
+    dispatch(fetchPatientsData());
   }, []);
 
   const userState = useSelector((state) => state.user);
   const hospitals = useSelector((state) => state.dashboard.hospitalsState.hospitalsData);
-  const [staffData, setStaffData] = useState([]);
+  const patients = useSelector((state) => state.patients.patientsState.patientsData);
+  const [info, setInfo] = useState([]);
 
   useEffect(() => {
-    setStaffData(userState.userState.usersData);
+    setInfo(patients);
   }, [userState]);
 
   const populate = (hospitalId) => {
@@ -52,9 +53,9 @@ const allstaff = () => {
           <SearchButton />
         </View>
         <FlatList
-          data={staffData}
+          data={info}
           renderItem={({ item }) => (
-            <InfoCard item={item} navigateTo={navigateTo} populate={populate} borderColor="#E91E63"/>
+            <PatientsInfoCard item={item} navigateTo={navigateTo} populate={populate} borderColor="#E91E63"/>
           )}
           keyExtractor={(_, index) => index.toString()}
         />

@@ -45,6 +45,7 @@ const LabelledInputField = ({ label, value, onChangeText, secureTextEntry, keybo
                 placeholder={!isFocused && !value ? label : ""}
                 keyboardType={keyboardType}
                 placeholderTextColor={theme === "dark" ? "#A0A0A0" : "#808080"}
+                autoCapitalize="none" // Prevents automatic capitalization
             />
         </View>
     );

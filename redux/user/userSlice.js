@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { catalystURL } from "../../constants";
 
-//! Appointments
+//! users
 export const fetchUserData = createAsyncThunk(
     "user/fetchUserData",
     async (_, { rejectWithValue }) => {
