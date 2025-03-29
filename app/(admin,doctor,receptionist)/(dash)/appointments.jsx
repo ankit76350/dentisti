@@ -10,8 +10,9 @@ import { hp, wp } from '../../../helpers/common';
 import BottomNavBar from '../../../components/BottomNavBar';
 import BottomSheet from '../../../components/BottomSheet';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAppointmentsData, fetchDoctersData, fetchHospitalData } from '../../../redux/dashboard/dashboardSlice'
+import { fetchAppointmentsData, fetchDoctersData } from '../../../redux/dashboard/dashboardSlice'
 import {formatDateToIST, formatTimeToIST} from '../../../utils/formatTime'
+import { fetchHospitalData } from '../../../redux/hospital/hospitalSlice';
 
 export default function appointments() {
   const navigation = useNavigation();
@@ -27,6 +28,7 @@ export default function appointments() {
     dispatch(fetchHospitalData())
   }, [])
   const stateDashboard = useSelector((state) => state.dashboard);
+  const hospitalState = useSelector((state) => state.hospitals);
   //Todo end: redux things
   
   
@@ -54,7 +56,7 @@ export default function appointments() {
 
     const selectedAppointment = filteredData.find((currItem )=>{return currItem.ROWID ===  ROWID})
     const selectedDoctor = stateDashboard?.doctorsState?.doctorsData?.find(item => item.ROWID === selectedAppointment.doctor_id);
-    const selectedHospital = stateDashboard?.hospitalsState?.hospitalsData?.find(item => item.ROWID === selectedAppointment.hospital_id);
+    const selectedHospital = hospitalState?.hospitalsState?.hospitalsData?.find(item => item.ROWID === selectedAppointment.hospital_id);
 
      selectedDetails = {
       name: selectedAppointment.name,

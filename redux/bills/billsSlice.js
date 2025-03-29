@@ -3,7 +3,7 @@ import { catalystURL } from "../../constants";
 
 //! Admin Bills
 export const fetchBills = createAsyncThunk(
-    "dashboard/fetchBills",
+    "bills/fetchBills",
     async (_, { rejectWithValue }) => {
         try {
             const response = await fetch(`${catalystURL}/admin/bills`);
@@ -23,8 +23,8 @@ export const fetchBills = createAsyncThunk(
 
 
 
-export const dashboardSlice = createSlice({
-    name: "dashboard",
+export const billsSlice = createSlice({
+    name: "bills",
     initialState: {
         billsState: {
             isLoading: false,
@@ -52,4 +52,4 @@ export const dashboardSlice = createSlice({
     },
 });
 
-export default dashboardSlice.reducer;
+export default billsSlice.reducer;

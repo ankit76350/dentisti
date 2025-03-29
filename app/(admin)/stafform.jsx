@@ -6,12 +6,12 @@ import { hp, wp } from '../../helpers/common';
 import BackButton from "../../components/BackButton";
 import { useRoute } from "@react-navigation/native";
 import { validateStaffForm } from '../../helpers/validator';
-import { fetchHospitalData } from "../../redux/dashboard/dashboardSlice";
 import { useDispatch, useSelector } from "react-redux";
 import usePost from "../../hooks/usePost";
 import { catalystURL } from "../../constants";
 import usePut from "../../hooks/usePut";
 import { fetchUserData } from "../../redux/user/userSlice";
+import { fetchHospitalData } from "../../redux/hospital/hospitalSlice";
 
 
 const addstafform = () => {
@@ -51,8 +51,7 @@ const addstafform = () => {
 
   //Todo: Start Hospital info
   const [totalClinics, setTotalClinics] = useState([]);
-  const dashboardState = useSelector((state) => state.dashboard);
-  const hospitals = useSelector((state) => state.dashboard.hospitalsState.hospitalsData);
+  const hospitals = useSelector((state) => state.hospitals.hospitalsState.hospitalsData);
   const [hospital, setHospital] = useState([]);
 
 
@@ -61,8 +60,8 @@ const addstafform = () => {
   }, []);
 
   useEffect(() => {
-    setTotalClinics(dashboardState.hospitalsState.hospitalsData);
-  }, [dashboardState]);
+    setTotalClinics(hospitals);
+  }, [hospitals]);
 
 
   useEffect(() => {

@@ -8,7 +8,8 @@ import BottomNavBar from '../../../components/BottomNavBar';
 import AnalyticsDashboard from '../../../components/AnalyticsDashboard';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { fetchAppointmentsData, fetchDoctersData, fetchHospitalData } from '../../../redux/dashboard/dashboardSlice';
+import { fetchAppointmentsData, fetchDoctersData } from '../../../redux/dashboard/dashboardSlice';
+import { fetchHospitalData } from '../../../redux/hospital/hospitalSlice';
 
 
 export default function analytics() {
@@ -22,6 +23,7 @@ export default function analytics() {
     dispatch(fetchDoctersData())
   }, [])
   const dashboardState = useSelector((state) => state.dashboard);
+  const hospitalState = useSelector((state) => state.hospitals);
   // console.log("dashboardState",dashboardState);
   
   //Todo end: redux things
@@ -37,7 +39,7 @@ export default function analytics() {
 
       <View style={[styles.mainContainer, theme === "dark" ? styles.darkBackground : styles.lightBackground]}>
         <DashboardHeader openDrawer={() => navigation.dispatch(DrawerActions.openDrawer())} />
-        <AnalyticsDashboard dashboardState={dashboardState}/>
+        <AnalyticsDashboard dashboardState={dashboardState} hospitalState={hospitalState}/>
       </View>
       <BottomNavBar />
     </ScreenWrapper>

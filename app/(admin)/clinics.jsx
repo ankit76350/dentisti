@@ -7,7 +7,6 @@ import Modal from "../../components/Modal";
 import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchHospitalData } from "../../redux/dashboard/dashboardSlice";
 import SearchBar from "../../components/SearchBar";
 import { hp } from "../../helpers/common";
 import { catalystURL } from "../../constants";
@@ -16,6 +15,7 @@ import { validateHospitalForm } from "../../helpers/validator";
 import usePut from "../../hooks/usePut";
 import useDelete from "../../hooks/useDelete";
 import Loading from "../../components/Loading.jsx";
+import { fetchHospitalData } from "../../redux/hospital/hospitalSlice.js";
 
 const clinics = () => {
   const theme = useColorScheme();
@@ -28,7 +28,7 @@ const clinics = () => {
     dispatch(fetchHospitalData());
   }, [dispatch]);
 
-  const hospitalsState = useSelector((state) => state.dashboard.hospitalsState);
+  const hospitalsState = useSelector((state) => state.hospitals.hospitalsState);
 
   // Search and Filter
   const [searchQuery, setSearchQuery] = useState("");

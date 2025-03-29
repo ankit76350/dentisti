@@ -5,10 +5,10 @@ import SearchButton from '../../../components/SearchBar';
 import { useNavigation } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "../../../redux/user/userSlice";
-import { fetchHospitalData } from "../../../redux/dashboard/dashboardSlice";
 import InfoCard from "../../../components/InfoCard.jsx"; 
+import { fetchHospitalData } from "../../../redux/hospital/hospitalSlice.js";
 
-const allstaff = () => {
+const receptionists = () => {
   const theme = useColorScheme();
   const isDark = theme === "dark";
   const navigation = useNavigation();
@@ -20,7 +20,7 @@ const allstaff = () => {
   }, []);
 
   const userState = useSelector((state) => state.user);
-  const hospitals = useSelector((state) => state.dashboard.hospitalsState.hospitalsData);
+  const hospitals = useSelector((state) => state.hospitals.hospitalsState.hospitalsData);
   const [staffData, setStaffData] = useState([]);
 
   useEffect(() => {
@@ -63,4 +63,4 @@ const allstaff = () => {
   );
 };
 
-export default allstaff;
+export default receptionists;

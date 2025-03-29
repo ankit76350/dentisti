@@ -38,7 +38,7 @@ const CircularProgress = ({ progress, size = 40, strokeWidth = 5, color = "#49a3
 
 
 
-const AnalyticsDashboard = ({ dashboardState = {} }) => {
+const AnalyticsDashboard = ({ dashboardState = {} , hospitalState={}}) => {
   const theme = useColorScheme();
   const isDarkMode = theme === "dark";
   const [totalAppointment, setTotalAppointment] = useState();
@@ -84,7 +84,7 @@ const AnalyticsDashboard = ({ dashboardState = {} }) => {
 
   useEffect(() => {
     setTotalAppointment(dashboardState.appointmentState.appointmentsData.length);
-    setTotalClinics(dashboardState.hospitalsState.hospitalsData.length);
+    setTotalClinics(hospitalState.hospitalsState.hospitalsData.length);
     setTotalDoctors(dashboardState.doctorsState.doctorsData.length);
     setAppointments(dashboardState.appointmentState.appointmentsData);
   }, [dashboardState])

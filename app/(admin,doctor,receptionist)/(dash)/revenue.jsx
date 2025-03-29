@@ -7,8 +7,8 @@ import { hp, wp } from '../../../helpers/common';
 import BottomNavBar from '../../../components/BottomNavBar';
 import RevenueList from '../../../components/RevenueList';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchHospitalRevenue } from '../../../redux/dashboard/dashboardSlice';
 import { useEffect } from 'react';
+import { fetchHospitalRevenue } from '../../../redux/hospital/hospitalSlice';
 
 
 export default function revenue() {
@@ -20,8 +20,9 @@ export default function revenue() {
   useEffect(() => {
     dispatch(fetchHospitalRevenue())
   }, [])
-  const dashboardState = useSelector((state) => state.dashboard);
+  const hospitalState = useSelector((state) => state.hospitals);
   //Todo end: redux things
+ 
 
   return (
     <>
@@ -32,7 +33,7 @@ export default function revenue() {
 
         {/* Revenue */}
         <View style={{marginHorizontal:10 , marginTop:10, marginBottom:hp(35)}}>
-          <RevenueList revenueData={dashboardState.hospitalsRevenueState.hospitalsRevenue}/>
+          <RevenueList revenueData={hospitalState.hospitalsRevenueState.revenueData}/>
         </View>
       </View>
     

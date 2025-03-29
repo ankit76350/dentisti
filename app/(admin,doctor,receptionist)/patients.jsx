@@ -5,11 +5,11 @@ import SearchBar from '../../components/SearchBar.jsx';
 import { useNavigation } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "../../redux/user/userSlice.js";
-import { fetchHospitalData } from "../../redux/dashboard/dashboardSlice.js";
 import PatientsInfoCard from "../../components/PatientsInfoCard.jsx";
 import { fetchPatientsData } from "../../redux/patients/patientsSlice.js";
 import Loading from "../../components/Loading.jsx";
 import { hp } from "../../helpers/common.js";
+import { fetchHospitalData } from "../../redux/hospital/hospitalSlice.js";
 
 const patients = () => {
   const theme = useColorScheme();
@@ -23,7 +23,7 @@ const patients = () => {
     dispatch(fetchPatientsData());
   }, []);
 
-  const hospitals = useSelector((state) => state.dashboard.hospitalsState.hospitalsData);
+  const hospitals = useSelector((state) => state.hospitals.hospitalsState.hospitalsData);
   const patients = useSelector((state) => state.patients.patientsState);
 
 
