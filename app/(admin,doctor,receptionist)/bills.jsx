@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, StyleSheet, useColorScheme } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import ScreenContainer from "../../components/ScreenContainer";
+import SearchButton from "../../components/SearchBar";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBills } from "../../redux/bills/billsSlice";
 
@@ -24,6 +25,7 @@ const bills = () => {
       title="Bills"
     >
       <View style={styles.container}>
+        <SearchButton/>
         <FlatList
           data={billsData}
           keyExtractor={(_, index) => index.toString()}

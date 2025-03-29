@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { View, FlatList, useColorScheme } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import ScreenContainer from "../../components/ScreenContainer";
-import SearchButton from '../../components/SearchButton';
+import SearchBar from '../../components/SearchBar';
 import { useNavigation } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "../../redux/user/userSlice";
 import { fetchHospitalData } from "../../redux/dashboard/dashboardSlice";
 import InfoCard from "../../components/InfoCard.jsx";
 import Loading from "../../components/Loading.jsx";
+import { hp } from "../../helpers/common.js";
 
 const allstaff = () => {
   const theme = useColorScheme();
@@ -53,9 +54,11 @@ const allstaff = () => {
         backScreen="analytics"
         navigateTo={() => navigation.navigate("stafform")}
       >
-        <View style={{ alignItems: 'center', paddingHorizontal: 35, paddingTop: 5 }}>
-          <SearchButton />
-        </View>
+       <View style={{ 
+        marginBottom: hp(1)
+       }}>
+        <SearchBar />
+      </View>
 
         {userState.userState.isLoading ? (
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginBottom: 100 }}>

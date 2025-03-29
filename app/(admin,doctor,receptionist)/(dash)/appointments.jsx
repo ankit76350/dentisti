@@ -1,12 +1,12 @@
 import { View, Text,  StyleSheet, useColorScheme, StatusBar, } from 'react-native';
 import DashboardHeader from '../../../components/DashboardHeader';
 import ScreenWrapper from '../../../components/ScreenWrapper';
-import SearchButton from '../../../components/SearchButton';
+import SearchBar from '../../../components/SearchBar';
 import { useNavigation } from 'expo-router';
 import { useState, useRef, useEffect } from 'react';
 import Item from '../../../components/Item';
 import { DrawerActions } from '@react-navigation/native';
-import { wp } from '../../../helpers/common';
+import { hp, wp } from '../../../helpers/common';
 import BottomNavBar from '../../../components/BottomNavBar';
 import BottomSheet from '../../../components/BottomSheet';
 import { useDispatch, useSelector } from 'react-redux';
@@ -94,12 +94,15 @@ export default function appointments() {
           <View style={styles.appointmentsHeader}>
           </View>
 
-          <View style={{ alignItems: 'center', padding: 5, }}>
+          <View style={{ alignItems: 'center', paddingVertical: 5, }}>
             <Text style={[styles.appointmentsTitle, theme === "dark" ? styles.darkText : styles.lightText]}>
               Appointments
             </Text>
             {/* //! search button */}
-            <SearchButton query={searchQuery} setQuery={setSearchQuery} />
+            <View style={{ marginBottom: hp(1), }}>
+
+            <SearchBar query={searchQuery} setQuery={setSearchQuery} />
+            </View>
             {/* //! apponment data */}
             <Item showDetails={openBottomSheet} data={filteredData} />
 

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { View, TextInput, TouchableOpacity, Text, ActivityIndicator, StyleSheet, useColorScheme } from "react-native";
+import { View, TextInput, TouchableOpacity, ActivityIndicator, StyleSheet, useColorScheme } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { hp, wp } from "../helpers/common";
 
-const SearchButton = ({ query, setQuery }) => {
+const SearchButton = ({ query, setQuery, style }) => {
   const [loading, setLoading] = useState(false);
   const theme = useColorScheme(); // Detects system theme (light/dark)
 
@@ -15,7 +15,7 @@ const SearchButton = ({ query, setQuery }) => {
   };
 
   return (
-    <View style={[styles.container, theme === "dark" ? styles.darkContainer : styles.lightContainer]}>
+    <View style={[styles.container, theme === "dark" ? styles.darkContainer : styles.lightContainer, style]}>
       <TextInput
         style={[styles.input, theme === "dark" ? styles.darkText : styles.lightText]}
         placeholder="Search..."
@@ -44,9 +44,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 1,
     borderRadius: wp(3),
-    marginHorizontal: wp(3),
-    width: wp(90), 
-    marginBottom: hp(2)
+    width: "100%", // Takes full width of the parent
   },
   lightContainer: {
     backgroundColor: "white",

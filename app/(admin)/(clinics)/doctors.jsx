@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, FlatList, useColorScheme } from "react-native";
 import ScreenContainer from "../../../components/ScreenContainer";
-import SearchButton from '../../../components/SearchButton';
+import SearchButton from '../../../components/SearchBar';
 import { useNavigation } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "../../../redux/user/userSlice";

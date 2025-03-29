@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList, useColorScheme, Text } from "react-native";
+import { View, FlatList, Text } from "react-native";
 import ScreenContainer from "../../components/ScreenContainer.jsx";
-import SearchButton from '../../components/SearchButton.jsx';
+import SearchBar from '../../components/SearchBar.jsx';
 import { useNavigation } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData } from "../../redux/user/userSlice.js";
@@ -9,6 +9,7 @@ import { fetchHospitalData } from "../../redux/dashboard/dashboardSlice.js";
 import PatientsInfoCard from "../../components/PatientsInfoCard.jsx";
 import { fetchPatientsData } from "../../redux/patients/patientsSlice.js";
 import Loading from "../../components/Loading.jsx";
+import { hp } from "../../helpers/common.js";
 
 const patients = () => {
   const navigation = useNavigation();
@@ -46,8 +47,11 @@ const patients = () => {
 
   return (
     <ScreenContainer title="Patient Information" addIconComponent={null}>
-      <View style={{ alignItems: 'center', paddingHorizontal: 35, paddingTop: 5 }}>
-        <SearchButton />
+
+      <View style={{ 
+        marginBottom: hp(1)
+       }}>
+        <SearchBar />
       </View>
 
       {patients.isLoading ? (
