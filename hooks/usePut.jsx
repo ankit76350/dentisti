@@ -1,12 +1,12 @@
 import { useState } from "react";
 
 const usePut = () => {
-  const [loading, setLoading] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
 
   const updateData = async (url, body) => {
-    setLoading(true);
+    setIsUpdating(true);
     setError(null);
     try {
       const response = await fetch(url, {
@@ -27,11 +27,11 @@ const usePut = () => {
       setError(err.message);
       return null;
     } finally {
-      setLoading(false);
+      setIsUpdating(false);
     }
   };
 
-  return { loading, error, data, updateData };
+  return { isUpdating, error, data, updateData };
 };
 
 export default usePut;

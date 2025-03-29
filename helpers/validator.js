@@ -24,7 +24,19 @@ const validateStaffForm = (form) => {
   
     return true;
   };
+
+
+  const validateHospitalForm = (form) => {
+    const { hospital_name, location } = form;
+  
+    if (!hospital_name || !location) {
+      Alert.alert("Error", "All fields are required.");
+      return false;
+    }
+  
+    return true;
+  };
   
   // Correct export
-module.exports = { validateStaffForm };
+module.exports = { validateStaffForm , validateHospitalForm};
   

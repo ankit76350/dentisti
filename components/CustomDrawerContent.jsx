@@ -71,7 +71,7 @@ const CustomDrawerContent = (props) => {
           label="Clinics"
           labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
           icon={() => <FontAwesome5 name="hospital-alt" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
-          onPress={() => router.push(`/(${role})/allclinics`)}
+          onPress={() => router.push(`/(${role})/clinics`)}
           // onPress={() => {}}
         />
       </View>

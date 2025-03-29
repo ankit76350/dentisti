@@ -42,7 +42,7 @@ export default function AdminLayout() {
         options={{ title: 'Admin All Bills' }}
       />
       <Stack.Screen
-        name="allclinics"
+        name="clinics"
         options={{ title: 'Admin All Clinics' }}
       />
 
