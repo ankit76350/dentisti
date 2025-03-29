@@ -1,28 +1,3 @@
-// // import 'react-native-gesture-handler';
-// // import { StyleSheet, Text, View } from 'react-native'
-// // import React, { useEffect, useState } from 'react'
-// // import { Link } from 'expo-router'
-// // import Dashboard from '../app/(admin,doctor,receptionist)/dashboard'
-// // import role from '../assets/json/role'
-// // const index = () => {
-
-// //   return (
-
-// //     <>
-// //       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-// //         <Text>Loading...</Text>
-// //       </View>
-// //     </>
-// //   )
-// // }
-
-// // export default index
-
-// // const styles = StyleSheet.create({})
-
-
-
-
 import 'react-native-gesture-handler';
 import { View } from 'react-native';
 import React, { useEffect, useState } from 'react';
@@ -41,14 +16,14 @@ const index = () => {
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-      router.replace(`/(${role})/(dash)/analytics`); // Replace so it removes i from stack
+      // router.replace(`/(${role})/(dash)/analytics`); // Replace so it removes i from stack
       // router.replace(`/(${role})/(dash)/appointments`); // Replace so it removes index from stack
       // router.replace(`/(${role})/profiles`); // Replace so it removes index from stack
       // router.replace(`/(${role})/notification`); // Replace so it removes index from stack
       // router.replace(`/(${role})/allstaff`); // Replace so it removes index from stack
       // router.replace(`/(${role})/stafform`); // Replace so it removes index from stack
       // router.replace(`/(${role})/patients`); // Replace so it removes index from stack
-      // router.replace(`/(${role})/allbills`); // Replace so it removes index from stack
+      router.replace(`/(${role})/bills`); // Replace so it removes index from stack
       // router.replace(`/(${role})/allclinics`); // Replace so it removes index from stack
       // router.replace(`/(${role})/(clinics)`); // Replace so it removes index from stack
       // router.replace(`/(${role})/calendarview`); // Replace so it removes index from stack

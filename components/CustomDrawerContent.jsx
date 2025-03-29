@@ -65,7 +65,7 @@ const CustomDrawerContent = (props) => {
           label="Bills"
           labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
           icon={() => <FontAwesome6 name="money-bills" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
-          onPress={() => router.push(`/(${role})/allbills`)}
+          onPress={() => router.push(`/(${role})/bills`)}
           />
         <DrawerItem
           label="Clinics"

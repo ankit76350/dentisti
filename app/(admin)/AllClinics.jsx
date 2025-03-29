@@ -1,6 +1,6 @@
-import { Entypo,  Feather, FontAwesome, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
+import { Entypo, Feather, FontAwesome, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, useColorScheme,Image } from "react-native";
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, useColorScheme, Image } from "react-native";
 import ScreenContainer from "../../components/ScreenContainer";
 import { useNavigation, useRouter } from "expo-router";
 import Modal from "../../components/Modal";
@@ -37,7 +37,7 @@ const allclinics = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [title, setTitle] = useState("");
   //! Modal thing end
-  
+
   const renderItem = ({ item }) => (
     <TouchableOpacity style={[styles.card, isDark && styles.darkCard]} onPress={() => navigateTo(item.id)}>
       <View style={styles.avatar}>
@@ -48,7 +48,7 @@ const allclinics = () => {
         <Text style={[styles.action, isDark && styles.darkTextSecondary]}>{item.location}</Text>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.iconButton} onPress={() => {setModalVisible(true) , setTitle("Update Hospital Info")} }>
+        <TouchableOpacity style={styles.iconButton} onPress={() => { setModalVisible(true), setTitle("Update Hospital Info") }}>
           <Feather name="edit" size={19} color="#2ECC71" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.iconButton} onPress={() => handleRemove(item.id)}>
@@ -59,20 +59,20 @@ const allclinics = () => {
   );
 
   return (
-    <ScreenContainer title="Clinics" lightBgColor={isDark ? "#0D1B2A" : "#F8F8F8"} addIconComponent={<MaterialIcons name="local-hospital" size={24} color={isDark ? styles.darkColor.color : styles.lightColor.color} />} 
-    navigateTo={()=>{console.log("hii"), setModalVisible(true) , setTitle("Add New Hospital");}}>
+    <ScreenContainer title="Clinics" lightBgColor={isDark ? "#0D1B2A" : "#F8F8F8"} addIconComponent={<MaterialIcons name="local-hospital" size={24} color={isDark ? styles.darkColor.color : styles.lightColor.color} />}
+      navigateTo={() => { setModalVisible(true), setTitle("Add New Hospital"); }}>
 
-       <View style={styles.container}>
-          
-            {/* Reusable Modal */}
-            <Modal isVisible={isModalVisible} onClose={() => setModalVisible(false)} title={title}>
+      <View style={styles.container}>
 
-                <CustomInput placeholder="Hospital Name *" icon={<FontAwesome name="hospital-o" size={24} color={isDark ? styles.darkColor.color : styles.lightColor.color} />}  />
-                <CustomInput placeholder="Location *" icon={<Entypo name="location-pin" size={24}  color={isDark ? styles.darkColor.color : styles.lightColor.color} />}   />
-                <CustomButton title="Submit" />
- 
-            </Modal>
-        </View>
+        {/* Reusable Modal */}
+        <Modal isVisible={isModalVisible} onClose={() => setModalVisible(false)} title={title}>
+
+          <CustomInput placeholder="Hospital Name *" icon={<FontAwesome name="hospital-o" size={24} color={isDark ? styles.darkColor.color : styles.lightColor.color} />} />
+          <CustomInput placeholder="Location *" icon={<Entypo name="location-pin" size={24} color={isDark ? styles.darkColor.color : styles.lightColor.color} />} />
+          <CustomButton title="Submit" />
+
+        </Modal>
+      </View>
 
 
       <FlatList data={feedData} renderItem={renderItem} keyExtractor={(item) => item.id} />
@@ -132,56 +132,56 @@ const styles = StyleSheet.create({
   iconButton: {
     marginLeft: 8,
   },
-//   container: {
-//     flex: 1,
-//     justifyContent: "center",
-//     alignItems: "center",
-//     backgroundColor: "#f5f5f5",
-// },
-openButton: {
+  //   container: {
+  //     flex: 1,
+  //     justifyContent: "center",
+  //     alignItems: "center",
+  //     backgroundColor: "#f5f5f5",
+  // },
+  openButton: {
     backgroundColor: "#007bff",
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 25,
     elevation: 3,
-},
-buttonText: {
+  },
+  buttonText: {
     color: "#fff",
     fontWeight: "bold",
     fontSize: 16,
-},
-// image: {
-//     width: 80,
-//     height: 80,
-//     borderRadius: 40,
-//     marginBottom: 10,
-// },
-title: {
+  },
+  // image: {
+  //     width: 80,
+  //     height: 80,
+  //     borderRadius: 40,
+  //     marginBottom: 10,
+  // },
+  title: {
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 5,
-},
-description: {
+  },
+  description: {
     textAlign: "center",
     fontSize: 14,
     color: "#555",
     marginBottom: 20,
-},
-actionButton: {
+  },
+  actionButton: {
     backgroundColor: "#28a745",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 25,
     elevation: 3,
-},
+  },
 
-lightColor:{
-  color: "black",
-},
-darkColor:{
-  color: "white",
+  lightColor: {
+    color: "black",
+  },
+  darkColor: {
+    color: "white",
 
-},
+  },
 });
 
 export default allclinics;

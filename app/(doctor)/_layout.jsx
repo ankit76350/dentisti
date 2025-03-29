@@ -19,9 +19,13 @@ export default function DoctorLayout() {
       />
 
       {/* Common in docter and receptionist */}
-       <Stack.Screen
+       {/* <Stack.Screen
         name="billinghistory"
         options={{ title: 'Docter Billing History' }}
+      /> */}
+      <Stack.Screen
+        name="bills"
+        options={{ title: 'Doctor All Bills' }}
       />
       <Stack.Screen
         name="patienthistory"
