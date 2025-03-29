@@ -2,35 +2,71 @@ import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, StyleSheet, useColorScheme } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import ScreenContainer from "../../components/ScreenContainer";
-import SearchButton from "../../components/SearchBar";
+import SearchBar from "../../components/SearchBar";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBills } from "../../redux/bills/billsSlice";
+import { hp } from "../../helpers/common";
+import Loading from "../../components/Loading";
 
 const bills = () => {
-   //!Redux Start
-   const dispatch = useDispatch();
-   useEffect(() => {
-     dispatch(fetchBills());
-   }, []);
-   const bills = useSelector((state) => state.bills.billsState);
-   const [billsData, setBillsData] = useState([]);
-   //!Redux End
- 
-   useEffect(() => {
-     setBillsData(bills.billsData)
-   }, [bills])
+  const theme = useColorScheme();
+  const isDark = theme === "dark";
+  //!Redux Start
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchBills());
+  }, []);
+  const bills = useSelector((state) => state.bills.billsState);
+  //!Redux End
+
+
+
+
+  //Todo Start: filter data 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setFilteredData(bills.billsData);
+    } else {
+      setFilteredData(
+        bills.billsData?.filter(
+          (item) =>
+            item?.patient_name?.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      );
+    }
+  }, [bills.billsData, searchQuery]);
+  //Todo end: filter data 
 
   return (
     <ScreenContainer
       title="Bills"
     >
       <View style={styles.container}>
-        <SearchButton/>
-        <FlatList
-          data={billsData}
-          keyExtractor={(_, index) => index.toString()}
-          renderItem={({ item }) => <BillingCard item={item} />}
-        />
+        <View style={{ marginBottom: hp(1) }}>
+          <SearchBar query={searchQuery} setQuery={setSearchQuery} />
+        </View>
+
+
+
+        {bills.isLoading ? (
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginBottom: 100 }}>
+            <Loading />
+          </View>
+        ) : filteredData.length > 0 ? (
+          <FlatList
+            data={filteredData}
+            keyExtractor={(_, index) => index.toString()}
+            renderItem={({ item }) => <BillingCard item={item} />}
+          />
+        ) : (
+          <View style={[{ alignItems: "center" }]}>
+            <Text style={[styles.infoText, isDark && styles.darkText]}>No bills found</Text>
+          </View>
+        )}
+
+
       </View>
     </ScreenContainer>
   );
@@ -105,6 +141,15 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 6,
   },
+
+  infoText: {
+    fontSize: 13,
+    marginLeft: 6,
+    color: "#444",
+  },
+  darkText: {
+    color: "#f6f6f6",
+  },
 });
 
 export default bills;
@@ -120,7 +165,7 @@ const getCardColor = (status, paymentMethod) => {
 };
 
 
- 
+
 const BillingCard = ({ item }) => {
   const cardColor = getCardColor(item.Status, item.PaymentMethod);
   const theme = useColorScheme(); // Detects the theme (light or dark)

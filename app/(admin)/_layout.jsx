@@ -30,7 +30,7 @@ export default function AdminLayout() {
 
       {/* Only In Admin */}
       <Stack.Screen
-        name="allstaff"
+        name="staffs"
         options={{ title: 'Admin All Staff' }}
       />
       <Stack.Screen

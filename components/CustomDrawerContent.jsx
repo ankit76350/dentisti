@@ -58,7 +58,7 @@ const CustomDrawerContent = (props) => {
           label="Staffs"
           labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
           icon={() => <FontAwesome name="users" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
-          onPress={() => router.push(`/(${role})/allstaff`)}
+          onPress={() => router.push(`/(${role})/staffs`)}
 
         />
         <DrawerItem

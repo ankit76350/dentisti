@@ -20,7 +20,7 @@ const index = () => {
       // router.replace(`/(${role})/(dash)/appointments`); // Replace so it removes index from stack
       // router.replace(`/(${role})/profiles`); // Replace so it removes index from stack
       // router.replace(`/(${role})/notification`); // Replace so it removes index from stack
-      // router.replace(`/(${role})/allstaff`); // Replace so it removes index from stack
+      // router.replace(`/(${role})/staffs`); // Replace so it removes index from stack
       // router.replace(`/(${role})/stafform`); // Replace so it removes index from stack
       // router.replace(`/(${role})/patients`); // Replace so it removes index from stack
       // router.replace(`/(${role})/bills`); // Replace so it removes index from stack

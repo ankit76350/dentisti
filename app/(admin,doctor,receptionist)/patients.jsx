@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList, Text } from "react-native";
+import { View, FlatList, Text, useColorScheme, StyleSheet } from "react-native";
 import ScreenContainer from "../../components/ScreenContainer.jsx";
 import SearchBar from '../../components/SearchBar.jsx';
 import { useNavigation } from "expo-router";
@@ -12,6 +12,8 @@ import Loading from "../../components/Loading.jsx";
 import { hp } from "../../helpers/common.js";
 
 const patients = () => {
+  const theme = useColorScheme();
+  const isDark = theme === "dark";
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -21,16 +23,9 @@ const patients = () => {
     dispatch(fetchPatientsData());
   }, []);
 
-  const userState = useSelector((state) => state.user);
   const hospitals = useSelector((state) => state.dashboard.hospitalsState.hospitalsData);
   const patients = useSelector((state) => state.patients.patientsState);
-  const [info, setInfo] = useState([]);
 
-  useEffect(() => {
-    if (patients.patientsData) {
-      setInfo(patients.patientsData);
-    }
-  }, [patients.patientsData]); // Corrected dependency
 
   const populate = (hospitalId) => {
     if (!hospitalId) return "N/A";
@@ -43,32 +38,49 @@ const patients = () => {
     navigation.navigate("addstafform", { staffInfo });
   };
 
-  console.log("patients.isLoading", patients.isLoading);
+  //Todo Start: filter data 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setFilteredData(patients.patientsData);
+    } else {
+      setFilteredData(
+        patients.patientsData?.filter(
+          (item) =>
+            item?.patient_name?.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      );
+    }
+  }, [patients.patientsData, searchQuery]);
+  //Todo end: filter data 
+
+
 
   return (
     <ScreenContainer title="Patient Information" addIconComponent={null}>
 
-      <View style={{ 
+      <View style={{
         marginBottom: hp(1)
-       }}>
-        <SearchBar />
+      }}>
+        <SearchBar query={searchQuery} setQuery={setSearchQuery} />
       </View>
 
       {patients.isLoading ? (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
           <Loading />
         </View>
-      ) : info.length > 0 ? (
+      ) : filteredData.length > 0 ? (
         <FlatList
-          data={info}
+          data={filteredData}
           renderItem={({ item }) => (
             <PatientsInfoCard item={item} navigateTo={navigateTo} populate={populate} borderColor="#E91E63" />
           )}
           keyExtractor={(_, index) => index.toString()}
         />
       ) : (
-        <View style={{ alignItems: "center", marginTop: 20 }}>
-          <Text>No patients found</Text>
+        <View style={[{alignItems:"center"}]}>
+          <Text style={[styles.infoText, isDark && styles.darkText]}>No patients found</Text>
         </View>
       )}
     </ScreenContainer>
@@ -77,4 +89,14 @@ const patients = () => {
 
 
 
+const styles = StyleSheet.create({
+  infoText: {
+    fontSize: 13,
+    marginLeft: 6,
+    color: "#444",
+  },
+  darkText: {
+    color: "#f6f6f6",
+  },
+});
 export default patients;
