@@ -4,37 +4,14 @@ import ScreenContainer from "../../../components/ScreenContainer";
 import SearchBar from '../../../components/SearchBar';
 import { useNavigation } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserData } from "../../../redux/user/userSlice";
-import InfoCard from "../../../components/InfoCard.jsx";
+import ClinicInfo from "../../../components/ClinicInfo.jsx";
 import { hp } from "../../../helpers/common.js";
-import { fetchHospitalData } from "../../../redux/hospital/hospitalSlice.js";
+import { fetchHospitalDetails } from "../../../redux/hospital/hospitalSlice.js";
 
 const doctors = () => {
   const theme = useColorScheme();
   const isDark = theme === "dark";
   const navigation = useNavigation();
-
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchUserData());
-    dispatch(fetchHospitalData());
-  }, []);
-
-  const userState = useSelector((state) => state.user);
-  const hospitals = useSelector((state) => state.hospitals.hospitalsState.hospitalsData);
-  const [staffData, setStaffData] = useState([]);
-
-  useEffect(() => {
-    setStaffData(userState.userState.usersData);
-  }, [userState]);
-
-  const populate = (hospitalId) => {
-    if (!hospitalId) {
-      return "N/A";
-    }
-    const hospital = hospitals.find(item => item.ROWID == hospitalId);
-    return hospital?.hospital_name || "N/A";
-  };
 
   const navigateTo = (item) => {
     let staffInfo = { ...item };
@@ -42,21 +19,34 @@ const doctors = () => {
     navigation.navigate("addstafform", { staffInfo });
   };
 
+  // Todo Redux: start
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchHospitalDetails());
+  }, []);
+
+  const hospitalDetails = useSelector((state) => state.hospitals.hospitalDetailsState);
+
+  // Todo Redux: end
+
+
+
+
    //Todo Start: filter data 
    const [searchQuery, setSearchQuery] = useState("");
    const [filteredData, setFilteredData] = useState([]);
-  //  useEffect(() => {
-  //    if (!searchQuery.trim()) {
-  //      setFilteredData(userState.usersData);
-  //    } else {
-  //      setFilteredData(
-  //        userState.usersData?.filter(
-  //          (item) =>
-  //            item?.name?.toLowerCase().includes(searchQuery.toLowerCase())
-  //        )
-  //      );
-  //    }
-  //  }, [userState.usersData, searchQuery]);
+   useEffect(() => {
+     if (!searchQuery.trim()) {
+       setFilteredData(hospitalDetails.hospitalDetailsData.doctors);
+     } else {
+       setFilteredData(
+         hospitalDetails.hospitalDetailsData.doctors?.filter(
+           (item) =>
+             item?.name?.toLowerCase().includes(searchQuery.toLowerCase())
+         )
+       );
+     }
+   }, [hospitalDetails, searchQuery]);
    //Todo end: filter data 
 
   return (
@@ -70,9 +60,9 @@ const doctors = () => {
         <SearchBar query={searchQuery} setQuery={setSearchQuery} />
       </View>
         <FlatList
-          data={staffData}
+          data={filteredData}
           renderItem={({ item }) => (
-            <InfoCard item={item} navigateTo={navigateTo} populate={populate} borderColor="#4CAF50" />
+            <ClinicInfo item={item} navigateTo={navigateTo} borderColor="#4CAF50" />
           )}
           keyExtractor={(_, index) => index.toString()}
         />

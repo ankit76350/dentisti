@@ -1,39 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { View, FlatList, useColorScheme } from "react-native";
 import ScreenContainer from "../../../components/ScreenContainer";
-import SearchButton from '../../../components/SearchBar';
+import SearchBar from '../../../components/SearchBar';
 import { useNavigation } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserData } from "../../../redux/user/userSlice";
-import InfoCard from "../../../components/InfoCard.jsx"; 
-import { fetchHospitalData } from "../../../redux/hospital/hospitalSlice.js";
+import ClinicInfo from "../../../components/ClinicInfo.jsx";
+import { hp } from "../../../helpers/common.js";
+import { fetchHospitalDetails } from "../../../redux/hospital/hospitalSlice.js";
 
-const receptionists = () => {
+const doctors = () => {
   const theme = useColorScheme();
   const isDark = theme === "dark";
   const navigation = useNavigation();
-  
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchUserData());
-    dispatch(fetchHospitalData());
-  }, []);
-
-  const userState = useSelector((state) => state.user);
-  const hospitals = useSelector((state) => state.hospitals.hospitalsState.hospitalsData);
-  const [staffData, setStaffData] = useState([]);
-
-  useEffect(() => {
-    setStaffData(userState.userState.usersData);
-  }, [userState]);
-
-  const populate = (hospitalId) => {
-    if (!hospitalId) {
-      return "N/A";
-    }
-    const hospital = hospitals.find(item => item.ROWID == hospitalId);
-    return hospital?.hospital_name || "N/A";
-  };
 
   const navigateTo = (item) => {
     let staffInfo = { ...item };
@@ -41,20 +19,50 @@ const receptionists = () => {
     navigation.navigate("addstafform", { staffInfo });
   };
 
+  // Todo Redux: start
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchHospitalDetails());
+  }, []);
+
+  const hospitalDetails = useSelector((state) => state.hospitals.hospitalDetailsState);
+
+  // Todo Redux: end
+
+
+
+
+   //Todo Start: filter data 
+   const [searchQuery, setSearchQuery] = useState("");
+   const [filteredData, setFilteredData] = useState([]);
+   useEffect(() => {
+     if (!searchQuery.trim()) {
+       setFilteredData(hospitalDetails.hospitalDetailsData.receptionists);
+     } else {
+       setFilteredData(
+         hospitalDetails.hospitalDetailsData.receptionists?.filter(
+           (item) =>
+             item?.name?.toLowerCase().includes(searchQuery.toLowerCase())
+         )
+       );
+     }
+   }, [hospitalDetails, searchQuery]);
+   //Todo end: filter data 
+
   return (
     <>
       <ScreenContainer
-        title="Receptionist"
+        title="Doctors"
         addIconComponent={null}
 
       >
-        <View style={{ alignItems: 'center', paddingHorizontal: 35, paddingTop: 5 }}>
-          <SearchButton />
-        </View>
+        <View style={{ marginVertical: hp(0.5) }}>
+        <SearchBar query={searchQuery} setQuery={setSearchQuery} />
+      </View>
         <FlatList
-          data={staffData}
+          data={filteredData}
           renderItem={({ item }) => (
-            <InfoCard item={item} navigateTo={navigateTo} populate={populate} editIcon={false} removeIcon={false} borderColor="#FF9800"/>
+            <ClinicInfo item={item} navigateTo={navigateTo} borderColor="#FF9800" />
           )}
           keyExtractor={(_, index) => index.toString()}
         />
@@ -63,4 +71,4 @@ const receptionists = () => {
   );
 };
 
-export default receptionists;
+export default doctors;

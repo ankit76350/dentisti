@@ -1,25 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { catalystURL } from "../../constants";
 
-//! Fetch hospital details (Admin)
-export const fetchHospitalDetails = createAsyncThunk(
-    "hospitals/fetchHospitalDetails",
-    async (_, { rejectWithValue }) => {
-        try {
-            const response = await fetch(`${catalystURL}/admin/hospitalDetails`);
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                return rejectWithValue(errorData.message || "Failed to fetch hospital details");
-            }
-
-            return await response.json();
-        } catch (error) {
-            return rejectWithValue(error.message);
-        }
-    }
-);
-
 //! Fetch hospital data
 export const fetchHospitalData = createAsyncThunk(
     "hospitals/fetchHospitalData",
@@ -58,6 +39,28 @@ export const fetchHospitalRevenue = createAsyncThunk(
     }
 );
 
+
+//! Fetch hospital details (Admin)
+export const fetchHospitalDetails = createAsyncThunk(
+    "hospitals/fetchHospitalDetails",
+    async (_, { rejectWithValue }) => {
+        try {
+           
+//https://dental-management-771555683.development.catalystserverless.com/server/dental_management_function/admin/hospital/1380000000390839/details
+            const response = await fetch(`${catalystURL}/admin/hospital/${1380000000390839}/details`);
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                return rejectWithValue(errorData.message || "Failed to fetch hospital details");
+            }
+
+            return await response.json();
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
 export const hospitalsSlice = createSlice({
     name: "hospitals",
     initialState: {
@@ -66,33 +69,20 @@ export const hospitalsSlice = createSlice({
             hospitalsData: [],
             isError: null,
         },
-        hospitalDetailsState: {
-            isLoading: false,
-            hospitalDetailsData: [],
-            isError: null,
-        },
         hospitalsRevenueState: {
             isLoading: false,
             revenueData: [], // Renamed for clarity
+            isError: null,
+        },
+        hospitalDetailsState: {
+            isLoading: false,
+            hospitalDetailsData: [],
             isError: null,
         },
     },
     reducers: {},
     extraReducers: (builder) => {
         builder
-            //! Hospital Details
-            .addCase(fetchHospitalDetails.pending, (state) => {
-                state.hospitalDetailsState.isLoading = true;
-                state.hospitalDetailsState.isError = null;
-            })
-            .addCase(fetchHospitalDetails.fulfilled, (state, action) => {
-                state.hospitalDetailsState.isLoading = false;
-                state.hospitalDetailsState.hospitalDetailsData = action.payload;
-            })
-            .addCase(fetchHospitalDetails.rejected, (state, action) => {
-                state.hospitalDetailsState.isLoading = false;
-                state.hospitalDetailsState.isError = action.payload || "Failed to fetch hospital details";
-            })
 
             //! Hospital Data
             .addCase(fetchHospitalData.pending, (state) => {
@@ -120,7 +110,20 @@ export const hospitalsSlice = createSlice({
             .addCase(fetchHospitalRevenue.rejected, (state, action) => {
                 state.hospitalsRevenueState.isLoading = false;
                 state.hospitalsRevenueState.isError = action.payload || "Failed to fetch hospital revenue";
-            });
+            })
+            //! Hospital Details
+            .addCase(fetchHospitalDetails.pending, (state) => {
+                state.hospitalDetailsState.isLoading = true;
+                state.hospitalDetailsState.isError = null;
+            })
+            .addCase(fetchHospitalDetails.fulfilled, (state, action) => {
+                state.hospitalDetailsState.isLoading = false;
+                state.hospitalDetailsState.hospitalDetailsData = action.payload;
+            })
+            .addCase(fetchHospitalDetails.rejected, (state, action) => {
+                state.hospitalDetailsState.isLoading = false;
+                state.hospitalDetailsState.isError = action.payload || "Failed to fetch hospital details";
+            })
     },
 });
 
