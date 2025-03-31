@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList, useColorScheme } from "react-native";
+import { View, FlatList, useColorScheme, StyleSheet, Text } from "react-native";
 import ScreenContainer from "../../../components/ScreenContainer";
 import SearchBar from '../../../components/SearchBar';
 import { useNavigation } from "expo-router";
@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ClinicInfo from "../../../components/ClinicInfo.jsx";
 import { hp } from "../../../helpers/common.js";
 import { fetchHospitalDetails } from "../../../redux/hospital/hospitalSlice.js";
+import Loading from "../../../components/Loading.jsx";
 
 const doctors = () => {
   const theme = useColorScheme();
@@ -32,43 +33,64 @@ const doctors = () => {
 
 
 
-   //Todo Start: filter data 
-   const [searchQuery, setSearchQuery] = useState("");
-   const [filteredData, setFilteredData] = useState([]);
-   useEffect(() => {
-     if (!searchQuery.trim()) {
-       setFilteredData(hospitalDetails.hospitalDetailsData.receptionists);
-     } else {
-       setFilteredData(
-         hospitalDetails.hospitalDetailsData.receptionists?.filter(
-           (item) =>
-             item?.name?.toLowerCase().includes(searchQuery.toLowerCase())
-         )
-       );
-     }
-   }, [hospitalDetails, searchQuery]);
-   //Todo end: filter data 
+  //Todo Start: filter data 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setFilteredData(hospitalDetails.hospitalDetailsData.receptionists || []);
+    } else {
+      setFilteredData(
+        hospitalDetails.hospitalDetailsData.receptionists?.filter(
+          (item) =>
+            item?.name?.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      );
+    }
+  }, [hospitalDetails, searchQuery]);
+  //Todo end: filter data 
 
   return (
     <>
       <ScreenContainer
-        title="Doctors"
+        title="Receptionist"
         addIconComponent={null}
 
       >
         <View style={{ marginVertical: hp(0.5) }}>
-        <SearchBar query={searchQuery} setQuery={setSearchQuery} />
-      </View>
-        <FlatList
-          data={filteredData}
-          renderItem={({ item }) => (
-            <ClinicInfo item={item} navigateTo={navigateTo} borderColor="#FF9800" />
-          )}
-          keyExtractor={(_, index) => index.toString()}
-        />
+          <SearchBar query={searchQuery} setQuery={setSearchQuery} />
+        </View>
+
+        {hospitalDetails.isLoading ? (
+          <Loading />
+        ) : filteredData.length > 0 ? (
+          <FlatList
+            data={filteredData}
+            renderItem={({ item }) => (
+              <ClinicInfo item={item} navigateTo={navigateTo} borderColor="#4CAF50" />
+            )}
+            keyExtractor={(_, index) => index.toString()}
+          />
+        ) : (
+          <View style={[{ alignItems: "center" }]}>
+            <Text style={[styles.infoText, isDark && styles.darkText]}>No receptionist found</Text>
+          </View>
+        )}
+
       </ScreenContainer>
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  infoText: {
+    fontSize: 13,
+    marginLeft: 6,
+    color: "#444",
+  },
+  darkText: {
+    color: "#f6f6f6",
+  },
+});
 
 export default doctors;

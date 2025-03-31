@@ -5,9 +5,8 @@ import { Feather, FontAwesome5, FontAwesome6, Ionicons, MaterialCommunityIcons }
 const DoctorInfo = ({ item, navigateTo, populate =()=>{},editIcon , removeIcon , borderColor , hospitalName="Hospital"}) => {
   const theme = useColorScheme();
   const isDark = theme === "dark";
-  console.log("item",item);
-  
 
+  
   return (
     <View style={[styles.card,{  borderLeftColor: borderColor},isDark && styles.darkCard]}>
       {/* Top Row: Buttons and Name */}

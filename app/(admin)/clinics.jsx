@@ -15,7 +15,7 @@ import { validateHospitalForm } from "../../helpers/validator";
 import usePut from "../../hooks/usePut";
 import useDelete from "../../hooks/useDelete";
 import Loading from "../../components/Loading.jsx";
-import { fetchHospitalData } from "../../redux/hospital/hospitalSlice.js";
+import { fetchHospitalData, fetchHospitalDetails } from "../../redux/hospital/hospitalSlice.js";
 
 const clinics = () => {
   const theme = useColorScheme();
@@ -155,11 +155,13 @@ const clinics = () => {
 
 
   const navigateTo = (id) => {
+    // console.log("id",id);
+    dispatch(fetchHospitalDetails(id))
     router.push("/(clinics)/doctors");
   };
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={[styles.card, isDark && styles.darkCard]} onPress={() => navigateTo(item.id)}>
+    <TouchableOpacity style={[styles.card, isDark && styles.darkCard]} onPress={() => navigateTo(item.ROWID)}>
       <View style={styles.avatar}>
         <FontAwesome5 name="hospital" size={20} color={isDark ? "#f6f6f6" : "black"} />
       </View>
@@ -174,7 +176,6 @@ const clinics = () => {
         <TouchableOpacity style={styles.iconButton}  onPress={() => confirmDelete(item)}>
           {deletingId === item.ROWID ? <Loading size="small" /> : <MaterialIcons name="delete-outline" size={22} color="#E74C3C" />}
         </TouchableOpacity>
-      
       </View>
     </TouchableOpacity>
   );
@@ -197,8 +198,17 @@ const clinics = () => {
       <View style={{ marginVertical: hp(0.5) }}>
         <SearchBar query={searchQuery} setQuery={setSearchQuery} />
       </View>
+  
+      {hospitalsState.isLoading ? (
+          <Loading />
+        ) : filteredData.length > 0 ? (
+          <FlatList data={filteredData} renderItem={renderItem} keyExtractor={(item) => item.ROWID || item.id.toString()} showsVerticalScrollIndicator={false} />
+        ) : (
+          <View style={[{ alignItems: "center" }]}>
+            <Text style={[styles.infoText, isDark && styles.darkText]}>No data found</Text>
+          </View>
+        )}
 
-      <FlatList data={filteredData} renderItem={renderItem} keyExtractor={(item) => item.ROWID || item.id.toString()} showsVerticalScrollIndicator={false} />
     </ScreenContainer>
   );
 };
@@ -305,6 +315,14 @@ const styles = StyleSheet.create({
   darkColor: {
     color: "white",
 
+  },
+  infoText: {
+    fontSize: 13,
+    marginLeft: 6,
+    color: "#444",
+  },
+  darkText: {
+    color: "#f6f6f6",
   },
 });
 
