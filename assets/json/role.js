@@ -1,6 +1,6 @@
-const role = 'admin'
-// const role = 'doctor'
-// const role = 'doctor'
+// const role = 'admin'
+const role = 'doctor'
+// const role = 'receptionist'
 const user = {
     
         "email": "kedar7390@gmail.com",

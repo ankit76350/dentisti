@@ -4,7 +4,7 @@ import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { Ionicons, FontAwesome5, MaterialIcons, FontAwesome, FontAwesome6, MaterialCommunityIcons } from "@expo/vector-icons";
 import { hp, wp } from "../helpers/common";
 import { useRouter } from "expo-router";
-import {role} from '../assets/json/role'
+import { role } from '../assets/json/role'
 
 
 const CustomDrawerContent = (props) => {
@@ -29,7 +29,7 @@ const CustomDrawerContent = (props) => {
           Ankit Kumar
         </Text>
         <Text style={[styles.profileDesignation, isDarkMode ? styles.darkText : styles.lightText]}>
-          Developer
+          Developer ({role})
         </Text>
       </View>
 
@@ -39,41 +39,78 @@ const CustomDrawerContent = (props) => {
           label="Dashboard"
           labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
           icon={() => <MaterialIcons name="dashboard" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
-          style={[styles.activeItem , isDarkMode ? styles.activeItemDark : styles.activeItemLight]}
-          onPress={() => {}}
+          style={[styles.activeItem, isDarkMode ? styles.activeItemDark : styles.activeItemLight]}
+          onPress={() => { }}
         />
-        <DrawerItem
-          label="Patients"
-          labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
-          icon={() => <FontAwesome5 name="hospital-user" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
-          onPress={() => router.push(`/(${role})/patients`)}
-          />
-        <DrawerItem
-          label="Calendar View"
-          labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
-          icon={() => <Ionicons name="calendar" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
-          onPress={() => router.push(`/(${role})/calendarview`)}
-        />
-        <DrawerItem
-          label="Staffs"
-          labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
-          icon={() => <FontAwesome name="users" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
-          onPress={() => router.push(`/(${role})/staffs`)}
+        {
+          role === 'admin' && (
+            <>
+              <DrawerItem
+                label="Patients"
+                labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
+                icon={() => <FontAwesome5 name="hospital-user" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
+                onPress={() => router.push(`/(${role})/patients`)}
+              />
+              <DrawerItem
+                label="Calendar View"
+                labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
+                icon={() => <Ionicons name="calendar" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
+                onPress={() => router.push(`/(${role})/calendarview`)}
+              />
+              <DrawerItem
+                label="Staffs"
+                labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
+                icon={() => <FontAwesome name="users" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
+                onPress={() => router.push(`/(${role})/staffs`)}
 
-        />
-        <DrawerItem
-          label="Bills"
-          labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
-          icon={() => <FontAwesome6 name="money-bills" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
-          onPress={() => router.push(`/(${role})/bills`)}
-          />
-        <DrawerItem
-          label="Clinics"
-          labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
-          icon={() => <FontAwesome5 name="hospital-alt" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
-          onPress={() => router.push(`/(${role})/clinics`)}
-          // onPress={() => {}}
-        />
+              />
+              <DrawerItem
+                label="Bills"
+                labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
+                icon={() => <FontAwesome6 name="money-bills" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
+                onPress={() => router.push(`/(${role})/bills`)}
+              />
+              <DrawerItem
+                label="Clinics"
+                labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
+                icon={() => <FontAwesome5 name="hospital-alt" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
+                onPress={() => router.push(`/(${role})/clinics`)}
+              // onPress={() => {}}
+              />
+            </>
+          )
+
+          
+        }
+        {
+          role === 'doctor' && (
+            <>
+              <DrawerItem
+                label="Patients"
+                labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
+                icon={() => <FontAwesome5 name="hospital-user" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
+                onPress={() => router.push(`/(${role})/patients`)}
+              />
+              <DrawerItem
+                label="Calendar View"
+                labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
+                icon={() => <Ionicons name="calendar" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
+                onPress={() => router.push(`/(${role})/calendarview`)}
+              />
+              <DrawerItem
+                label="Bills"
+                labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
+                icon={() => <FontAwesome6 name="money-bills" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
+                onPress={() => router.push(`/(${role})/bills`)}
+              />           
+            </>
+          )
+
+          
+        }
+
+
+
       </View>
 
       {/* Bottom Section */}
@@ -83,13 +120,13 @@ const CustomDrawerContent = (props) => {
           labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
           icon={() => <FontAwesome name="user" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
           onPress={() => router.push(`/(${role})/profiles`)}
-          // onPress={() => router.push(`/profiles/calendarview`)}
+        // onPress={() => router.push(`/profiles/calendarview`)}
         />
         <DrawerItem
           label="Logout"
           labelStyle={[styles.menuLabel, { color: "red" }]}
           icon={() => <MaterialCommunityIcons name="logout" size={20} color="red" />}
-          onPress={() => {}}
+          onPress={() => { }}
         />
       </View>
     </DrawerContentScrollView>
@@ -140,7 +177,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.2,
     shadowRadius: 10,
-    marginTop:10,
+    marginTop: 10,
   },
   bottomSection: {
     marginTop: "auto",
@@ -159,7 +196,7 @@ const styles = StyleSheet.create({
   lightText: {
     color: "#333",
   },
-  activeItemLight:{
+  activeItemLight: {
     backgroundColor: "#9dcbf2",
   },
 
@@ -173,7 +210,7 @@ const styles = StyleSheet.create({
   darkText: {
     color: "#FFF",
   },
-  activeItemDark:{
+  activeItemDark: {
     backgroundColor: "black",
   },
 });
