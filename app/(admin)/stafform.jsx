@@ -14,7 +14,7 @@ import { fetchUserData } from "../../redux/user/userSlice";
 import { fetchHospitalData } from "../../redux/hospital/hospitalSlice";
 
 
-const addstafform = () => {
+const stafform = () => {
   const theme = useColorScheme();
   const route = useRoute();
 
@@ -266,4 +266,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default addstafform;
+export default stafform;

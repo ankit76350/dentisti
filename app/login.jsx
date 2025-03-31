@@ -13,7 +13,7 @@ import { LinearGradient } from 'expo-linear-gradient';  // ✅ Use expo-linear-g
 import AnimatedText from '../components/AnimatedText';
 
 
-const Login = () => {
+const login = () => {
     return (
         <ScreenWrapper>
             <LinearGradient
@@ -78,7 +78,7 @@ const Login = () => {
     )
 }
 
-export default Login
+export default login
 
 
 

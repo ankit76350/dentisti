@@ -6,7 +6,7 @@ import EventCard from "../../components/EventCard";
 
 const getCurrentDate = () => new Date().toISOString().split("T")[0];
 
-const EventCalendar = () => {
+const calendarview = () => {
   const [selectedDate, setSelectedDate] = useState(getCurrentDate());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [year, setYear] = useState(2025);
@@ -87,7 +87,7 @@ const EventCalendar = () => {
   );
 };
 
-export default EventCalendar;
+export default calendarview;
 
 const styles = StyleSheet.create({
   container: { flex: 1 },

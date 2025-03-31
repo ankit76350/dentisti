@@ -3,7 +3,7 @@ import { DrawerActions } from '@react-navigation/native';
 import { useNavigation } from 'expo-router';
 import { View, Text,Button } from 'react-native';
 
-export default function Billing() {
+export default function billing() {
     const navigation = useNavigation();
   return (
     <View>

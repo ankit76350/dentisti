@@ -12,7 +12,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "expo-router";
 
-const Notification = () => {
+const notification = () => {
   const [notifications, setNotifications] = useState([
     {
       id: "1",
@@ -293,4 +293,4 @@ const styles = StyleSheet.create({
   lightText: { color: "#333" },
 });
 
-export default Notification;
+export default notification;

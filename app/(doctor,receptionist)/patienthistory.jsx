@@ -3,7 +3,7 @@ import { DrawerActions } from '@react-navigation/native';
 import { useNavigation } from 'expo-router';
 import { View, Text,Button } from 'react-native';
 
-export default function PatientHistory() {
+export default function patienthistory() {
      const navigation = useNavigation();
    return (
      <View>

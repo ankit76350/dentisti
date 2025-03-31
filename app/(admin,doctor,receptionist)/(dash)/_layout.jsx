@@ -4,7 +4,7 @@ import { Tabs } from 'expo-router';
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
-export default function TabLayout() {
+export default function _layout() {
   const theme = useColorScheme();
   const isDarkMode = theme === "dark";
 

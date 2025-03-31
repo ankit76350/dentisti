@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, StatusBar, useColorSch
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome6, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
-const Profiles = () => {
+const profiles = () => {
     const navigation = useNavigation();
     const theme = useColorScheme(); // Detects system theme (light/dark)
 
@@ -147,4 +147,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Profiles;
+export default profiles;

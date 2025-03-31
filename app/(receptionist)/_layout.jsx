@@ -1,7 +1,7 @@
 import { Stack } from "expo-router";
 
 
-export default function ReceptionistLayout() {
+export default function _layout() {
   return (
 
       <Stack>

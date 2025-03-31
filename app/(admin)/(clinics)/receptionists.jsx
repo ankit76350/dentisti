@@ -9,7 +9,7 @@ import { hp } from "../../../helpers/common.js";
 import { fetchHospitalDetails } from "../../../redux/hospital/hospitalSlice.js";
 import Loading from "../../../components/Loading.jsx";
 
-const doctors = () => {
+const receptionists = () => {
   const theme = useColorScheme();
   const isDark = theme === "dark";
   const navigation = useNavigation();
@@ -93,4 +93,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default doctors;
+export default receptionists;

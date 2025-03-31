@@ -4,7 +4,7 @@ import { useColorScheme } from 'react-native';
 import {  StyleSheet } from 'react-native';
 import { hp } from '../../../helpers/common';
 
-export default function TabLayout() {
+export default function _layout() {
   const theme = useColorScheme();
   const isDarkMode = theme === "dark";
 
