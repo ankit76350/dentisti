@@ -12,7 +12,7 @@ const Avatar = ({uri , size=hp(4.5), rounded =  theme.radius.md , style={}}) => 
    {/* <Image source={getUserImageSrc(uri)} transition={100}
     style={[styles.avatar, {height:size ,width:size,borderRadius:rounded}, style]}
     /> */}
-   <Image source={require('../assets/images/defaultUser.png')} transition={100}
+   <Image source={require('../assets/images/defaultuser.png')} transition={100}
     style={[styles.avatar, {height:size ,width:size,borderRadius:rounded}, style]}
     />
     </>

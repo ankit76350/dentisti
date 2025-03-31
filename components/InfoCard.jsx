@@ -23,7 +23,7 @@ const InfoCard = ({ item, navigateTo, populate ,editIcon , removeIcon , borderCo
 
       {/* User Info Row */}
       <View style={styles.contentRow}>
-        <Image source={require("../assets/images/defaultUser.png")} style={[styles.profileImage, {  borderColor: borderColor}]} />
+        <Image source={require("../assets/images/defaultuser.png")} style={[styles.profileImage, {  borderColor: borderColor}]} />
         <View style={styles.textContainer}>
           <Text style={[styles.role, isDark && styles.darkTextSecondary]}>{item.role}</Text>
 

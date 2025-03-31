@@ -2,7 +2,7 @@ export const getUserImageSrc = imagePath => {
     if (imagePath) {
         return getCatalystFileUrl(imagePath)
     } else {
-        return require('../assets/images/defaultUser.png')
+        return require('../assets/images/defaultuser.png')
     }
 }
 
