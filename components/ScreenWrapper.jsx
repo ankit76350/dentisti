@@ -4,11 +4,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 const ScreenWrapper = ({ children, bg }) => {
     const { top } = useSafeAreaInsets();
-    // const paddingTop = top > 0 ? top + 5 : 30
-    // const paddingTop = Platform.OS === 'ios' ? (top > 0 ? top + 5 : 20) : 0;
     const paddingTop = Platform.OS === 'ios' ? (top > 0 ? 40 : 20) : 0;
-    // const paddingTop = Platform.OS === 'ios' ? (top > 0 ? 0 : 0) : 0;
-    console.log("paddingTop",paddingTop);
+
+
     
 const theme = useColorScheme();
 
