@@ -1,10 +1,13 @@
 // const role = 'admin'
 const role = 'doctor'
 // const role = 'receptionist'
+
+
+//? For doctor
 const user = {
     
         "email": "kedar7390@gmail.com",
-        "hospitalId": null,
+        "userHospitalId": '1380000000390839',
         "isAuthenticated": true,
         "phone": "7840977390",
         "themeMode": "light",
@@ -12,7 +15,5 @@ const user = {
         "userRole": "ADMIN",
         "username": "Kedar Kumbhar",
         // "image" : null
-      
-      
 }
 module.exports = {role , user}

@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { catalystURL } from "../../constants";
 
-//! Appointments
+//! Appointments (Admin/Doctors/Receptionist)
 export const fetchAppointmentsData = createAsyncThunk(
     "dashboard/fetchAppointmentsData",
-    async (_, { rejectWithValue }) => {
+    async (url, { rejectWithValue }) => {
         try {
-            const response = await fetch(`${catalystURL}/admin/appointments`);
+            const response = await fetch(url);
 
             if (!response.ok) {
                 const errorData = await response.json();

@@ -5,29 +5,12 @@ import { useNavigation } from 'expo-router';
 import { DrawerActions } from '@react-navigation/native';
 import { wp } from '../../../helpers/common';
 import BottomNavBar from '../../../components/BottomNavBar';
-import AnalyticsDashboard from '../../../components/AnalyticsDashboard';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { fetchAppointmentsData, fetchDoctersData } from '../../../redux/dashboard/dashboardSlice';
-import { fetchHospitalData } from '../../../redux/hospital/hospitalSlice';
+import AnalyticsDashboard from '../../../components/dashboard/AnalyticsDashboard';
 
 
 export default function analytics() {
   const navigation = useNavigation();
   const theme = useColorScheme(); 
-  //Todo start: redux things
-  const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(fetchAppointmentsData())
-    dispatch(fetchHospitalData())
-    dispatch(fetchDoctersData())
-  }, [])
-  const dashboardState = useSelector((state) => state.dashboard);
-  const hospitalState = useSelector((state) => state.hospitals);
-  // console.log("dashboardState",dashboardState);
-  
-  //Todo end: redux things
-
 
   return (
     <ScreenWrapper>
@@ -39,7 +22,7 @@ export default function analytics() {
 
       <View style={[styles.mainContainer, theme === "dark" ? styles.darkBackground : styles.lightBackground]}>
         <DashboardHeader openDrawer={() => navigation.dispatch(DrawerActions.openDrawer())} />
-        <AnalyticsDashboard dashboardState={dashboardState} hospitalState={hospitalState}/>
+        <AnalyticsDashboard />
       </View>
       <BottomNavBar />
     </ScreenWrapper>

@@ -23,9 +23,9 @@ export const fetchHospitalData = createAsyncThunk(
 //! Fetch hospital revenue
 export const fetchHospitalRevenue = createAsyncThunk(
     "hospitals/fetchHospitalRevenue",
-    async (_, { rejectWithValue }) => {
+    async (url, { rejectWithValue }) => {
         try {
-            const response = await fetch(`${catalystURL}/admin/revenue`);
+            const response = await fetch(url);
 
             if (!response.ok) {
                 const errorData = await response.json();
@@ -74,7 +74,7 @@ export const hospitalsSlice = createSlice({
         },
         hospitalsRevenueState: {
             isLoading: false,
-            revenueData: [], // Renamed for clarity
+            revenueData: null, // Renamed for clarity
             isError: null,
         },
         hospitalDetailsState: {

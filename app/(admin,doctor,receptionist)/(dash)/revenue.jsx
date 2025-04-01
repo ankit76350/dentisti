@@ -5,10 +5,13 @@ import { useNavigation } from 'expo-router';
 import { DrawerActions } from '@react-navigation/native';
 import { hp, wp } from '../../../helpers/common';
 import BottomNavBar from '../../../components/BottomNavBar';
-import RevenueList from '../../../components/RevenueList';
+import RevenueList from '../../../components/dashboard/RevenueList';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchHospitalRevenue } from '../../../redux/hospital/hospitalSlice';
+import { catalystURL } from '../../../constants';
+import { role, user } from '../../../assets/json/role';
+import RevenueChart from '../../../components/dashboard/RevenueChart';
 
 
 export default function revenue() {
@@ -17,11 +20,14 @@ export default function revenue() {
 
   //Todo start: redux things
   const dispatch = useDispatch()
+  const revenueUrl = role === 'admin' ? `${catalystURL}/admin/revenue` : `${catalystURL}/admin/${user.userHospitalId}/revenue`
   useEffect(() => {
-    dispatch(fetchHospitalRevenue())
+    dispatch(fetchHospitalRevenue(revenueUrl))
   }, [])
   const hospitalState = useSelector((state) => state.hospitals);
   //Todo end: redux things
+  console.log("hospitalState.hospitalsRevenueState.revenueData",hospitalState.hospitalsRevenueState.revenueData);
+  
  
 
   return (
@@ -33,7 +39,7 @@ export default function revenue() {
 
         {/* Revenue */}
         <View style={{marginHorizontal:10 , marginTop:10, marginBottom:hp(35)}}>
-          <RevenueList revenueData={hospitalState.hospitalsRevenueState.revenueData}/>
+          {role === 'admin' ? <RevenueList revenueData={hospitalState.hospitalsRevenueState.revenueData}/> : <RevenueChart/>}
         </View>
       </View>
     

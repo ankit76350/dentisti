@@ -4,9 +4,10 @@ import { catalystURL } from "../../constants";
 //! Patients Info
 export const fetchPatientsData = createAsyncThunk(
     "patients/fetchPatientsData",
-    async (_, { rejectWithValue }) => {
+    async (url = null, { rejectWithValue }) => {
+        const URI = url ? url : `${catalystURL}/admin/patients` 
         try {
-            const response = await fetch(`${catalystURL}/admin/patients`);
+            const response = await fetch(URI);
 
             if (!response.ok) {
                 const errorData = await response.json();
