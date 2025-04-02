@@ -26,7 +26,7 @@ export default function revenue() {
   }, [])
   const hospitalState = useSelector((state) => state.hospitals);
   //Todo end: redux things
-  console.log("hospitalState.hospitalsRevenueState.revenueData",hospitalState.hospitalsRevenueState.revenueData);
+
   
  
 
@@ -39,7 +39,7 @@ export default function revenue() {
 
         {/* Revenue */}
         <View style={{marginHorizontal:10 , marginTop:10, marginBottom:hp(35)}}>
-          {role === 'admin' ? <RevenueList revenueData={hospitalState.hospitalsRevenueState.revenueData}/> : <RevenueChart/>}
+          {role === 'admin' ? <RevenueList revenueData={hospitalState.hospitalsRevenueState.revenueData || []}/> : <RevenueChart revenueAmount={hospitalState.hospitalsRevenueState.revenueData}/>}
         </View>
       </View>
     

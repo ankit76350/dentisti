@@ -1,5 +1,5 @@
-// const role = 'admin'
-const role = 'doctor'
+const role = 'admin'
+// const role = 'doctor'
 // const role = 'receptionist'
 
 
