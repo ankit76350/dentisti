@@ -17,8 +17,9 @@ const index = () => {
     setTimeout(() => {
       setIsLoading(false);
       // router.replace(`/(${role})/(dash)/analytics`); // Replace so it removes i from stack
-      router.replace(`/(${role})/(dash)/revenue`); // Replace so it removes i from stack
+      // router.replace(`/(${role})/(dash)/revenue`); // Replace so it removes i from stack
       // router.replace(`/(${role})/(dash)/appointments`); // Replace so it removes index from stack
+      router.replace(`/(${role})/(dash)/appointmentform`); // Replace so it removes index from stack
       // router.replace(`/(${role})/profiles`); // Replace so it removes index from stack
       // router.replace(`/(${role})/notification`); // Replace so it removes index from stack
       // router.replace(`/(${role})/staffs`); // Replace so it removes index from stack

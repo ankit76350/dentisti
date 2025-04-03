@@ -5,14 +5,15 @@ import { catalystURL } from "../../constants";
 export const fetchAppointmentsData = createAsyncThunk(
     "dashboard/fetchAppointmentsData",
     async (url, { rejectWithValue }) => {
+        
         try {
             const response = await fetch(url);
-
+      
             if (!response.ok) {
                 const errorData = await response.json();
                 return rejectWithValue(errorData.message || "Failed to fetch appointments data");
             }
-
+            
             return await response.json();
         } catch (error) {
             return rejectWithValue(error.message);

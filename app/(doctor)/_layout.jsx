@@ -17,6 +17,7 @@ export default function _layout() {
       name="patients"
       options={{ title: 'Docter All Patients' }}
     />
+
     <Stack.Screen
       name="calendarview"
       options={{ title: 'Docter Calendar View' }}

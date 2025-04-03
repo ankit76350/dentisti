@@ -4,10 +4,15 @@ import { Stack } from "expo-router";
 export default function _layout() {
   return (
 
-      <Stack>
+      <Stack
+       screenOptions={{
+
+    headerShown: false,
+
+  }}>
         {/* Common Root for all */}
-        <Stack.Screen name="dashboard" options={{ headerShown: false }} />
-        <Stack.Screen name="allpatients" options={{ title: "Receptionist All Patients" }} />
+        <Stack.Screen name="(dash)" options={{ headerShown: false }} />
+        <Stack.Screen name="patients" options={{ title: "Receptionist All Patients" }} />
         <Stack.Screen name="calendarview" options={{ title: "Receptionist Calendar View" }} />
 
         {/* Common in doctor and receptionist */}

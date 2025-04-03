@@ -6,11 +6,14 @@ import {formatDateToIST, formatTimeToIST} from '../utils/formatTime'
 
 const Item = ({ showDetails = () => { }  , data=[]}) => {
   const theme = useColorScheme();
+  // console.log("data",data);
+  
  
 
 
   return (
     <View style={[styles.container, theme === "dark" ? styles.darkBackground : styles.lightBackground]}>
+
       <FlatList
         data={data}
         showsVerticalScrollIndicator={false} // Hides the scrollbar
@@ -42,6 +45,8 @@ const Item = ({ showDetails = () => { }  , data=[]}) => {
           </TouchableOpacity>
         )}
       />
+
+
     </View>
   );
 };

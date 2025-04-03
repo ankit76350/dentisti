@@ -1,4 +1,4 @@
-import { View, Text,  StyleSheet, useColorScheme, StatusBar, } from 'react-native';
+import { View, Text, StyleSheet, useColorScheme, StatusBar, TouchableOpacity, Alert, ScrollView, } from 'react-native';
 import DashboardHeader from '../../../components/DashboardHeader';
 import ScreenWrapper from '../../../components/ScreenWrapper';
 import SearchBar from '../../../components/SearchBar';
@@ -11,27 +11,40 @@ import BottomNavBar from '../../../components/BottomNavBar';
 import BottomSheet from '../../../components/BottomSheet';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAppointmentsData, fetchDoctersData } from '../../../redux/dashboard/dashboardSlice'
-import {formatDateToIST, formatTimeToIST} from '../../../utils/formatTime'
+import { formatDateToIST, formatTimeToIST } from '../../../utils/formatTime'
 import { fetchHospitalData } from '../../../redux/hospital/hospitalSlice';
+import { catalystURL } from '../../../constants';
+import { role, user } from '../../../assets/json/role';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import ReusableForm from '../../../components/Form';
+
 
 export default function appointments() {
   const navigation = useNavigation();
   const bottomSheetRef = useRef(null);
-  
+
   const theme = useColorScheme(); // Detects system theme (light/dark)  
-  
-  //Todo start: redux things
+
+  // Todo start: redux things
   const dispatch = useDispatch()
+  const appointmentsUrl = role === 'admin'
+    ? `${catalystURL}/admin/appointments`
+    : role === 'receptionist'
+      ? `${catalystURL}receptionist/${user.userId}/appointment/all`
+      : `${catalystURL}doctor/${user.userId}/appointments/all`;
+
+
+
   useEffect(() => {
-    dispatch(fetchAppointmentsData())
+    dispatch(fetchAppointmentsData(appointmentsUrl))
     dispatch(fetchDoctersData())
     dispatch(fetchHospitalData())
   }, [])
   const stateDashboard = useSelector((state) => state.dashboard);
   const hospitalState = useSelector((state) => state.hospitals);
   //Todo end: redux things
-  
-  
+
+
   //Todo Start: filter data 
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
@@ -48,17 +61,17 @@ export default function appointments() {
     }
   }, [stateDashboard.appointmentState.appointmentsData, searchQuery]);
   //Todo end: filter data 
-  
-  
+
+
   //Todo start: show details 
   var selectedDetails = {}
   const openBottomSheet = async (ROWID) => {
 
-    const selectedAppointment = filteredData.find((currItem )=>{return currItem.ROWID ===  ROWID})
+    const selectedAppointment = filteredData.find((currItem) => { return currItem.ROWID === ROWID })
     const selectedDoctor = stateDashboard?.doctorsState?.doctorsData?.find(item => item.ROWID === selectedAppointment.doctor_id);
     const selectedHospital = hospitalState?.hospitalsState?.hospitalsData?.find(item => item.ROWID === selectedAppointment.hospital_id);
 
-     selectedDetails = {
+    selectedDetails = {
       name: selectedAppointment.name,
       email: selectedAppointment.email,
       phoneNo: selectedAppointment.phone_no,
@@ -71,14 +84,21 @@ export default function appointments() {
       status: selectedAppointment.status,
     };
 
-    bottomSheetRef.current?.openModal(); 
-    bottomSheetRef.current?.getDetails(selectedDetails); 
+    bottomSheetRef.current?.openModal();
+    bottomSheetRef.current?.getDetails(selectedDetails);
   };
   //Todo end: show details 
 
+
+
+
+
+
   return (
     <ScreenWrapper>
-      {/* ✅ Fixed Status Bar */}
+
+
+
       <StatusBar
         animated={true}
         backgroundColor={theme === "dark" ? "#0D1B2A" : "#49a3f1"}
@@ -89,22 +109,32 @@ export default function appointments() {
         <DashboardHeader openDrawer={() => navigation.dispatch(DrawerActions.openDrawer())} />
 
 
-        {/* Appointments */}
-
         <View style={[styles.container, theme === "dark" ? styles.darkContainer : styles.lightContainer]}>
 
           <View style={styles.appointmentsHeader}>
           </View>
 
-          <View style={{ alignItems: 'center', paddingVertical: 5, }}>
-            <Text style={[styles.appointmentsTitle, theme === "dark" ? styles.darkText : styles.lightText]}>
-              Appointments
-            </Text>
+
+
+         
+
+
+          <View style={{ paddingVertical: 5, }}>
+            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: 'space-between' }}>
+              <Text style={[styles.appointmentsTitle, theme === "dark" ? styles.darkText : styles.lightText]}>
+                Appointments
+              </Text>
+              <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", marginLeft: 10 }}>
+                <Icon name="plus-square" size={24} color={theme === "dark" ? '#FFF' : '#333'} />
+              </TouchableOpacity>
+            </View>
+
+
             {/* //! search button */}
             <View style={{ marginBottom: hp(1), }}>
-
-            <SearchBar query={searchQuery} setQuery={setSearchQuery} />
+              <SearchBar query={searchQuery} setQuery={setSearchQuery} />
             </View>
+
             {/* //! apponment data */}
             <Item showDetails={openBottomSheet} data={filteredData} />
 
@@ -112,16 +142,18 @@ export default function appointments() {
         </View>
 
 
-        {/* ✅ Pass the ref to BottomSheet */}
         <BottomSheet ref={bottomSheetRef} />
 
       </View>
+
 
       {/* Bottom Navbar */}
       <BottomNavBar />
 
     </ScreenWrapper>
   );
+
+
 }
 
 const styles = StyleSheet.create({
@@ -168,7 +200,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
     paddingVertical: 1,
-    alignSelf: 'flex-start',
+    // alignSelf: 'flex-start',
     marginBottom: 5,
   },
   lightText: {
