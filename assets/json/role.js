@@ -1,19 +1,19 @@
-// const role = 'admin'
-// const user = {}
+const role = 'admin'
+const user = {}
 
 //? For doctor
-const role = 'doctor'
-const user = {
+// const role = 'doctor'
+// const user = {
     
-        "email": "kedar@gmail.com",
-        "userHospitalId": '1380000000390839',
-        "isAuthenticated": true,
-        "phone": "7840977390",
-        "userId": "1380000000390892",
-        "userRole": "doctor",
-        "username": "Dr Kedar kumari",
-        // "image" : null
-}
+//         "email": "kedar@gmail.com",
+//         "userHospitalId": '1380000000390839',
+//         "isAuthenticated": true,
+//         "phone": "7840977390",
+//         "userId": "1380000000390892",
+//         "userRole": "doctor",
+//         "username": "Dr Kedar kumari",
+//         // "image" : null
+// }
 
 
 //? For receptionist

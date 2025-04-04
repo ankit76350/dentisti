@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, TextInput, StyleSheet, Animated, useColorScheme } from "react-native";
-import { wp } from "../helpers/common";
+import { hp, wp } from "../helpers/common";
 
 const LabelledInputField = ({ label, value, onChangeText, secureTextEntry, keyboardType }) => {
     const [isFocused, setIsFocused] = useState(false);
@@ -25,6 +25,7 @@ const LabelledInputField = ({ label, value, onChangeText, secureTextEntry, keybo
                         {
                             top: animatedLabel.interpolate({ inputRange: [0, 1], outputRange: [18, -10] }),
                             fontSize: animatedLabel.interpolate({ inputRange: [0, 1], outputRange: [14, 12] }),
+                            
                         },
                     ]}
                 >
@@ -45,7 +46,7 @@ const LabelledInputField = ({ label, value, onChangeText, secureTextEntry, keybo
                 placeholder={!isFocused && !value ? label : ""}
                 keyboardType={keyboardType}
                 placeholderTextColor={theme === "dark" ? "#A0A0A0" : "#808080"}
-                autoCapitalize="none" // Prevents automatic capitalization
+                autoCapitalize="none" 
             />
         </View>
     );
@@ -55,11 +56,13 @@ const styles = StyleSheet.create({
     inputContainer: {
         width: "100%",
         position: "relative",
-        marginBottom: 15,
+        marginBottom: hp(0.9),
     },
     label: {
         position: "absolute",
-        left: 15,
+        left: wp(4),
+        // top:hp(-8),
+  
         zIndex: 2,
         backgroundColor: "transparent",
         paddingHorizontal: 5,
@@ -78,6 +81,7 @@ const styles = StyleSheet.create({
         padding: 15,
         borderRadius: wp(2.5),
         borderWidth: 1,
+
     },
     lightInput: {
         backgroundColor: "#F7F7F7",

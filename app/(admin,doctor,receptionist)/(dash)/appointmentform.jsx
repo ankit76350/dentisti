@@ -57,9 +57,9 @@ const appointmentform = () => {
 
     return (
         <>
-            <ScreenContainer title="Add New Appointments">
+            {/* <ScreenContainer title="Add New Appointments"> */}
                 <MyForm formFields={formFields} onSubmit={handleSubmit} />
-            </ScreenContainer>
+            {/* </ScreenContainer> */}
 
         </>
     )

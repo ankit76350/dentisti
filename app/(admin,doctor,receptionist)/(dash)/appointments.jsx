@@ -16,7 +16,7 @@ import { fetchHospitalData } from '../../../redux/hospital/hospitalSlice';
 import { catalystURL } from '../../../constants';
 import { role, user } from '../../../assets/json/role';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import ReusableForm from '../../../components/Form';
+
 
 
 export default function appointments() {
