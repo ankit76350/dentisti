@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, TextInput, StyleSheet, Animated, useColorScheme } from "react-native";
-import { hp, wp } from "../helpers/common";
+import { hp, wp } from "../../helpers/common";
 
 const LabelledInputField = ({ label, value, onChangeText, secureTextEntry, keyboardType }) => {
     const [isFocused, setIsFocused] = useState(false);

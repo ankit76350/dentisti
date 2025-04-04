@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Animated, useColorScheme } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
-import { wp } from "../helpers/common";
+import { wp } from "../../helpers/common";
 
-const Select = ({ label, keyName, data, onChange, search = false, icon = null, value = "" }) => {
+const Select = ({ label, keyName, data, onChange, search = false, icon = null, value = "",minHeight=false }) => {
   const [selectValue, setSelectValue] = useState(value); // State for selected value
   const [isFocused, setIsFocused] = useState(false);
   const animatedLabel = new Animated.Value(selectValue ? 1 : 0);
@@ -46,7 +46,7 @@ const Select = ({ label, keyName, data, onChange, search = false, icon = null, v
         containerStyle={[
           {
             borderRadius: wp(2),
-            height: 400,
+            height: minHeight ? 400 : undefined,
           },
           theme === "dark" ? styles.darkDropdown : styles.lightDropdown,
         ]}

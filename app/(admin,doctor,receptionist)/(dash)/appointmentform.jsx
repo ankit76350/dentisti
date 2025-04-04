@@ -2,7 +2,7 @@ import React from "react";
 import { Alert } from "react-native";
 
 import ScreenContainer from '../../../components/ScreenContainer'
-import MyForm from "../../../components/MyForm";
+import MyForm from "../../../components/form/MyForm";
 
 
 const appointmentform = () => {

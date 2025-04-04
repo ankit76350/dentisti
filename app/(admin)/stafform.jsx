@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, useColorScheme, StatusBar, Alert } from "react-native";
-import LabelledInputField from '../../components/LabelledInputField';
-import Select from '../../components/Select';
+import LabelledInputField from '../../components/form/LabelledInputField';
+import Select from '../../components/form/Select';
 import { hp, wp } from '../../helpers/common';
 import BackButton from "../../components/BackButton";
 import { useRoute } from "@react-navigation/native";
