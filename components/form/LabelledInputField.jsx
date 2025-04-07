@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   
         zIndex: 2,
         backgroundColor: "transparent",
-        paddingHorizontal: 5,
+        paddingHorizontal: wp(1),
         borderRadius: wp(1),
     },
     lightLabel: {

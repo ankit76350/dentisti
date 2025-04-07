@@ -1,7 +1,5 @@
 import React from "react";
 import { Alert } from "react-native";
-
-import ScreenContainer from '../../../components/ScreenContainer'
 import MyForm from "../../../components/form/MyForm";
 
 
@@ -50,7 +48,9 @@ const appointmentform = () => {
     ];
 
     const handleSubmit = (formData) => {
-        Alert.alert('Form Submitted', JSON.stringify(formData, null, 2));
+        console.log("formData");
+        
+        // Alert.alert('Form Submitted', JSON.stringify(formData, null, 2));
     };
 
     //Todo : form End

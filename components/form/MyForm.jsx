@@ -5,7 +5,7 @@ import BackButton from "../BackButton";
 import LabelledInputField from "./LabelledInputField";
 import Loading from '../Loading'
 import Select from "./Select";
-import DatePickerExample from "./DatePickerExample";
+import DateAndTimePicker from "./DateTimePicker";
 
 const MyForm = ({ formFields, onSubmit, title = "Add New Appointments" }) => {
     const theme = useColorScheme();
@@ -57,9 +57,17 @@ const MyForm = ({ formFields, onSubmit, title = "Add New Appointments" }) => {
                                                 value={"Doctor"}
                                             />
                                         ) : field.type === "date" ? (
-                                            <Text>Date</Text>
+                                            <>
+                                                <DateAndTimePicker
+                                                    fieldType='date'
+                                                />
+                                            </>
                                         ) : field.type === "time" ? (
-                                            <Text>Time</Text>
+                                            <>
+                                                <DateAndTimePicker
+                                                    fieldType='time'
+                                                />
+                                            </>
                                         ) : (
                                             <LabelledInputField
                                                 label={field.label}
@@ -71,19 +79,19 @@ const MyForm = ({ formFields, onSubmit, title = "Add New Appointments" }) => {
                                 ))}
 
 
-                                <DatePickerExample />
+
                                 {/* Submit Button */}
                                 <TouchableOpacity
                                     style={[
                                         styles.button,
                                         theme === "dark" ? styles.darkButton : styles.lightButton,
-                                        { opacity: 0.5 } // Optional: makes it look disabled
+                                        // { opacity: 0.5 } // Optional: makes it look disabled
                                     ]}
                                     onPress={onSubmit}
-                                    disabled={true} // This disables the button
+                                    // disabled={true} // This disables the button
                                 >
-                                    {/* <Text style={styles.buttonText}>Add</Text> */}
-                                    <Loading size='small' />
+                                    <Text style={styles.buttonText}>Add</Text>
+                                    {/* <Loading size='small' /> */}
                                 </TouchableOpacity>
                             </ScrollView>
                             {/* </KeyboardAvoidingView> */}
