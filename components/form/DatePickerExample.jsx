@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Button, Text, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
+
 const DatePickerExample = () => {
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
@@ -19,6 +20,17 @@ const DatePickerExample = () => {
         Selected Date: {date.toDateString()}
       </Text>
       {show && (
+           <DateTimePicker
+           value={date}
+           mode="date"
+           display="default"
+           onChange={onChange}
+         />
+      )}
+
+
+
+      {/* {Platform.OS === 'android' && (
         <DateTimePicker
           value={date}
           mode="date"
@@ -26,6 +38,15 @@ const DatePickerExample = () => {
           onChange={onChange}
         />
       )}
+      {Platform.OS === 'ios' && (
+        <DateTimePicker
+          value={date}
+          mode="date"
+          display="default"
+          onChange={onChange}
+        />
+      )} */}
+
     </View>
   );
 };
