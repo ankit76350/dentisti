@@ -13,14 +13,15 @@ import DateTimePicker, {
 import { hp, wp } from '../../helpers/common';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 
-const DateAndTimePicker = ({ fieldType = 'date' , defaultValue='2025-04-01 17:33:57:862'}) => {
+const DateAndTimePicker = ({ fieldType = 'date', defaultValue = '', onChange }) => {
+
 
   const parseDate = (value) => {
     if (!value) return new Date();
     const isoString = value.replace(' ', 'T').replace(/:(\d{3})$/, '.$1');
     return new Date(isoString);
   };
-  
+
   const theme = useColorScheme();
   const isDark = theme === 'dark';
 
@@ -33,15 +34,22 @@ const DateAndTimePicker = ({ fieldType = 'date' , defaultValue='2025-04-01 17:33
   });
 
   const handleChange = (event, selectedDate) => {
+    if (!selectedDate) return;
+  
     if (Platform.OS === 'android') {
-      if (event?.type === 'set') setDate(selectedDate);
+      if (event?.type === 'set') {
+        setDate(selectedDate);
+        onChange(selectedDate); // Send updated value
+      }
       return;
     }
-
+  
     if (event?.type !== 'dismissed') {
-      setDate(selectedDate || date);
+      setDate(selectedDate);
+      onChange(selectedDate); // Send updated value
     }
   };
+  
 
   const showPicker = (mode) => {
     if (Platform.OS === 'android') {
@@ -88,7 +96,7 @@ const DateAndTimePicker = ({ fieldType = 'date' , defaultValue='2025-04-01 17:33
           >
             {formattedValue}
           </Text>
-         {fieldType === 'date' ? <AntDesign name="calendar" size={24} color={"gray"} /> : <MaterialCommunityIcons name="timer-outline" size={24} color={"gray"} />}
+          {fieldType === 'date' ? <AntDesign name="calendar" size={24} color={"gray"} /> : <MaterialCommunityIcons name="timer-outline" size={24} color={"gray"} />}
         </View>
       </TouchableOpacity>
 
@@ -98,6 +106,8 @@ const DateAndTimePicker = ({ fieldType = 'date' , defaultValue='2025-04-01 17:33
             value={date}
             mode={showIOSPicker.mode}
             onChange={(event, selectedDate) => {
+
+
               handleChange(event, selectedDate);
               setShowIOSPicker({ ...showIOSPicker, visible: false });
             }}

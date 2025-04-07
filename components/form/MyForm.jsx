@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, useColorScheme, StatusBar, Alert, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, useColorScheme, StatusBar, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { hp, wp } from "../../helpers/common";
 import BackButton from "../BackButton";
 import LabelledInputField from "./LabelledInputField";
@@ -7,8 +7,38 @@ import Loading from '../Loading'
 import Select from "./Select";
 import DateAndTimePicker from "./DateTimePicker";
 
-const MyForm = ({ formFields, onSubmit, title = "Add New Appointments" }) => {
+const MyForm = ({ formFields, onSubmit, title = "Add New Appointments", isSubmitting = false }) => {
     const theme = useColorScheme();
+
+    const initialFormData = formFields.reduce((acc, field) => {
+        if (field.type === 'date') {
+            const [date, time] = field.defaultValue.split(" ");
+            acc[field.name] = date|| '';
+            return acc
+        }
+        if (field.type === 'time') {
+            const [date, time] = field.defaultValue.split(" ");
+            acc[field.name] = time || '';
+            return acc
+        }
+        acc[field.name] = field.defaultValue || '';
+        return acc;
+    }, {});
+
+
+    const [formData, setFormData] = useState(initialFormData);
+
+    const handleChange = (name, value) => {
+        setFormData({ ...formData, [name]: value });
+    };
+
+    const formatDate = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
 
     return (
         <>
@@ -46,32 +76,45 @@ const MyForm = ({ formFields, onSubmit, title = "Add New Appointments" }) => {
                                     <View key={field.name} style={{ marginTop: hp(0.4) }}>
                                         {field.type === "select" ? (
                                             <Select
-                                                label="Role"
-                                                keyName="role"
-                                                data={[
-                                                    { label: "Doctor", value: "Doctor" },
-                                                    { label: "Receptionist", value: "Receptionist" },
-                                                ]}
-                                                onChange={() => { }}
+                                                label={field.label}
+                                                keyName={field.name}
+                                                data={field.options}
+                                                onChange={(keyName, item) => {
+                                                    setFormData({ ...formData, [keyName]: item.value });
+                                                }}
                                                 search={true}
-                                                value={"Doctor"}
+                                                value={formData[field.name]}
+
                                             />
                                         ) : field.type === "date" ? (
                                             <>
                                                 <DateAndTimePicker
+                                                    onChange={(date) => {
+                                                        handleChange(field.name, formatDate(date))
+                                                    }}
                                                     fieldType='date'
+                                                    defaultValue={field.defaultValue}
                                                 />
                                             </>
                                         ) : field.type === "time" ? (
                                             <>
                                                 <DateAndTimePicker
+                                                    onChange={(date) => {
+                                                        handleChange(field.name, date.toLocaleTimeString([], {
+                                                            hour: '2-digit',
+                                                            minute: '2-digit',
+                                                            second: '2-digit',
+                                                            hour12: false,
+                                                        }))
+                                                    }}
                                                     fieldType='time'
+                                                    defaultValue={field.defaultValue}
                                                 />
                                             </>
                                         ) : (
                                             <LabelledInputField
                                                 label={field.label}
-                                                value={field.defaultValue}
+                                                value={formData[field.name]}
                                                 onChangeText={(text) => handleChange(field.name, text)}
                                             />
                                         )}
@@ -85,14 +128,19 @@ const MyForm = ({ formFields, onSubmit, title = "Add New Appointments" }) => {
                                     style={[
                                         styles.button,
                                         theme === "dark" ? styles.darkButton : styles.lightButton,
-                                        // { opacity: 0.5 } // Optional: makes it look disabled
+                                        isSubmitting && { opacity: 0.5 } // Correct way to apply opacity conditionally
                                     ]}
-                                    onPress={onSubmit}
-                                    // disabled={true} // This disables the button
+                                    onPress={() => onSubmit(formData)}
+                                    disabled={isSubmitting}
                                 >
-                                    <Text style={styles.buttonText}>Add</Text>
-                                    {/* <Loading size='small' /> */}
+                                    {
+                                        isSubmitting
+                                            ? <Loading size='small' />
+                                            : <Text style={styles.buttonText}>Submit</Text>
+                                    }
                                 </TouchableOpacity>
+
+
                             </ScrollView>
                             {/* </KeyboardAvoidingView> */}
                         </View>

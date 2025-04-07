@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Animated, useColorScheme } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
-import { wp } from "../../helpers/common";
+import { hp, wp } from "../../helpers/common";
 
 const Select = ({ label, keyName, data, onChange, search = false, icon = null, value = "",minHeight=false }) => {
   const [selectValue, setSelectValue] = useState(value); // State for selected value
@@ -97,15 +97,15 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: "100%",
     position: "relative",
-    marginBottom: 15,
+    marginBottom: hp(0.9),
   },
   label: {
     position: "absolute",
-    left: 15,
+    left: wp(4),
     zIndex: 2,
     backgroundColor: "transparent",
-    paddingHorizontal: 5,
-    borderRadius: 5,
+    paddingHorizontal: wp(1),
+    borderRadius: wp(1),
   },
   lightLabel: {
     color: "gray",
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   dropdown: {
     width: "100%",
     padding: 15,
-    borderRadius: 10,
+    borderRadius: wp(2.5),
     borderWidth: 1,
   },
   lightDropdown: {
