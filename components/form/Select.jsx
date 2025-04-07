@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { View, StyleSheet, Animated, useColorScheme } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import { hp, wp } from "../../helpers/common";
 
-const Select = ({ label, keyName, data, onChange, search = false, icon = null, value = "",minHeight=false }) => {
-  const [selectValue, setSelectValue] = useState(value); // State for selected value
+const Select = ({ label, keyName, data, onChange, search = false, icon = null, value = "", minHeight = false }) => {
+  const [selectValue, setSelectValue] = useState(value);
   const [isFocused, setIsFocused] = useState(false);
-  const animatedLabel = new Animated.Value(selectValue ? 1 : 0);
-  const theme = useColorScheme(); // Detect light/dark mode
+  const animatedLabel = useRef(new Animated.Value(value ? 1 : 0)).current;
+  const theme = useColorScheme();
 
   useEffect(() => {
     Animated.timing(animatedLabel, {
@@ -18,56 +18,60 @@ const Select = ({ label, keyName, data, onChange, search = false, icon = null, v
   }, [isFocused, selectValue]);
 
   useEffect(() => {
-    setSelectValue(value); // Ensure predefined value is applied on mount and updates correctly
+    setSelectValue(value);
   }, [value]);
+
+  const animatedLabelStyle = useMemo(() => ({
+    top: animatedLabel.interpolate({ inputRange: [0, 1], outputRange: [18, -10] }),
+    fontSize: animatedLabel.interpolate({ inputRange: [0, 1], outputRange: [14, 12] }),
+  }), [animatedLabel]);
+
+  const isDark = theme === "dark";
+
+  const dropdownStyles = useMemo(() => ([
+    styles.dropdown,
+    isDark ? styles.darkDropdown : styles.lightDropdown,
+  ]), [isDark]);
+
+  const containerStyles = useMemo(() => ([
+    {
+      borderRadius: wp(2),
+      height: minHeight ? 400 : undefined,
+    },
+    isDark ? styles.darkDropdown : styles.lightDropdown,
+  ]), [minHeight, isDark]);
 
   return (
     <View style={styles.inputContainer}>
-      {isFocused || selectValue ? (
+      {(isFocused || selectValue) && (
         <Animated.Text
           style={[
             styles.label,
-            theme === "dark" ? styles.darkLabel : styles.lightLabel,
-            {
-              top: animatedLabel.interpolate({ inputRange: [0, 1], outputRange: [18, -10] }),
-              fontSize: animatedLabel.interpolate({ inputRange: [0, 1], outputRange: [14, 12] }),
-            },
+            isDark ? styles.darkLabel : styles.lightLabel,
+            animatedLabelStyle,
           ]}
         >
           {label}
         </Animated.Text>
-      ) : null}
+      )}
 
       <Dropdown
-        style={[
-          styles.dropdown,
-          theme === "dark" ? styles.darkDropdown : styles.lightDropdown,
-        ]}
-        containerStyle={[
-          {
-            borderRadius: wp(2),
-            height: minHeight ? 400 : undefined,
-          },
-          theme === "dark" ? styles.darkDropdown : styles.lightDropdown,
-        ]}
-        itemTextStyle={[
-          theme === "dark" ? { color: "#FFF" } : { color: "#000" },
-        ]}
+        style={dropdownStyles}
+        containerStyle={containerStyles}
+        itemTextStyle={{ color: isDark ? "#FFF" : "#000" }}
         placeholderStyle={[
           styles.placeholderStyle,
-          theme === "dark" ? styles.darkPlaceholder : styles.lightPlaceholder,
+          isDark ? styles.darkPlaceholder : styles.lightPlaceholder,
         ]}
         selectedTextStyle={[
           styles.selectedTextStyle,
-          theme === "dark" ? styles.darkText : styles.lightText,
+          isDark ? styles.darkText : styles.lightText,
         ]}
-        activeColor={theme === "dark" ? "#3A506B" : "#D4D4D4"}
+        activeColor={isDark ? "#3A506B" : "#D4D4D4"}
         inputSearchStyle={[
-          {
-            borderRadius: wp(2),
-          },
+          { borderRadius: wp(2) },
           styles.inputSearchStyle,
-          theme === "dark" ? styles.darkSearchInput : styles.lightSearchInput,
+          isDark ? styles.darkSearchInput : styles.lightSearchInput,
         ]}
         iconStyle={styles.iconStyle}
         data={data}
@@ -92,6 +96,7 @@ const Select = ({ label, keyName, data, onChange, search = false, icon = null, v
 };
 
 export default Select;
+
 
 const styles = StyleSheet.create({
   inputContainer: {
