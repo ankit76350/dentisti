@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Button, Text, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import RNDateTimePicker from '@react-native-community/datetimepicker';
 
 
 const DatePickerExample = () => {
@@ -9,7 +10,7 @@ const DatePickerExample = () => {
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
-    setShow(Platform.OS === 'ios');
+    setShow(false);
     setDate(currentDate);
   };
 
@@ -20,13 +21,20 @@ const DatePickerExample = () => {
         Selected Date: {date.toDateString()}
       </Text>
       {show && (
-           <DateTimePicker
-           value={date}
-           mode="date"
-           display="default"
-           onChange={onChange}
-         />
+        <DateTimePicker
+          value={date}
+          mode="date"
+          display="default"
+          onChange={onChange}
+        />
       )}
+
+      <RNDateTimePicker mode="date" value={new Date()}
+
+        timeZoneName={'Asia/Calcutta'}
+        themeVariant="light"
+        title="Choose anniversary" 
+        />
 
 
 
