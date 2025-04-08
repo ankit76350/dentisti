@@ -67,6 +67,7 @@ const MyForm = ({ formFields, onSubmit, title = "Add New Appointments", isSubmit
                     <DateAndTimePicker
                         onChange={(date) => handleChange(field.name, formatDate(date))}
                         fieldType="date"
+                        label={field.label}
                         defaultValue={field.defaultValue}
                     />
                 );
@@ -83,6 +84,7 @@ const MyForm = ({ formFields, onSubmit, title = "Add New Appointments", isSubmit
                             })
                         )}
                         fieldType="time"
+                        label={field.label}
                         defaultValue={field.defaultValue}
                     />
                 );

@@ -57,17 +57,22 @@ const validateAppointmentForm = (form) => {
   // Check required fields
   if (
     !name ||
-    !email ||
-    !phone ||
     !address ||
-    !dob ||
     !gender ||
     !hospitalName ||
-    !doctorName ||
-    !date ||
-    !time
+    !doctorName
   ) {
     Alert.alert("Error", "All fields are required.");
+    return false;
+  }
+
+  if (!dob) {
+    Alert.alert("Error", "Please fill valid date of birth.");
+    return false;
+  }
+
+  if (!date || !time) {
+    Alert.alert("Error", "Please valid fill Appoinments date.");
     return false;
   }
 

@@ -20,7 +20,7 @@ const parseDate = (value) => {
   return new Date(isoString);
 };
 
-const DateAndTimePicker = ({ fieldType = 'date', defaultValue = '', onChange }) => {
+const DateAndTimePicker = ({ fieldType = 'date', defaultValue = '', onChange ,label}) => {
   const theme = useColorScheme();
   const isDark = theme === 'dark';
 
@@ -70,7 +70,7 @@ const DateAndTimePicker = ({ fieldType = 'date', defaultValue = '', onChange }) 
         activeOpacity={0.8}
       >
         <Text style={[styles.label, themeStyles.label]}>
-          {fieldType === 'date' ? 'Date' : 'Time'}
+          {label}
         </Text>
 
         <View style={styles.valueWrapper}>
