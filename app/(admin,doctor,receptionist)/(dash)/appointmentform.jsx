@@ -12,7 +12,7 @@ const appointmentform = () => {
         { name: 'address', label: 'Address', type: 'text', placeholder: 'Enter your address', defaultValue: 'Pune 3' },
         { name: 'dob', label: 'Date Of Birth', type: 'date', defaultValue: '' },
         { name: 'gender', label: 'Gender', type: 'select', options: [ { label: 'Male', value: 'Male' }, { label: 'Female', value: 'Female' } ], defaultValue: 'Male' },
-        { name: 'hospitalName', label: 'Hospital Name', type: 'select', options: [ { label: 'Shri Rama clinics', value: 'Shri Rama clinics' }, { label: 'Ankit Clinics', value: 'Ankit Clinics' }, { label: 'UP Clinics', value: 'UP Clinics' } ], defaultValue: 'Shri Rama clinics' },
+        { name: 'hospitalName', label: 'Hospital Name', type: 'select', options: [ { label: 'Shri Rama clinics', value: 'Shri Rama clinics' }, { label: 'Ankit Clinics', value: 'Ankit Clinics' }, { label: 'UP Clinics', value: 'UP Clinics' } ], defaultValue: '' },
         { name: 'doctorName', label: 'Doctor Name', type: 'select', options: [ { label: 'Dr Kedar kumari', value: 'Dr Kedar kumari' }, { label: 'Dr. Ankit Kumar', value: 'Dr. Ankit Kumar' } ], defaultValue: 'Dr. Ankit Kumar' },
         { name: 'date', label: 'Appointment Date', type: 'date', defaultValue: '2025-04-01 17:33:57' },
         { name: 'time', label: 'Appointment Time', type: 'time', defaultValue: '2025-04-01 17:33:57' },

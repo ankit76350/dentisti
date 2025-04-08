@@ -1,10 +1,10 @@
 import { View,  StyleSheet, useColorScheme, StatusBar } from 'react-native';
-import DashboardHeader from '../../../components/DashboardHeader';
+import DashboardHeader from '../../../components/dashboard/DashboardHeader';
 import ScreenWrapper from '../../../components/ScreenWrapper';
 import { useNavigation } from 'expo-router';
 import { DrawerActions } from '@react-navigation/native';
 import { wp } from '../../../helpers/common';
-import BottomNavBar from '../../../components/BottomNavBar';
+import BottomNavBar from '../../../components/dashboard/BottomNavBar';
 import AnalyticsDashboard from '../../../components/dashboard/AnalyticsDashboard';
 
 

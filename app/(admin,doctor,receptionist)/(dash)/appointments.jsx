@@ -1,14 +1,14 @@
 import { View, Text, StyleSheet, useColorScheme, StatusBar, TouchableOpacity, Alert, ScrollView, } from 'react-native';
-import DashboardHeader from '../../../components/DashboardHeader';
+import DashboardHeader from '../../../components/dashboard/DashboardHeader';
 import ScreenWrapper from '../../../components/ScreenWrapper';
 import SearchBar from '../../../components/SearchBar';
-import { useNavigation } from 'expo-router';
+import { useNavigation, useRouter } from 'expo-router';
 import { useState, useRef, useEffect } from 'react';
 import Item from '../../../components/Item';
 import { DrawerActions } from '@react-navigation/native';
 import { hp, wp } from '../../../helpers/common';
-import BottomNavBar from '../../../components/BottomNavBar';
-import BottomSheet from '../../../components/BottomSheet';
+import BottomNavBar from '../../../components/dashboard/BottomNavBar';
+import BottomSheet from '../../../components/dashboard/BottomSheet';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAppointmentsData, fetchDoctersData } from '../../../redux/dashboard/dashboardSlice'
 import { formatDateToIST, formatTimeToIST } from '../../../utils/formatTime'
@@ -90,6 +90,17 @@ export default function appointments() {
   //Todo end: show details 
 
 
+  //Todo: Next Page
+  const router = useRouter();
+  const navigateTo = () => {
+    router.replace(`/(${role})/(dash)/appointmentform`);
+
+  }
+  //Todo: Next Page
+
+
+
+
 
 
 
@@ -116,7 +127,7 @@ export default function appointments() {
 
 
 
-         
+
 
 
           <View style={{ paddingVertical: 5, }}>
@@ -124,7 +135,7 @@ export default function appointments() {
               <Text style={[styles.appointmentsTitle, theme === "dark" ? styles.darkText : styles.lightText]}>
                 Appointments
               </Text>
-              <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", marginLeft: 10 }}>
+              <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", marginLeft: 10 }} onPress={navigateTo}>
                 <Icon name="plus-square" size={24} color={theme === "dark" ? '#FFF' : '#333'} />
               </TouchableOpacity>
             </View>

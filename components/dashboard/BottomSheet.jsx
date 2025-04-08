@@ -1,12 +1,12 @@
 import React, { useCallback, useMemo, useRef, useImperativeHandle, forwardRef, useState } from "react";
-import { View, Text, StyleSheet, useColorScheme, Platform, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, useColorScheme, Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
   BottomSheetModal,
   BottomSheetView,
   BottomSheetBackdrop,
 } from "@gorhom/bottom-sheet";
-import { Ionicons, FontAwesome5, MaterialIcons, Feather } from "@expo/vector-icons";
+import { Ionicons, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 
 const AppointmentBottomSheet = forwardRef((props, ref) => {
   const [details, setDetails] = useState(null);
@@ -64,24 +64,15 @@ const AppointmentBottomSheet = forwardRef((props, ref) => {
 
           {
             details ? (appointmentDetails.map(({ label, value, icon }) => (
-              <>
-                <View key={label} style={[styles.infoRow, theme === "dark" ? styles.darkRow : styles.lightRow]}>
-                  {icon}
-                  {/* <Text style={[styles.label, theme === "dark" ? styles.darkColor : styles.lightColor]}>{label}:</Text> */}
-                  <Text style={[styles.value, theme === "dark" ? styles.darkColor : styles.lightColor]}>{value}</Text>
-
-                </View>
-
-              </>
-
+              <View key={label} style={[styles.infoRow, theme === "dark" ? styles.darkRow : styles.lightRow]}>
+                {icon}
+                {/* <Text style={[styles.label, theme === "dark" ? styles.darkColor : styles.lightColor]}>{label}:</Text> */}
+                <Text style={[styles.value, theme === "dark" ? styles.darkColor : styles.lightColor]}>{value}</Text>
+              </View>
             ))) : (<Text style={[styles.value, theme === "dark" ? styles.darkColor : styles.lightColor]}>
               No details available.
             </Text>)
           }
-          <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", marginLeft: 10 }}>
-            <Feather name="edit" size={24} color="black" />
-          </TouchableOpacity>
-          
         </BottomSheetView>
       </BottomSheetModal>
     </GestureHandlerRootView>

@@ -17,7 +17,7 @@ const Item = ({ showDetails = () => { }  , data=[]}) => {
       <FlatList
         data={data}
         showsVerticalScrollIndicator={false} // Hides the scrollbar
-        keyExtractor={(item, index) => index}
+        keyExtractor={(_, index) => index}
         renderItem={({ item, index }) => (
 
           <TouchableOpacity

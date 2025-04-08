@@ -1,10 +1,10 @@
 import { View, Text, TouchableOpacity, StatusBar, StyleSheet, Image, useColorScheme, SafeAreaView } from "react-native";
 import React, { useState } from 'react';
-import { hp, wp } from '../helpers/common';
+import { hp, wp } from '../../helpers/common';
 import { Feather, Ionicons } from "@expo/vector-icons";
-import Avatar from "./Avatar";
-import { theme as constantsTheme } from '../constants/theme'
-import { user } from '../assets/json/role'
+import Avatar from "../Avatar";
+import { theme as constantsTheme } from '../../constants/theme'
+import { user } from '../../assets/json/role'
 import { useNavigation } from "@react-navigation/native";
 
 const DashboardHeader = ({ openDrawer = () => { } }) => {
@@ -25,7 +25,7 @@ const DashboardHeader = ({ openDrawer = () => { } }) => {
             {/* Logo & Title */}
             <View style={styles.logoContainer}>
                 <TouchableOpacity onPress={openDrawer}>
-                    <Image style={styles.iconImage} source={require('../assets/images/logo.jpg')} />
+                    <Image style={styles.iconImage} source={require('../../assets/images/logo.jpg')} />
                 </TouchableOpacity>
 
                 <Text style={[styles.title, theme === "dark" ? styles.darkText : styles.lightText]}>Dentisti</Text>
