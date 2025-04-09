@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
     View,
     Text,
@@ -19,23 +19,24 @@ import Loading from "../Loading";
 import Select from "./Select";
 import DateAndTimePicker from "./DateTimePicker";
 
-const MyForm = ({ formFields, onSubmit, title = "Add New Appointments", isSubmitting = false , screen = "appointments"}) => {
+const MyForm = ({ formFields, onSubmit, title = "Add New Appointments", isSubmitting = false, screen = "appointments" }) => {
     const theme = useColorScheme();
 
-    const initialFormData = useMemo(() => {
-        const result = {};
+    const [formData, setFormData] = useState({});
+
+    // 🔁 Sync formData when formFields or defaultValues change
+    useEffect(() => {
+        const updatedData = {};
         for (const field of formFields) {
             if (field.type === 'date' || field.type === 'time') {
                 const [date, time] = field.defaultValue?.split(" ") || [];
-                result[field.name] = field.type === 'date' ? date || '' : time || '';
+                updatedData[field.name] = field.type === 'date' ? date || '' : time || '';
             } else {
-                result[field.name] = field.defaultValue || '';
+                updatedData[field.name] = field.defaultValue || '';
             }
         }
-        return result;
+        setFormData(updatedData);
     }, [formFields]);
-
-    const [formData, setFormData] = useState(initialFormData);
 
     const handleChange = useCallback((name, value) => {
         setFormData((prev) => ({ ...prev, [name]: value }));
@@ -68,24 +69,26 @@ const MyForm = ({ formFields, onSubmit, title = "Add New Appointments", isSubmit
                         onChange={(date) => handleChange(field.name, formatDate(date))}
                         fieldType="date"
                         label={field.label}
-                        defaultValue={field.defaultValue}
+                        defaultValue={formData[field.name]} // 👈 Make sure to pass correct default
                     />
                 );
             case "time":
                 return (
                     <DateAndTimePicker
-                        onChange={(date) => handleChange(
-                            field.name,
-                            date.toLocaleTimeString([], {
-                                hour: '2-digit',
-                                minute: '2-digit',
-                                second: '2-digit',
-                                hour12: false,
-                            })
-                        )}
+                        onChange={(date) =>
+                            handleChange(
+                                field.name,
+                                date.toLocaleTimeString([], {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                    second: '2-digit',
+                                    hour12: false,
+                                })
+                            )
+                        }
                         fieldType="time"
                         label={field.label}
-                        defaultValue={field.defaultValue}
+                        defaultValue={formData[field.name]} // 👈 Same here
                     />
                 );
             default:
@@ -106,16 +109,15 @@ const MyForm = ({ formFields, onSubmit, title = "Add New Appointments", isSubmit
                 style={{ flex: 1 }}
             >
                 <View style={[styles.container, theme === "dark" ? styles.darkContainer : styles.lightContainer]}>
-                    <BackButton title={title} screen = "appointments"/>
+                    <BackButton title={title} screen={screen} />
                     <StatusBar
                         animated
                         backgroundColor={theme === "dark" ? "#1B263B" : "#49a3f1"}
                         barStyle={theme === "dark" ? "light-content" : "dark-content"}
                     />
-                    {/* Header */}
-                    <View style={[styles.header, theme === "dark" ? styles.darkHeader : styles.lightHeader]}>
 
-                    </View>
+                    <View style={[styles.header, theme === "dark" ? styles.darkHeader : styles.lightHeader]} />
+
                     <View style={[styles.formContainer, theme === "dark" ? styles.darkFormContainer : styles.lightFormContainer]}>
                         <ScrollView
                             contentContainerStyle={{ marginTop: hp(1) }}
@@ -159,17 +161,14 @@ const styles = StyleSheet.create({
     },
     header: {
         width: "100%",
-
         height: Platform.select({
             ios: hp(20),
             android: hp(17),
         }),
-
         borderBottomLeftRadius: wp(5),
         borderBottomRightRadius: wp(5),
         alignItems: "center",
         justifyContent: 'flex-end',
-
     },
     lightHeader: {
         backgroundColor: "#49a3f1",
