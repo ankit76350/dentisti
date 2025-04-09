@@ -19,7 +19,7 @@ import Loading from "../Loading";
 import Select from "./Select";
 import DateAndTimePicker from "./DateTimePicker";
 
-const MyForm = ({ formFields, onSubmit, title = "Add New Appointments", isSubmitting = false }) => {
+const MyForm = ({ formFields, onSubmit, title = "Add New Appointments", isSubmitting = false , screen = "appointments"}) => {
     const theme = useColorScheme();
 
     const initialFormData = useMemo(() => {
@@ -106,7 +106,7 @@ const MyForm = ({ formFields, onSubmit, title = "Add New Appointments", isSubmit
                 style={{ flex: 1 }}
             >
                 <View style={[styles.container, theme === "dark" ? styles.darkContainer : styles.lightContainer]}>
-                    <BackButton title={title} />
+                    <BackButton title={title} screen = "appointments"/>
                     <StatusBar
                         animated
                         backgroundColor={theme === "dark" ? "#1B263B" : "#49a3f1"}

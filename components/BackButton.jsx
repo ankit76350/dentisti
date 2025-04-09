@@ -10,7 +10,9 @@ const BackButton = ({ screen = "analytics", title = "Dashboard", showInfoIcon = 
     const router = useRouter();
 
     const navigateTo = () => {
-        navigation.goBack();
+        // navigation.goBack();
+        //screen = "appointments"
+        navigation.navigate(`${screen}`);
         // router.replace(`/(${role})/(dash)/${screen}`);
     };
 

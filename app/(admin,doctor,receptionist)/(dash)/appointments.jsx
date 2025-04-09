@@ -30,8 +30,9 @@ export default function appointments() {
   const appointmentsUrl = role === 'admin'
     ? `${catalystURL}/admin/appointments`
     : role === 'receptionist'
-      ? `${catalystURL}receptionist/${user.userId}/appointment/all`
+      ? `${catalystURL}receptionist/${user.userHospitalId}/appointment/all`
       : `${catalystURL}doctor/${user.userId}/appointments/all`;
+
 
 
 
@@ -92,13 +93,19 @@ export default function appointments() {
 
   //Todo: Next Page
   const router = useRouter();
-  const navigateTo = () => {
-    router.replace(`/(${role})/(dash)/appointmentform`);
+  const addNewAppointment = () => {
+    navigation.navigate('appointmentform', {
+      url: `${catalystURL}admin/appointment`,
+      newAppointmentDetails: {
+        hospital_id: user.userHospitalId,
+        doctor_id: user.userId,
+        status: "Pending",
+      }
+    });
+    // router.push(`/(${role})/(dash)/appointmentform`);
 
   }
   //Todo: Next Page
-
-
 
 
 
@@ -135,7 +142,7 @@ export default function appointments() {
               <Text style={[styles.appointmentsTitle, theme === "dark" ? styles.darkText : styles.lightText]}>
                 Appointments
               </Text>
-              <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", marginLeft: 10 }} onPress={navigateTo}>
+              <TouchableOpacity style={{ flexDirection: "row", alignItems: "center", marginLeft: 10 }} onPress={addNewAppointment}>
                 <Icon name="plus-square" size={24} color={theme === "dark" ? '#FFF' : '#333'} />
               </TouchableOpacity>
             </View>

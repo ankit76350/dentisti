@@ -60,7 +60,9 @@ const AppointmentBottomSheet = forwardRef((props, ref) => {
         backgroundStyle={theme === "dark" ? styles.darkCard : styles.lightCard}
       >
         <BottomSheetView style={[styles.contentContainer, theme === "dark" ? styles.darkCard : styles.lightCard]}>
-          <Text style={styles.heading}>📅 Appointment Details</Text>
+          <View>
+            <Text style={styles.heading}>Appointment Details</Text>
+          </View>
 
           {
             details ? (appointmentDetails.map(({ label, value, icon }) => (

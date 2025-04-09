@@ -44,14 +44,15 @@ export const fetchHospitalRevenue = createAsyncThunk(
 export const fetchHospitalDetails = createAsyncThunk(
     "hospitals/fetchHospitalDetails",
     async (ROWID, { rejectWithValue }) => { 
-        console.log("ROWID", ROWID);
+      
+        console.log("ROWID",ROWID);
         
         try {
            
 //https://dental-management-771555683.development.catalystserverless.com/server/dental_management_function/admin/hospital/1380000000390839/details
             // const response = await fetch(`${catalystURL}/admin/hospital/${1380000000390839}/details`);
             const response = await fetch(`${catalystURL}/admin/hospital/${ROWID}/details`);
-
+ 
             if (!response.ok) {
                 const errorData = await response.json();
                 return rejectWithValue(errorData.message || "Failed to fetch hospital details");
@@ -63,6 +64,10 @@ export const fetchHospitalDetails = createAsyncThunk(
         }
     }
 );
+
+
+
+
 
 export const hospitalsSlice = createSlice({
     name: "hospitals",
@@ -82,6 +87,7 @@ export const hospitalsSlice = createSlice({
             hospitalDetailsData: [],
             isError: null,
         },
+     
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -101,6 +107,7 @@ export const hospitalsSlice = createSlice({
                 state.hospitalsState.isError = action.payload || "Failed to fetch hospital data";
             })
 
+
             //! Hospital Revenue
             .addCase(fetchHospitalRevenue.pending, (state) => {
                 state.hospitalsRevenueState.isLoading = true;
@@ -114,6 +121,8 @@ export const hospitalsSlice = createSlice({
                 state.hospitalsRevenueState.isLoading = false;
                 state.hospitalsRevenueState.isError = action.payload || "Failed to fetch hospital revenue";
             })
+
+
             //! Hospital Details
             .addCase(fetchHospitalDetails.pending, (state) => {
                 state.hospitalDetailsState.isLoading = true;
@@ -127,6 +136,8 @@ export const hospitalsSlice = createSlice({
                 state.hospitalDetailsState.isLoading = false;
                 state.hospitalDetailsState.isError = action.payload || "Failed to fetch hospital details";
             })
+
+            
     },
 });
 
