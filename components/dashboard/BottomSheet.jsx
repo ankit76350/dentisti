@@ -13,6 +13,7 @@ import {
   useColorScheme,
   Platform,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
@@ -28,8 +29,13 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { hp, wp } from "../../helpers/common";
+import useDelete from "../../hooks/useDelete";
+import Loading from "../Loading";
+import { catalystURL } from "../../constants";
 
-const BottomSheet = forwardRef((props, ref) => {
+const BottomSheet = forwardRef((props, ref ) => {
+  const { setFetchNewData, fetchNewData } = props;
   const [details, setDetails] = useState(null);
   const theme = useColorScheme();
   const navigation = useNavigation();
@@ -98,11 +104,54 @@ const BottomSheet = forwardRef((props, ref) => {
 
   const editAppointment = () => {
     if (!details) return;
+    bottomSheetModalRef.current.close()
     navigation.navigate("appointmentform", {
+ 
       action: "PUT",
       newAppointmentDetails: { ...details },
     });
   };
+
+
+  //Todo delete appointment
+  const { deleteData, isDeleting, deleteError, deleteResponse } = useDelete()
+
+
+  const confirmDelete = () => {
+    Alert.alert(
+      "Confirm Delete",
+      `Are you sure you want to delete "${details.name}"?`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          onPress: () => removeData(details.ROWID), // Call removeData only if user confirms
+          style: "destructive",
+        },
+      ]
+    );
+  };
+
+  const removeData = async (ROWID) => {
+
+    const url = `${catalystURL}admin/appointment/${ROWID}`;
+    try {
+      const response = await deleteData(url);
+      if (!deleteError) {
+        Alert.alert("Success", `${response.message}`);
+        setFetchNewData(!fetchNewData)
+        bottomSheetModalRef.current.close()
+      } else {
+        Alert.alert("Error", "Something went wrong.");
+      }
+    } catch (err) {
+      Alert.alert("Error", err.message || "Failed to submit data.");
+    }
+  }
+  //Todo delete appointment
 
   return (
     <GestureHandlerRootView>
@@ -125,28 +174,31 @@ const BottomSheet = forwardRef((props, ref) => {
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "space-between",
-              marginBottom: 5,
+              marginBottom: hp(1)
             }}
           >
-            <Text style={styles.heading}>Appointment Details</Text>
+            <Text style={[styles.heading, { marginLeft: wp(-3), }]}>Appointment Details</Text>
             <View style={{ flexDirection: "row", gap: 8 }}>
               <TouchableOpacity onPress={editAppointment}>
-                <Feather name="edit" size={20} color="black" />
+                <Feather name="edit" size={21} color="#007BFF" />
               </TouchableOpacity>
               <TouchableOpacity>
                 <MaterialIcons
                   name="published-with-changes"
-                  size={22}
-                  color="black"
+                  size={24}
+                  color="#FFC107"
                 />
               </TouchableOpacity>
-              <TouchableOpacity>
+
+              {isDeleting ? (<Loading size="small" />) : (<TouchableOpacity onPress={confirmDelete}>
                 <MaterialIcons
                   name="delete-outline"
-                  size={22}
-                  color="black"
+                  size={24}
+                  color="#DC3545"
                 />
-              </TouchableOpacity>
+              </TouchableOpacity>)}
+
+
             </View>
           </View>
 

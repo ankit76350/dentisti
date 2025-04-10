@@ -51,11 +51,15 @@ export default function appointments() {
     }
   }, []);
 
+
+  const [fetchNewData , setFetchNewData] = useState(false)
   useEffect(() => {
     dispatch(fetchAppointmentsData(appointmentsUrl));
     dispatch(fetchDoctersData());
     dispatch(fetchHospitalData());
   }, [appointmentsUrl]);
+
+
 
   const appointmentsData = dashboardState.appointmentState.appointmentsData || [];
 
@@ -133,15 +137,18 @@ export default function appointments() {
           {dashboardState.appointmentState.isLoading ? (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: hp(5) }}>
               <Loading />
-            </View>) : filteredData.length > 0 ? (<Item showDetails={openBottomSheet} data={filteredData} />) : (
-              <View style={[{ alignItems: "center" }]}>
-                <Text style={[styles.infoText, theme === 'dark' && styles.darkText]}>No appointment found</Text>
-              </View>
-            )}
+            </View>) : filteredData.length > 0 ? (
+              <View style={{marginTop:hp(1)}}>
+                <Item showDetails={openBottomSheet} data={filteredData} />
+              </View>) : (
+            <View style={[{ alignItems: "center" }]}>
+              <Text style={[styles.infoText, theme === 'dark' && styles.darkText]}>No appointment found</Text>
+            </View>
+          )}
 
         </View>
 
-        <BottomSheet ref={bottomSheetRef} />
+        <BottomSheet ref={bottomSheetRef} setFetchNewData={setFetchNewData} fetchNewData={fetchNewData}/>
       </View>
 
       <BottomNavBar />
