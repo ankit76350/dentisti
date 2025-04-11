@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import {
   View,
   Text,
@@ -16,15 +16,43 @@ import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 // Move outside to avoid recreation on every render
 const parseDate = (value) => {
   if (!value) return new Date();
-  const isoString = value.replace(' ', 'T').replace(/:(\d{3})$/, '.$1');
+  const isoString = value;
   return new Date(isoString);
 };
 
-const DateAndTimePicker = ({ fieldType = 'date', defaultValue = '', onChange ,label}) => {
+function parseTime(timeStr) {
+  const dateStr = "2024-07-22";
+  return new Date(`${dateStr}T${timeStr}`);
+}
+
+
+const DateAndTimePicker = ({ fieldType = '', defaultValue = '', onChange ,label}) => {
   const theme = useColorScheme();
   const isDark = theme === 'dark';
 
-  const [date, setDate] = useState(() => parseDate(defaultValue));
+  const [date, setDate] = useState(new Date());
+
+  useEffect(()=>{
+    if (fieldType ==='date') {
+      console.log('====================================');
+      console.log("label:",label, "defaultValue:",defaultValue , "fieldType:",fieldType);
+      console.log('====================================');
+      // date should be in this format 2024-07-22
+      setDate(() => parseDate(defaultValue))
+    }
+    if (fieldType ==='time') {
+      // console.log('====================================');
+      // console.log("label:",label, "defaultValue:",defaultValue , "fieldType:",fieldType);
+      // console.log('====================================');
+      setDate(() => parseTime(defaultValue))
+    }
+  },[defaultValue , label,fieldType])
+
+  // console.log('====================================');
+  // console.log("date",date);
+  // console.log("defaultValue",defaultValue);
+  // console.log('====================================');
+
   const [showIOSPicker, setShowIOSPicker] = useState({
     visible: false,
     mode: 'date',
@@ -54,6 +82,7 @@ const DateAndTimePicker = ({ fieldType = 'date', defaultValue = '', onChange ,la
 
   const formattedValue = useMemo(() => {
     return fieldType === 'date' ? date.toDateString() : date.toLocaleTimeString();
+
   }, [fieldType, date]);
 
   const themeStyles = {
@@ -69,13 +98,13 @@ const DateAndTimePicker = ({ fieldType = 'date', defaultValue = '', onChange ,la
         onPress={() => showPicker(fieldType)}
         activeOpacity={0.8}
       >
-        <Text style={[styles.label, themeStyles.label]}>
-          {label}
-        </Text>
+        {defaultValue && <Text style={[styles.label, themeStyles.label]}>
+          { label}
+        </Text>}
 
         <View style={styles.valueWrapper}>
           <Text style={[styles.valueText, themeStyles.text]} numberOfLines={1}>
-            {formattedValue}
+            {defaultValue ? formattedValue : label }
           </Text>
           {fieldType === 'date' ? (
             <AntDesign name="calendar" size={24} color="gray" />

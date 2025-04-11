@@ -19,18 +19,23 @@ import Loading from "../Loading";
 import Select from "./Select";
 import DateAndTimePicker from "./DateTimePicker";
 
-const MyForm = ({ formFields, onSubmit, title = "Add New Appointments", isSubmitting = false, screen = "appointments" }) => {
+const MyForm = ({ formFields, onSubmit, title = "Add New Appointments", isSubmitting = false, screen = "" }) => {
     const theme = useColorScheme();
 
     const [formData, setFormData] = useState({});
+    // console.log("formFields",formFields);
+    // console.log("formData",formData);
+    
+
 
     // 🔁 Sync formData when formFields or defaultValues change
     useEffect(() => {
         const updatedData = {};
         for (const field of formFields) {
             if (field.type === 'date' || field.type === 'time') {
-                const [date, time] = field.defaultValue?.split(" ") || [];
-                updatedData[field.name] = field.type === 'date' ? date || '' : time || '';
+                // const [date, time] = field.defaultValue?.split(" ") || [];
+                // updatedData[field.name] = field.type === 'date' ? date || '' : time || '';
+                updatedData[field.name] = field.defaultValue || '';
             } else {
                 updatedData[field.name] = field.defaultValue || '';
             }

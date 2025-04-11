@@ -33,7 +33,7 @@ const Header = ({
 
       {/* Title */}
       <Text style={[styles.headerTitle, isDark && styles.darkText]} numberOfLines={1}>
-        {title}
+        {title + " " + role}
       </Text>
 
       {/* Add Button or Placeholder */}

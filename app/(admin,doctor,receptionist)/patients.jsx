@@ -10,6 +10,8 @@ import { fetchPatientsData } from "../../redux/patients/patientsSlice.js";
 import Loading from "../../components/Loading.jsx";
 import { hp } from "../../helpers/common.js";
 import { fetchHospitalData } from "../../redux/hospital/hospitalSlice.js";
+import { role, user } from "../../assets/json/role.js";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const patients = () => {
   const theme = useColorScheme();
@@ -33,10 +35,6 @@ const patients = () => {
     return hospital?.hospital_name || "N/A";
   };
 
-  const navigateTo = (item) => {
-    let staffInfo = { ...item, hospital_name: populate(item.hospital_id) };
-    navigation.navigate("addstafform", { staffInfo });
-  };
 
   //Todo Start: filter data 
   const [searchQuery, setSearchQuery] = useState("");
@@ -57,8 +55,45 @@ const patients = () => {
 
 
 
+
+  //TODO START: Edit thing
+  const addNewPatients = (item) => {
+    // console.log('====================================');
+    // console.log("Ankit Kumar Add")
+    // console.log('====================================');
+    navigation.navigate('patientsform', {
+      action: 'POST',
+      newFormDetails: {
+        hospital_id: user.userHospitalId,
+        doctor_id: user.userId,
+      },
+    });
+  };
+  //TODO END: Edit thing
+
+
+  //TODO START: Edit thing
+  const edit = (item) => {
+    if (!item) return;
+    navigation.navigate("patientsform", {
+      action: "PUT",
+      newFormDetails: { ...item },
+    });
+  };
+  //TODO END: Edit thing
+
+
+
+  //TODO START: DELETE thing
+  const confirmDelete = (item) => {
+
+  };
+  //TODO END: DELETE thing
+
+
+
   return (
-    <ScreenContainer title="Patient Information" addIconComponent={null}>
+    <ScreenContainer title="Patient Information" addIconComponent={<Icon name="plus-square" size={22} color={theme === 'dark' ? '#FFF' : '#333'} />} navigateTo={addNewPatients}>
 
       <View style={{
         marginBottom: hp(1)
@@ -74,12 +109,12 @@ const patients = () => {
         <FlatList
           data={filteredData}
           renderItem={({ item }) => (
-            <PatientsInfoCard item={item} navigateTo={navigateTo} populate={populate} borderColor="#E91E63" />
+            <PatientsInfoCard item={item} edit={edit} confirmDelete={confirmDelete} populate={populate} borderColor="#E91E63" editIcon={role !== 'admin'} removeIcon={role !== 'admin'} treatmentIcon={role === 'doctor'} />
           )}
           keyExtractor={(_, index) => index.toString()}
         />
       ) : (
-        <View style={[{alignItems:"center"}]}>
+        <View style={[{ alignItems: "center" }]}>
           <Text style={[styles.infoText, isDark && styles.darkText]}>No patients found</Text>
         </View>
       )}

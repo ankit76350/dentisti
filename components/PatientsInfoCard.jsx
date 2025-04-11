@@ -1,29 +1,43 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet, useColorScheme } from "react-native";
-import { Entypo, Feather,  FontAwesome5,  Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Entypo, Feather, FontAwesome5, Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { role } from "../assets/json/role";
 
-const InfoCard = ({ item, navigateTo, populate ,editIcon , removeIcon , borderColor}) => {
+const InfoCard = ({ item, edit, confirmDelete, populate, editIcon, removeIcon, treatmentIcon, borderColor }) => {
   const theme = useColorScheme();
   const isDark = theme === "dark";
 
   return (
-    <View style={[styles.card,{  borderLeftColor: borderColor},isDark && styles.darkCard]}>
+    <View style={[styles.card, { borderLeftColor: borderColor }, isDark && styles.darkCard]}>
       {/* Top Row: Buttons and Name */}
       <View style={styles.topRow}>
         <Text style={[styles.name, isDark && styles.darkText]}>{item.patient_name}</Text>
         <View style={styles.actionButtons}>
-        {editIcon &&  <TouchableOpacity style={styles.iconButton} onPress={() => navigateTo(item)}>
-            <Feather name="edit" size={19} color="#2ECC71" />
+
+
+          {editIcon && <TouchableOpacity style={styles.iconButton} onPress={() => edit(item)}>
+            <Feather name="edit" size={19} color="#007BFF" />
           </TouchableOpacity>}
-          {removeIcon && <TouchableOpacity style={styles.iconButton}>
-            <MaterialCommunityIcons name="delete-empty-outline" size={22} color="#E74C3C" />
+
+          {treatmentIcon && <TouchableOpacity style={styles.iconButton} onPress={() => edit(item)}>
+          <Ionicons name="bag-add-sharp" size={21} color="#2ECC71" />
           </TouchableOpacity>}
+
+          {removeIcon && <TouchableOpacity style={styles.iconButton} onPress={() => confirmDelete(item)}>
+            <MaterialIcons
+              name="delete-outline"
+              size={22}
+              color="#E74C3C"
+            />
+          </TouchableOpacity>}
+
+ 
         </View>
       </View>
 
       {/* User Info Row */}
       <View style={styles.contentRow}>
-        <Image source={require("../assets/images/defaultuser.png")} style={[styles.profileImage, {  borderColor: borderColor}]} />
+        <Image source={require("../assets/images/defaultuser.png")} style={[styles.profileImage, { borderColor: borderColor }]} />
         <View style={styles.textContainer}>
           <Text style={[styles.role, isDark && styles.darkTextSecondary]}>{populate(item.hospital_id) || "N/A"}</Text>
 
@@ -33,13 +47,13 @@ const InfoCard = ({ item, navigateTo, populate ,editIcon , removeIcon , borderCo
           </View>
 
           <View style={styles.infoRow}>
-          <MaterialCommunityIcons name="gender-male-female" size={14} color={isDark ? "#f6f6f6" : "#555"} />
+            <MaterialCommunityIcons name="gender-male-female" size={14} color={isDark ? "#f6f6f6" : "#555"} />
             {/* <FontAwesome6 name="user-pen" size={14} color={isDark ? "#f6f6f6" : "#555"} /> */}
             <Text style={[styles.infoText, isDark && styles.darkText]}>{item.gender}</Text>
           </View>
 
           <View style={styles.infoRow}>
-          <Ionicons name="calendar-outline" size={14} color={isDark ? "#f6f6f6" : "#555"} />
+            <Ionicons name="calendar-outline" size={14} color={isDark ? "#f6f6f6" : "#555"} />
             {/* <FontAwesome6 name="phone" size={14} color={isDark ? "#f6f6f6" : "#555"} /> */}
 
             <Text style={[styles.infoText, isDark && styles.darkText]}>{item.date_of_admission}</Text>
@@ -47,7 +61,7 @@ const InfoCard = ({ item, navigateTo, populate ,editIcon , removeIcon , borderCo
 
 
           <View style={styles.infoRow}>
-          <FontAwesome5 name="user-md"size={14} color={isDark ? "#f6f6f6" : "#555"} />
+            <FontAwesome5 name="user-md" size={14} color={isDark ? "#f6f6f6" : "#555"} />
             {/* <FontAwesome6 name="phone" size={14} color={isDark ? "#f6f6f6" : "#555"} /> */}
 
             <Text style={[styles.infoText, isDark && styles.darkText]}>{item.doctor_id}</Text>
@@ -55,7 +69,7 @@ const InfoCard = ({ item, navigateTo, populate ,editIcon , removeIcon , borderCo
 
 
           <View style={styles.infoRow}>
-          <MaterialCommunityIcons name="phone"  size={14} color={isDark ? "#f6f6f6" : "#555"} />
+            <MaterialCommunityIcons name="phone" size={14} color={isDark ? "#f6f6f6" : "#555"} />
             {/* <FontAwesome6 name="phone" size={14} color={isDark ? "#f6f6f6" : "#555"} /> */}
 
             <Text style={[styles.infoText, isDark && styles.darkText]}>{item.phone}</Text>
@@ -64,7 +78,7 @@ const InfoCard = ({ item, navigateTo, populate ,editIcon , removeIcon , borderCo
 
 
           <View style={styles.infoRow}>
-          <Entypo name="address" size={14} color={isDark ? "#f6f6f6" : "#555"} />
+            <Entypo name="address" size={14} color={isDark ? "#f6f6f6" : "#555"} />
             {/* <Entypo name="address" size={24} color="black" /> */}
             <Text style={[styles.infoText, isDark && styles.hospitalText]}>
               {/* {populate(item.hospital_id) || "N/A"} */}
@@ -88,7 +102,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 4,
     borderLeftWidth: 5,
-   
+
   },
   darkCard: {
     backgroundColor: "#2C3E50",

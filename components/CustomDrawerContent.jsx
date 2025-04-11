@@ -86,7 +86,7 @@ const CustomDrawerContent = (props) => {
           role === 'doctor' && (
             <>
               <DrawerItem
-                label="Patients"
+                label={`Patients ${role}`}
                 labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
                 icon={() => <FontAwesome5 name="hospital-user" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
                 onPress={() => router.push(`/(${role})/patients`)}
@@ -105,8 +105,30 @@ const CustomDrawerContent = (props) => {
               />           
             </>
           )
-
-          
+        }
+        {
+          role === 'receptionist' && (
+            <>
+              <DrawerItem
+                label={`Patients ${role}`}
+                labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
+                icon={() => <FontAwesome5 name="hospital-user" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
+                onPress={() => router.push(`/(${role})/patients`)}
+              />
+              <DrawerItem
+                label="Calendar View"
+                labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
+                icon={() => <Ionicons name="calendar" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
+                onPress={() => router.push(`/(${role})/calendarview`)}
+              />
+              <DrawerItem
+                label="Bills"
+                labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
+                icon={() => <FontAwesome6 name="money-bills" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
+                onPress={() => router.push(`/(${role})/bills`)}
+              />           
+            </>
+          )
         }
 
 
