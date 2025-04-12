@@ -7,14 +7,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchBills } from "../../redux/bills/billsSlice";
 import { hp } from "../../helpers/common";
 import Loading from "../../components/Loading";
+import { role, user } from "../../assets/json/role";
+import { catalystURL } from "../../constants";
 
 const bills = () => {
   const theme = useColorScheme();
   const isDark = theme === "dark";
   //!Redux Start
   const dispatch = useDispatch();
+
+  const url = role === 'admin' ? `${catalystURL}/admin/bills` : `${catalystURL}/receptionist/${user.userHospitalId}/bills/all` 
+  
   useEffect(() => {
-    dispatch(fetchBills());
+    dispatch(fetchBills(url));
   }, []);
   const bills = useSelector((state) => state.bills.billsState);
   //!Redux End

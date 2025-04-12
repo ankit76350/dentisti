@@ -16,7 +16,7 @@ const index = () => {
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
-      // router.replace(`/(${role})/(dash)/analytics`); // Replace so it removes i from stack
+      router.replace(`/(${role})/(dash)/analytics`); // Replace so it removes i from stack
       // router.replace(`/(${role})/(dash)/revenue`); // Replace so it removes i from stack
       // router.replace(`/(${role})/(dash)/appointments`); // Replace so it removes index from stack
       // router.replace(`/(${role})/(dash)/appointmentform`); // Replace so it removes index from stack
@@ -24,8 +24,10 @@ const index = () => {
       // router.replace(`/(${role})/notification`); // Replace so it removes index from stack
       // router.replace(`/(${role})/staffs`); // Replace so it removes index from stack
       // router.replace(`/(${role})/stafform`); // Replace so it removes index from stack
-      router.replace(`/(${role})/patients`); // Replace so it removes index from stack
+      // router.replace(`/(${role})/patients`); // Replace so it removes index from stack
+      // router.replace(`/(${role})/patienthistory`); // Replace so it removes index from stack
       // router.replace(`/(${role})/bills`); // Replace so it removes index from stack
+      // router.replace(`/(${role})/billing`); // Replace so it removes index from stack
       // router.replace(`/(${role})/clinics`); // Replace so it removes index from stack
       // router.replace(`/(${role})/(clinics)/doctors`); // Replace so it removes index from stack
       // router.replace(`/(${role})/calendarview`); // Replace so it removes index from stack

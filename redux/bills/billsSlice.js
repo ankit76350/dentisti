@@ -4,9 +4,9 @@ import { catalystURL } from "../../constants";
 //! Admin Bills
 export const fetchBills = createAsyncThunk(
     "bills/fetchBills",
-    async (_, { rejectWithValue }) => {
+    async (url, { rejectWithValue }) => {
         try {
-            const response = await fetch(`${catalystURL}/admin/bills`);
+            const response = await fetch(url);
 
             if (!response.ok) {
                 const errorData = await response.json();

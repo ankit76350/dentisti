@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList, Text, useColorScheme, StyleSheet } from "react-native";
+import { View, FlatList, Text, useColorScheme, StyleSheet, Alert } from "react-native";
 import ScreenContainer from "../../components/ScreenContainer.jsx";
 import SearchBar from '../../components/SearchBar.jsx';
 import { useNavigation } from "expo-router";
@@ -12,8 +12,12 @@ import { hp } from "../../helpers/common.js";
 import { fetchHospitalData } from "../../redux/hospital/hospitalSlice.js";
 import { role, user } from "../../assets/json/role.js";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import useDelete from "../../hooks/useDelete.jsx";
+import { catalystURL } from "../../constants/index.js";
 
 const patients = () => {
+  const [fetchNewData, setFetchNewData] = useState(false);
+  const [deletingId, setDeletingId] = useState();
   const theme = useColorScheme();
   const isDark = theme === "dark";
   const navigation = useNavigation();
@@ -22,8 +26,11 @@ const patients = () => {
   useEffect(() => {
     dispatch(fetchUserData());
     dispatch(fetchHospitalData());
-    dispatch(fetchPatientsData());
   }, []);
+
+  useEffect(() => {
+    dispatch(fetchPatientsData());
+  }, [fetchNewData]);
 
   const hospitals = useSelector((state) => state.hospitals.hospitalsState.hospitalsData);
   const patients = useSelector((state) => state.patients.patientsState);
@@ -85,9 +92,45 @@ const patients = () => {
 
 
   //TODO START: DELETE thing
+  //Todo delete appointment
+  const { deleteData, isDeleting, deleteError, deleteResponse } = useDelete()
+
+
   const confirmDelete = (item) => {
 
+
+    Alert.alert(
+      "Confirm Delete",
+      `Are you sure you want to delete "${item.patient_name}"?`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          onPress: () => removeData(item.ROWID), // Call removeData only if user confirms
+          style: "destructive",
+        },
+      ]
+    );
   };
+
+  const removeData = async (ROWID) => {
+    setDeletingId(ROWID)
+    const url = `${catalystURL}admin/patient/${ROWID}`;
+    try {
+      const response = await deleteData(url);
+      if (!deleteError) {
+        Alert.alert("Success", `${response.message}`);
+        setFetchNewData(!fetchNewData)
+      } else {
+        Alert.alert("Error", "Something went wrong.");
+      }
+    } catch (err) {
+      Alert.alert("Error", err.message || "Failed to submit data.");
+    }
+  }
   //TODO END: DELETE thing
 
 
@@ -109,7 +152,7 @@ const patients = () => {
         <FlatList
           data={filteredData}
           renderItem={({ item }) => (
-            <PatientsInfoCard item={item} edit={edit} confirmDelete={confirmDelete} populate={populate} borderColor="#E91E63" editIcon={role !== 'admin'} removeIcon={role !== 'admin'} treatmentIcon={role === 'doctor'} />
+            <PatientsInfoCard item={item} edit={edit} confirmDelete={confirmDelete} populate={populate} borderColor="#E91E63" editIcon={role !== 'admin'} removeIcon={role !== 'admin'} isDeleting={deletingId} treatmentIcon={role === 'doctor'} />
           )}
           keyExtractor={(_, index) => index.toString()}
         />

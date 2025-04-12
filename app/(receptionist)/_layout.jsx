@@ -16,7 +16,8 @@ export default function _layout() {
         <Stack.Screen name="calendarview" options={{ title: "Receptionist Calendar View" }} />
 
         {/* Common in doctor and receptionist */}
-        <Stack.Screen name="billinghistory" options={{ title: "Receptionist Billing History" }} />
+        <Stack.Screen name="bills" options={{ title: "Receptionist Billing History" }} />
+        <Stack.Screen name="billingform" options={{ title: "Receptionist Billing form" }} />
         <Stack.Screen name="patienthistory" options={{ title: "Receptionist Patient History" }} />
 
         {/* Only in Receptionist */}

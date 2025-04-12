@@ -2,8 +2,9 @@ import React from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet, useColorScheme } from "react-native";
 import { Entypo, Feather, FontAwesome5, Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { role } from "../assets/json/role";
+import Loading from "./Loading";
 
-const InfoCard = ({ item, edit, confirmDelete, populate, editIcon, removeIcon, treatmentIcon, borderColor }) => {
+const InfoCard = ({ item, edit, confirmDelete, populate, receiptIcon, editIcon, removeIcon, isDeleting, treatmentIcon, borderColor }) => {
   const theme = useColorScheme();
   const isDark = theme === "dark";
 
@@ -15,23 +16,32 @@ const InfoCard = ({ item, edit, confirmDelete, populate, editIcon, removeIcon, t
         <View style={styles.actionButtons}>
 
 
+          {receiptIcon && <TouchableOpacity style={styles.iconButton} onPress={() => edit(item)}>
+            <MaterialCommunityIcons name="receipt" size={24} color="#007BFF" />
+          </TouchableOpacity>}
+
+
+
           {editIcon && <TouchableOpacity style={styles.iconButton} onPress={() => edit(item)}>
             <Feather name="edit" size={19} color="#007BFF" />
           </TouchableOpacity>}
 
           {treatmentIcon && <TouchableOpacity style={styles.iconButton} onPress={() => edit(item)}>
-          <Ionicons name="bag-add-sharp" size={21} color="#2ECC71" />
+            <Ionicons name="bag-add-sharp" size={21} color="#2ECC71" />
           </TouchableOpacity>}
 
-          {removeIcon && <TouchableOpacity style={styles.iconButton} onPress={() => confirmDelete(item)}>
-            <MaterialIcons
-              name="delete-outline"
-              size={22}
-              color="#E74C3C"
-            />
-          </TouchableOpacity>}
+          {
 
- 
+            item.ROWID !== isDeleting ? (removeIcon && <TouchableOpacity style={styles.iconButton} onPress={() => confirmDelete(item)}>
+              <MaterialIcons
+                name="delete-outline"
+                size={22}
+                color="#E74C3C"
+              />
+            </TouchableOpacity>) : (<Loading size="small" />)
+          }
+
+
         </View>
       </View>
 

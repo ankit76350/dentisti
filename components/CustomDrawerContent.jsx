@@ -80,7 +80,7 @@ const CustomDrawerContent = (props) => {
             </>
           )
 
-          
+
         }
         {
           role === 'doctor' && (
@@ -91,6 +91,7 @@ const CustomDrawerContent = (props) => {
                 icon={() => <FontAwesome5 name="hospital-user" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
                 onPress={() => router.push(`/(${role})/patients`)}
               />
+
               <DrawerItem
                 label="Calendar View"
                 labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
@@ -102,7 +103,14 @@ const CustomDrawerContent = (props) => {
                 labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
                 icon={() => <FontAwesome6 name="money-bills" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
                 onPress={() => router.push(`/(${role})/bills`)}
-              />           
+              />
+
+              <DrawerItem
+                label={`Patients Histroy ${role}`}
+                labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
+                icon={() => <FontAwesome5 name="hospital-user" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
+                onPress={() => router.push(`/(${role})/patienthistory`)}
+              />
             </>
           )
         }
@@ -115,18 +123,34 @@ const CustomDrawerContent = (props) => {
                 icon={() => <FontAwesome5 name="hospital-user" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
                 onPress={() => router.push(`/(${role})/patients`)}
               />
+
               <DrawerItem
                 label="Calendar View"
                 labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
                 icon={() => <Ionicons name="calendar" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
                 onPress={() => router.push(`/(${role})/calendarview`)}
               />
+
+              <DrawerItem
+                label="Billing"
+                labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
+                icon={() => <FontAwesome6 name="money-bills" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
+                onPress={() => router.push(`/(${role})/billing`)}
+              />
+
               <DrawerItem
                 label="Bills"
                 labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
                 icon={() => <FontAwesome6 name="money-bills" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
                 onPress={() => router.push(`/(${role})/bills`)}
-              />           
+              />
+
+              <DrawerItem
+                label={`Patients History ${role}`}
+                labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
+                icon={() => <FontAwesome5 name="hospital-user" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
+                onPress={() => router.push(`/(${role})/patienthistory`)}
+              />
             </>
           )
         }
