@@ -80,6 +80,16 @@ const patients = () => {
 
 
   //TODO START: Edit thing
+  const treatment = (item) => {
+    if (!item) return;
+    navigation.navigate("treatmentform", {
+      action: "PUT",
+      newFormDetails: { ...item },
+    });
+  };
+  //TODO END: Edit thing
+
+  //TODO START: Edit thing
   const edit = (item) => {
     if (!item) return;
     navigation.navigate("patientsform", {
@@ -152,7 +162,7 @@ const patients = () => {
         <FlatList
           data={filteredData}
           renderItem={({ item }) => (
-            <PatientsInfoCard item={item} edit={edit} confirmDelete={confirmDelete} populate={populate} borderColor="#E91E63" editIcon={role !== 'admin'} removeIcon={role !== 'admin'} isDeleting={deletingId} treatmentIcon={role === 'doctor'} />
+            <PatientsInfoCard item={item} edit={edit} treatment={treatment} confirmDelete={confirmDelete} populate={populate} borderColor="#E91E63" editIcon={role !== 'admin'} removeIcon={role !== 'admin'} isDeleting={deletingId} treatmentIcon={role === 'doctor'} />
           )}
           keyExtractor={(_, index) => index.toString()}
         />

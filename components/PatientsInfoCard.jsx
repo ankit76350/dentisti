@@ -4,7 +4,7 @@ import { Entypo, Feather, FontAwesome5, Ionicons, MaterialCommunityIcons, Materi
 import { role } from "../assets/json/role";
 import Loading from "./Loading";
 
-const InfoCard = ({ item, edit, confirmDelete, populate, receiptIcon, editIcon, removeIcon, isDeleting, treatmentIcon, borderColor }) => {
+const InfoCard = ({ item, edit, treatment, confirmDelete, populate, receiptIcon, editIcon, removeIcon, isDeleting, treatmentIcon, borderColor }) => {
   const theme = useColorScheme();
   const isDark = theme === "dark";
 
@@ -26,7 +26,7 @@ const InfoCard = ({ item, edit, confirmDelete, populate, receiptIcon, editIcon, 
             <Feather name="edit" size={19} color="#007BFF" />
           </TouchableOpacity>}
 
-          {treatmentIcon && <TouchableOpacity style={styles.iconButton} onPress={() => edit(item)}>
+          {treatmentIcon && <TouchableOpacity style={styles.iconButton} onPress={() => treatment(item)}>
             <Ionicons name="bag-add-sharp" size={21} color="#2ECC71" />
           </TouchableOpacity>}
 

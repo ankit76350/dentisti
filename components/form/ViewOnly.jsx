@@ -10,7 +10,7 @@ import { hp, wp } from "../../helpers/common";
 
 const ViewOnly = ({
   label,
-  value,
+  value="Hiii",
   onChangeText,
   secureTextEntry,
   keyboardType,
@@ -62,11 +62,7 @@ const ViewOnly = ({
           {label} 
         </Animated.Text>
       )}
-      <View style={themeStyles.input}>
-        {value && <Text>{value || "Please fill value"}</Text> }
-        <Text>Hii</Text>
-      </View>
-      {/* <TextInput
+      <TextInput
         style={themeStyles.input}
         value={value}
         onChangeText={onChangeText}
@@ -77,7 +73,8 @@ const ViewOnly = ({
         keyboardType={keyboardType}
         placeholderTextColor={themeStyles.placeholderColor}
         autoCapitalize="none"
-      /> */}
+        editable={false} 
+      />
     </View>
   );
 };

@@ -86,7 +86,7 @@ const CustomDrawerContent = (props) => {
           role === 'doctor' && (
             <>
               <DrawerItem
-                label={`Patients ${role}`}
+                label={`Patients`}
                 labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
                 icon={() => <FontAwesome5 name="hospital-user" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
                 onPress={() => router.push(`/(${role})/patients`)}
@@ -106,7 +106,7 @@ const CustomDrawerContent = (props) => {
               />
 
               <DrawerItem
-                label={`Patients Histroy ${role}`}
+                label={`Patients Histroy`}
                 labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
                 icon={() => <FontAwesome5 name="hospital-user" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
                 onPress={() => router.push(`/(${role})/patienthistory`)}
@@ -118,7 +118,7 @@ const CustomDrawerContent = (props) => {
           role === 'receptionist' && (
             <>
               <DrawerItem
-                label={`Patients ${role}`}
+                label={`Patients`}
                 labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
                 icon={() => <FontAwesome5 name="hospital-user" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
                 onPress={() => router.push(`/(${role})/patients`)}
@@ -146,7 +146,7 @@ const CustomDrawerContent = (props) => {
               />
 
               <DrawerItem
-                label={`Patients History ${role}`}
+                label={`Patients History`}
                 labelStyle={[styles.menuLabel, isDarkMode ? styles.darkText : styles.lightText]}
                 icon={() => <FontAwesome5 name="hospital-user" size={20} color={isDarkMode ? "#FFF" : "#555"} />}
                 onPress={() => router.push(`/(${role})/patienthistory`)}

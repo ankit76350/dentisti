@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity, StatusBar, useColorScheme, Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome6, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { role, user } from "../../assets/json/role";
 
 const profiles = () => {
     const navigation = useNavigation();
@@ -21,25 +22,28 @@ const profiles = () => {
                     <Ionicons name="arrow-back" size={24} color="white" />
                 </TouchableOpacity>
                 <Image source={require("../../assets/images/unnamed.jpg")} style={styles.profileImage} />
-                <Text style={[styles.name , theme === "dark" ? styles.darkText : styles.lightText]}>Ankit Kumar</Text>
-                <Text style={[styles.level , theme === "dark" ? styles.darkText : styles.lightText]}>Healthcare Professional</Text>
+                <Text style={[styles.name, theme === "dark" ? styles.darkText : styles.lightText]}>
+                {user.username ? user.username :"Ankit Kumar"}  
+                    </Text>
+                <Text style={[styles.level, theme === "dark" ? styles.darkText : styles.lightText]}>Healthcare Professional</Text>
             </View>
 
             {/* User Information Section */}
             <View style={[styles.infoContainer, theme === "dark" ? styles.darkCard : styles.lightCard]}>
-                <Text style={[styles.roleText, theme === "dark" ? styles.darkText : styles.lightText]}>ADMIN</Text>
+                <Text style={[styles.roleText, theme === "dark" ? styles.darkText : styles.lightText]}>{role ? role.toUpperCase() : "ADMIN"}</Text>
 
                 <View style={[styles.infoRow, theme === "dark" ? styles.darkInfoRow : styles.lightInfoRow]}>
                     <MaterialCommunityIcons name="email" size={22} color="#F8B400" />
                     <Text style={[styles.infoText, theme === "dark" ? styles.darkText : styles.lightText]}>
-                        kedar7390@gmail.com
+                        {user.email ? user.email :"kedar7390@gmail.com"}
                     </Text>
                 </View>
 
                 <View style={[styles.infoRow, theme === "dark" ? styles.darkInfoRow : styles.lightInfoRow]}>
                     <FontAwesome6 name="phone" size={22} color="#49a3f1" />
                     <Text style={[styles.infoText, theme === "dark" ? styles.darkText : styles.lightText]}>
-                        7840977390
+                    {user.phone ? user.phone :"7840977390"}
+                    
                     </Text>
                 </View>
             </View>

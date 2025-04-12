@@ -1,130 +1,3 @@
-// import React, { useState, useEffect, useMemo } from "react";
-// import MyForm from "../../components/form/MyForm";
-// import { useRoute } from "@react-navigation/native";
-// import { useDispatch } from "react-redux";
-// import { Alert } from "react-native";
-// import usePost from "../../hooks/usePost";
-// import usePut from "../../hooks/usePut";
-
-// const BillingForm = () => {
-//   const dispatch = useDispatch();
-//   const route = useRoute();
-
-//   const { newFormDetails = {}, action } = useMemo(() => route.params || {}, [route.params]);
-
-//   const [formFields, setFormFields] = useState([]);
-
-//   const date = new Date().toISOString().split("T")[0];
-//   const time = new Date().toTimeString().split(" ")[0];
-
-//   const generateFormFields = (details = {}) => {
-//     return [
-//       {
-//         name: 'patient_name',
-//         label: 'Patient Name',
-//         type: 'text',
-//         placeholder: 'Enter Patient Name',
-//         defaultValue: details.patient_name || '',
-//       },
-//       {
-//         name: 'doctorName',
-//         label: 'Doctor Name',
-//         type: 'select',
-//         defaultValue: details.doctor_id || '',
-//       },
-//       {
-//         name: 'date_of_admission',
-//         label: 'Date Of Admission',
-//         type: 'viewonly',
-//         defaultValue: date,
-//       },
-//       {
-//         name: 'phone',
-//         label: 'Patient Phone No',
-//         type: 'phone',
-//         placeholder: 'Enter phone number',
-//         defaultValue: details.phone || '',
-//       },
-//       {
-//         name: 'time',
-//         label: 'Time Of Admission',
-//         type: 'time',
-//         defaultValue: time,
-//       },
-//       {
-//         name: 'paymentMethod',
-//         label: 'Payment Method',
-//         type: 'select',
-//         options: [
-//           { label: 'Cash', value: 'cash' },
-//           { label: 'Card', value: 'card' },
-//           { label: 'UPI', value: 'upi' },
-//         ],
-//         defaultValue: details.paymentMethod || '',
-//       },
-//       {
-//         name: 'paymentStatus',
-//         label: 'Payment Status',
-//         type: 'select',
-//         options: [
-//           { label: 'Paid', value: 'paid' },
-//           { label: 'Pending', value: 'pending' },
-//         ],
-//         defaultValue: details.paymentStatus || '',
-//       },
-//       {
-//         name: 'category',
-//         label: 'Category',
-//         type: 'select',
-//         options: [
-//           { label: 'General', value: 'general' },
-//           { label: 'Emergency', value: 'emergency' },
-//         ],
-//         defaultValue: details.category || '',
-//       },
-//       {
-//         name: 'treatment_name',
-//         label: 'Treatment Name',
-//         type: 'select',
-//         options: [
-//           { label: 'X-Ray', value: 'xray' },
-//           { label: 'MRI', value: 'mri' },
-//         ],
-//         defaultValue: details.treatment_name || '',
-//       },
-//       {
-//         name: 'cost',
-//         label: 'Cost',
-//         type: 'number',
-//         placeholder: 'Enter cost',
-//         defaultValue: details.cost || '',
-//       },
-//     ];
-//   };
-
-//   useEffect(() => {
-//     setFormFields(generateFormFields(newFormDetails));
-//   }, [newFormDetails]);
-
-//   const { loading, postData: addNewPatients } = usePost();
-//   const { isUpdating } = usePut();
-
-//   return (
-//     <MyForm
-//       formFields={formFields}
-//       title="New Receipt"
-//       onSubmit={addNewPatients}
-//       screen="billing"
-//       isSubmitting={loading || isUpdating}
-//     />
-//   );
-// };
-
-// export default BillingForm;
-
-
-
-
 import React, { useState, useEffect, useCallback } from "react";
 import MyForm from "../../components/form/MyForm";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -176,84 +49,99 @@ const PatientsForm = () => {
         label: 'Patient Name',
         type: 'text',
         placeholder: 'Enter Patient Name',
-        defaultValue: details.patient_name || '',
+        defaultValue:  '',
+      },
+      {
+        name: 'hospitalName',
+        label: 'Hospital Name',
+        type: 'select',
+        options: [], // you can populate this dynamically if needed
+        defaultValue:  '',
       },
       {
         name: 'doctorName',
         label: 'Doctor Name',
         type: 'select',
         options: [], // you can populate this dynamically if needed
-        defaultValue: details.doctor_id || '',
+        defaultValue:  '',
       },
       {
         name: 'date',
         label: 'Date Of Admission',
         type: 'date',
-        defaultValue: date, // date should be in this format 2024-07-22
+        defaultValue: '', // date should be in this format 2024-07-22
       },
       {
-        name: 'time',
-        label: 'Time Of Admission',
-        type: 'time',
-        defaultValue: time, // time should be in this format 06:04:04
+        name: 'note',
+        label: 'Note',
+        type: 'text',
+        placeholder: `Enter note`,
+        defaultValue:  '',
       },
       {
-        name: 'phone',
-        label: 'Phone',
-        type: 'phone',
-        placeholder: 'Enter phone number',
-        defaultValue: details.phone || '',
-      },
-      {
-        name: 'dob',
-        label: 'Date',
-        type: 'date',
-        defaultValue: date || '',
-      },
-     
-      {
-        name: 'paymentMethod',
-        label: 'Payment Method',
-        type: 'select',
-        options: [
-          { label: 'Male', value: 'Male' },
-          { label: 'Female', value: 'Female' },
-        ],
-        defaultValue: '',
-      },
-      {
-        name: 'paymentStatus',
-        label: 'Payment Status',
+        name: 'Treatment Type',
+        label: 'treatmentType',
         type: 'select',
         options: [], // you can populate this dynamically if needed
         defaultValue: '',
       },
-     
       {
-        name: 'category',
-        label: 'Category',
-        type: 'select',
-        options: [], // you can populate this dynamically if needed
-        defaultValue: '',
-      },
-     
-      {
-        name: 'Treatment Name',
-        label: 'treatmentName',
+        name: 'Medicine',
+        label: 'medicine',
         type: 'select',
         options: [], // you can populate this dynamically if needed
         defaultValue: '',
       },
 
       {
-        name: 'cost',
-        label: 'Cost',
+        name: 'dose',
+        label: 'Dose',
         type: 'text',
-        placeholder: 'Enter Cost',
-        defaultValue: '',
+        placeholder: `Enter doses`,
+        defaultValue:  '',
       },
+      {
+        name: 'duration',
+        label: 'Duration',
+        type: 'text',
+        placeholder: `Enter doses`,
+        defaultValue:  '',
+      },
+
+      {
+        name: 'morning',
+        label: 'Morning',
+        type: 'select',
+        options: [
+          { label: 'Before Food', value: 'Before Food' },
+          { label: 'After Food', value: 'After Food' },
+        ],
+        defaultValue: 'Before Food',
+      },
+      {
+        name: 'noon',
+        label: 'noon',
+        type: 'select',
+        options: [
+          { label: 'Before Food', value: 'Before Food' },
+          { label: 'After Food', value: 'After Food' },
+        ],
+        defaultValue: 'Before Food',
+      },
+      {
+        name: 'night',
+        label: 'night',
+        type: 'select',
+        options: [
+          { label: 'Before Food', value: 'Before Food' },
+          { label: 'After Food', value: 'After Food' },
+        ],
+        defaultValue: 'Before Food',
+      },
+      
      
-   
+    
+    
      
     ];
   };
@@ -361,9 +249,9 @@ const PatientsForm = () => {
   return (
     <MyForm
       formFields={formFields}
-      title="Billing"
+      title="Add Treatment"
       onSubmit={addNewPatients}
-      screen = "billing"
+      screen = "patients"
       isSubmitting={loading || isUpdating}
     />
   );
