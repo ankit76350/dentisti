@@ -60,7 +60,7 @@ const billingform = () => {
       {
         name: 'date',
         label: 'Date Of Admission',
-        type: 'date',
+        type: 'viewonly',
         defaultValue: date, // date should be in this format 2024-07-22
       },
       {

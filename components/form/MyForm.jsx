@@ -18,6 +18,7 @@ import LabelledInputField from "./LabelledInputField";
 import Loading from "../Loading";
 import Select from "./Select";
 import DateAndTimePicker from "./DateTimePicker";
+import ViewOnly from "./ViewOnly.jsx";
 
 const MyForm = ({ formFields, onSubmit, title = "Add New Appointments", isSubmitting = false, screen = "" }) => {
     const theme = useColorScheme();
@@ -80,6 +81,25 @@ const MyForm = ({ formFields, onSubmit, title = "Add New Appointments", isSubmit
             case "time":
                 return (
                     <DateAndTimePicker
+                        onChange={(date) =>
+                            handleChange(
+                                field.name,
+                                date.toLocaleTimeString([], {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                    second: '2-digit',
+                                    hour12: false,
+                                })
+                            )
+                        }
+                        fieldType="time"
+                        label={field.label}
+                        defaultValue={formData[field.name]} // 👈 Same here
+                    />
+                );
+            case "viewonly":
+                return (
+                    <ViewOnly
                         onChange={(date) =>
                             handleChange(
                                 field.name,
