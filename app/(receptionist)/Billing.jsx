@@ -61,14 +61,10 @@ const patients = () => {
 
   // Todo: make bill
   const newBilling = (item) => {
-    // console.log('====================================');
-    // console.log("Ankit Kumar Add")
-    // console.log('====================================');
     navigation.navigate('billingform', {
       action: 'POST',
       newFormDetails: {
-        hospital_id: user.userHospitalId,
-        doctor_id: user.userId,
+        ...item
       },
     });
   };
@@ -92,7 +88,7 @@ const patients = () => {
         <FlatList
           data={filteredData}
           renderItem={({ item }) => (
-            <PatientsInfoCard item={item} populate={populate} borderColor="#E91E63" receiptIcon={true} edit={newBilling}/>
+            <PatientsInfoCard item={item} populate={populate} borderColor="#E91E63" receiptIcon={true} edit={newBilling} />
           )}
           keyExtractor={(_, index) => index.toString()}
         />

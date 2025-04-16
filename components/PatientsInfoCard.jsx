@@ -16,7 +16,7 @@ const InfoCard = ({ item, edit, treatment, confirmDelete, populate, receiptIcon,
         <View style={styles.actionButtons}>
 
 
-          {receiptIcon && <TouchableOpacity style={styles.iconButton} onPress={() => edit(item)}>
+          {receiptIcon && <TouchableOpacity style={styles.iconButton} onPress={() => edit({...item , hospital_name:populate(item.hospital_id)})}>
             <MaterialCommunityIcons name="receipt" size={24} color="#007BFF" />
           </TouchableOpacity>}
 

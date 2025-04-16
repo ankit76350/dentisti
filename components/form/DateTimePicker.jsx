@@ -58,6 +58,10 @@ const DateAndTimePicker = ({ fieldType = '', defaultValue = '', onChange ,label}
     mode: 'date',
   });
 
+  console.log('====================================');
+  console.log("setDate",date);
+  console.log('====================================');
+
   const handleChange = useCallback((event, selectedDate) => {
     if (!selectedDate || event?.type === 'dismissed') return;
     setDate(selectedDate);

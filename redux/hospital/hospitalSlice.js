@@ -68,6 +68,30 @@ export const fetchHospitalDetails = createAsyncThunk(
 
 
 
+//! Fetch hospital details (Admin)
+export const fetchServiceDetails = createAsyncThunk(
+    "hospitals/fetchServiceDetails",
+    async (_, { rejectWithValue }) => { 
+      
+        try {
+            const response = await fetch(`${catalystURL}/receptionist/services`);
+ 
+            if (!response.ok) {
+                const errorData = await response.json();
+                return rejectWithValue(errorData.message || "Failed to fetch services details");
+            }
+
+        
+            return await response.json();
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+
+
+
 
 export const hospitalsSlice = createSlice({
     name: "hospitals",
@@ -85,6 +109,11 @@ export const hospitalsSlice = createSlice({
         hospitalDetailsState: {
             isLoading: false,
             hospitalDetailsData: [],
+            isError: null,
+        },
+        serviceDetailsState: {
+            isLoading: false,
+            serviceDetailsData: [],
             isError: null,
         },
      
@@ -135,6 +164,20 @@ export const hospitalsSlice = createSlice({
             .addCase(fetchHospitalDetails.rejected, (state, action) => {
                 state.hospitalDetailsState.isLoading = false;
                 state.hospitalDetailsState.isError = action.payload || "Failed to fetch hospital details";
+            })
+
+            //! Services Details
+            .addCase(fetchServiceDetails.pending, (state) => {
+                state.serviceDetailsState.isLoading = true;
+                state.serviceDetailsState.isError = null;
+            })
+            .addCase(fetchServiceDetails.fulfilled, (state, action) => {
+                state.serviceDetailsState.isLoading = false;
+                state.serviceDetailsState.serviceDetailsData = action.payload;
+            })
+            .addCase(fetchServiceDetails.rejected, (state, action) => {
+                state.serviceDetailsState.isLoading = false;
+                state.serviceDetailsState.isError = action.payload || "Failed to fetch service details";
             })
 
             

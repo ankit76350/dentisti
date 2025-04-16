@@ -153,7 +153,71 @@ const validatePatientForm = (form) => {
 
 
 
+const validateBillingForm = (form) => {
+  const requiredFields = [
+    "Amount",
+    "Billing_Date",
+    "PaymentMethod",
+    "ServiceDetails",
+    "Status",
+    "date_of_admission",
+    "doctor_id",
+    "doctor_name",
+    "hospital_name",
+    "patient_id",
+    "patient_name",
+    "phone",
+    "receptionist_id",
+  ];
+
+  for (const field of requiredFields) {
+    if (!form[field]) {
+      Alert.alert("Error", `Please fill the ${field.replace(/_/g, " ")}.`);
+      return false;
+    }
+  }
+
+  const {
+    Amount,
+    Billing_Date,
+    date_of_admission,
+    phone,
+  } = form;
+
+  const validations = [
+    {
+      valid: /^[0-9]+$/.test(Amount),
+      message: "Invalid amount. It must be a number.",
+    },
+    {
+      valid: /^\d{4}-\d{2}-\d{2}$/.test(Billing_Date),
+      message: "Invalid billing date format. Use YYYY-MM-DD.",
+    },
+    {
+      valid: /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(date_of_admission),
+      message: "Invalid admission date format. Use YYYY-MM-DD HH:MM:SS.",
+    },
+    {
+      valid: /^[0-9]{10,15}$/.test(phone),
+      message: "Invalid phone number. Must be 10-15 digits.",
+    },
+  ];
+
+  for (const { valid, message } of validations) {
+    if (!valid) {
+      Alert.alert("Error", message);
+      return false;
+    }
+  }
+
+  return true;
+};
 
 
-export { validateStaffForm, validateHospitalForm, validateAppointmentForm ,validatePatientForm};
+
+
+
+
+
+export { validateStaffForm, validateHospitalForm, validateAppointmentForm ,validatePatientForm, validateBillingForm};
 
