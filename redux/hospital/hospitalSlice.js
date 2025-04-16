@@ -40,7 +40,7 @@ export const fetchHospitalRevenue = createAsyncThunk(
 );
 
 
-//! Fetch hospital details (Admin)
+
 export const fetchHospitalDetails = createAsyncThunk(
     "hospitals/fetchHospitalDetails",
     async (ROWID, { rejectWithValue }) => { 
@@ -68,7 +68,7 @@ export const fetchHospitalDetails = createAsyncThunk(
 
 
 
-//! Fetch hospital details (Admin)
+
 export const fetchServiceDetails = createAsyncThunk(
     "hospitals/fetchServiceDetails",
     async (_, { rejectWithValue }) => { 
@@ -79,6 +79,27 @@ export const fetchServiceDetails = createAsyncThunk(
             if (!response.ok) {
                 const errorData = await response.json();
                 return rejectWithValue(errorData.message || "Failed to fetch services details");
+            }
+
+        
+            return await response.json();
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+
+export const fetchDoctorTreatements = createAsyncThunk(
+    "hospitals/fetchDoctorTreatements",
+    async (_, { rejectWithValue }) => { 
+      
+        try {
+            const response = await fetch(`${catalystURL}/doctor/treatements`);
+ 
+            if (!response.ok) {
+                const errorData = await response.json();
+                return rejectWithValue(errorData.message || "Failed to fetch treatment details");
             }
 
         
@@ -114,6 +135,11 @@ export const hospitalsSlice = createSlice({
         serviceDetailsState: {
             isLoading: false,
             serviceDetailsData: [],
+            isError: null,
+        },
+        doctorTreatementsState: {
+            isLoading: false,
+            doctorTreatementsData: [],
             isError: null,
         },
      
@@ -178,6 +204,21 @@ export const hospitalsSlice = createSlice({
             .addCase(fetchServiceDetails.rejected, (state, action) => {
                 state.serviceDetailsState.isLoading = false;
                 state.serviceDetailsState.isError = action.payload || "Failed to fetch service details";
+            })
+
+
+            //! Doctor Treatements  Details
+            .addCase(fetchDoctorTreatements.pending, (state) => {
+                state.doctorTreatementsState.isLoading = true;
+                state.doctorTreatementsState.isError = null;
+            })
+            .addCase(fetchDoctorTreatements.fulfilled, (state, action) => {
+                state.doctorTreatementsState.isLoading = false;
+                state.doctorTreatementsState.doctorTreatementsData = action.payload;
+            })
+            .addCase(fetchDoctorTreatements.rejected, (state, action) => {
+                state.doctorTreatementsState.isLoading = false;
+                state.doctorTreatementsState.isError = action.payload || "Failed to fetch doctor treatements  details";
             })
 
             

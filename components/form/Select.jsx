@@ -3,7 +3,7 @@ import { View, StyleSheet, Animated, useColorScheme } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import { hp, wp } from "../../helpers/common";
 
-const Select = ({ label, keyName, data, onChange, search = false, icon = null, value = "", minHeight = false }) => {
+const Select = ({ label, keyName, data, onChange, search = false, icon = null, value = "", minHeight = false, modalMode=true }) => {
   const [selectValue, setSelectValue] = useState(value);
   const [isFocused, setIsFocused] = useState(false);
   const animatedLabel = useRef(new Animated.Value(value ? 1 : 0)).current;
@@ -77,7 +77,7 @@ const Select = ({ label, keyName, data, onChange, search = false, icon = null, v
         data={data}
         labelField="label"
         valueField="value"
-        mode="modal"
+         mode={modalMode && "modal"}
         placeholder={!isFocused ? label : ""}
         searchPlaceholder="Search..."
         search={search}

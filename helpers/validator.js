@@ -215,9 +215,61 @@ const validateBillingForm = (form) => {
 
 
 
+const validateTreatmentForm = (form) => {
+  const requiredFields = [
+    "doctor_id",
+    "doctor_name",
+    "dosage",
+    "duration",
+    "hospital_name",
+    "medicines",
+    "notes",
+    "patient_id",
+    "patient_name",
+    "treatement_name",
+    "treatment_date",
+  ];
+
+  for (const field of requiredFields) {
+    if (!form[field]) {
+      Alert.alert("Error", `Please fill the ${field.replace(/_/g, " ")}.`);
+      return false;
+    }
+  }
+
+  const {
+    treatment_date,
+    dosage,
+    duration
+  } = form;
+
+  const validations = [
+    {
+      valid: /^\d{4}-\d{2}-\d{2}$/.test(treatment_date),
+      message: "Invalid treatment date format. Use YYYY-MM-DD.",
+    },
+    {
+      valid: /^[0-9]+(mg|ml)?$/i.test(dosage),
+      message: "Invalid dosage format. Must be a number optionally followed by 'mg' or 'ml'.",
+    },
+    {
+      valid: /^[0-9]+( day| days| week| weeks| month| months)?$/i.test(duration),
+      message: "Invalid duration format. Example: '5 days', '1 week', or '3'.",
+    },
+  ];
+
+  for (const { valid, message } of validations) {
+    if (!valid) {
+      Alert.alert("Error", message);
+      return false;
+    }
+  }
+
+  return true;
+};
 
 
 
 
-export { validateStaffForm, validateHospitalForm, validateAppointmentForm ,validatePatientForm, validateBillingForm};
+export { validateStaffForm, validateHospitalForm, validateAppointmentForm ,validatePatientForm, validateBillingForm , validateTreatmentForm};
 

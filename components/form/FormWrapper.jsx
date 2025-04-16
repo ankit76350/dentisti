@@ -36,6 +36,7 @@ const FormWrapper = ({ children, formFields, onSubmit, title = "Billing", isSubm
                         <ScrollView
                             contentContainerStyle={{ marginTop: hp(1) }}
                             keyboardShouldPersistTaps="handled"
+                            showsVerticalScrollIndicator={false}
                         >
                             {children}
                         </ScrollView>
