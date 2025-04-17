@@ -10,7 +10,7 @@ import { catalystURL } from "../../constants";
 import { Alert } from "react-native";
 import { validatePatientForm } from "../../helpers/validator";
 
-const PatientsForm = () => {
+const patientsform = () => {
   const dispatch = useDispatch();
     const navigation = useNavigation();
   const route = useRoute();
@@ -221,4 +221,4 @@ const PatientsForm = () => {
   );
 };
 
-export default PatientsForm;
+export default patientsform;

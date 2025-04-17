@@ -49,9 +49,7 @@ const appointmentform = () => {
 
     ])
   }, [newAppointmentDetails])
-  //   console.log('==================formFields==================');
-  //   console.log("formFields",formFields[formFields.length-3]);
-  //   console.log('==================formFields==================');
+
 
   const updateFieldOptions = useCallback((fieldName, options) => {
     setFormFields(prevFields =>

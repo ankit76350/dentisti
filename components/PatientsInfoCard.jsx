@@ -4,7 +4,7 @@ import { Entypo, Feather, FontAwesome5, Ionicons, MaterialCommunityIcons, Materi
 import { role } from "../assets/json/role";
 import Loading from "./Loading";
 
-const InfoCard = ({ item, edit, treatment, confirmDelete, populate, receiptIcon, editIcon, removeIcon, isDeleting, treatmentIcon, borderColor }) => {
+const PatientsInfoCard = ({ item, edit, treatment, confirmDelete, populate, receiptIcon, editIcon, removeIcon, isDeleting, treatmentIcon, borderColor }) => {
   const theme = useColorScheme();
   const isDark = theme === "dark";
 
@@ -174,4 +174,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default InfoCard;
+export default PatientsInfoCard;

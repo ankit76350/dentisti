@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet, useColorScheme } from "react-native";
 import { Feather, FontAwesome5, FontAwesome6, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
-const DoctorInfo = ({ item, navigateTo, populate =()=>{},editIcon , removeIcon , borderColor , hospitalName="Hospital"}) => {
+const ClinicInfo = ({ item, navigateTo, populate =()=>{},editIcon , removeIcon , borderColor , hospitalName="Hospital"}) => {
   const theme = useColorScheme();
   const isDark = theme === "dark";
 
@@ -129,4 +129,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DoctorInfo;
+export default ClinicInfo;

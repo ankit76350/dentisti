@@ -8,7 +8,7 @@ import Loading from "../../components/Loading.jsx";
 import { hp } from "../../helpers/common.js";
 import { useRoute } from "@react-navigation/native";
 
-const PatientTreatmentInfo = () => {
+const patienttreatmentinfo = () => {
   const theme = useColorScheme();
   const isDark = theme === "dark";
   const route = useRoute();
@@ -61,4 +61,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PatientTreatmentInfo;
+export default patienttreatmentinfo;

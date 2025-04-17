@@ -4,7 +4,7 @@ import { Entypo, FontAwesome5, FontAwesome6, Fontisto, Ionicons, MaterialCommuni
 import { wp } from "../helpers/common";
 
 
-const InfoCard = ({ item, borderColor }) => {
+const TreatmentInfo = ({ item, borderColor }) => {
     const theme = useColorScheme();
     const isDark = theme === "dark";
 
@@ -150,4 +150,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default InfoCard;
+export default TreatmentInfo;

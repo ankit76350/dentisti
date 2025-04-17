@@ -26,7 +26,7 @@ import Loading from "../../components/Loading.jsx";
 // import Loading if not already available
 // import Loading from "../../components/ui/Loading";
 
-const BillingForm = () => {
+const billingform = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const theme = useColorScheme();
@@ -280,4 +280,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BillingForm;
+export default billingform;

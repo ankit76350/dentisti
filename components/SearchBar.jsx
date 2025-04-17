@@ -3,7 +3,7 @@ import { View, TextInput, TouchableOpacity, ActivityIndicator, StyleSheet, useCo
 import { AntDesign } from "@expo/vector-icons";
 import { hp, wp } from "../helpers/common";
 
-const SearchButton = ({ query, setQuery, style }) => {
+const SearchBar = ({ query, setQuery, style }) => {
   const [loading, setLoading] = useState(false);
   const theme = useColorScheme(); // Detects system theme (light/dark)
 
@@ -79,4 +79,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SearchButton;
+export default SearchBar;

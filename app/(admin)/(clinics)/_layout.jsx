@@ -2,7 +2,6 @@ import { FontAwesome6, MaterialIcons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import { useColorScheme } from 'react-native';
 import {  StyleSheet } from 'react-native';
-import { hp } from '../../../helpers/common';
 
 export default function _layout() {
   const theme = useColorScheme();

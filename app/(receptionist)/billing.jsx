@@ -13,7 +13,7 @@ import { fetchHospitalData } from "../../redux/hospital/hospitalSlice.js";
 import { user } from "../../assets/json/role.js";
 
 
-const patients = () => {
+const billing = () => {
   const [fetchNewData, setFetchNewData] = useState(false);
   const [deletingId, setDeletingId] = useState();
   const theme = useColorScheme();
@@ -113,4 +113,4 @@ const styles = StyleSheet.create({
     color: "#f6f6f6",
   },
 });
-export default patients;
+export default billing;
