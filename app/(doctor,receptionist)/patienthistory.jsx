@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList, Text, useColorScheme, StyleSheet } from "react-native";
+import { View, FlatList, Text, useColorScheme, StyleSheet, TouchableOpacity } from "react-native";
 import ScreenContainer from "../../components/ScreenContainer.jsx";
 import SearchBar from '../../components/SearchBar.jsx';
 import { useDispatch, useSelector } from "react-redux";
@@ -9,9 +9,10 @@ import Loading from "../../components/Loading.jsx";
 import { hp } from "../../helpers/common.js";
 import { fetchUserData } from "../../redux/user/userSlice.js";
 import { fetchHospitalData } from "../../redux/hospital/hospitalSlice.js";
+import { useNavigation } from "@react-navigation/native";
 
 
-const patients = () => {
+const patienthistory = () => {
   const [fetchNewData, setFetchNewData] = useState(false);
   const theme = useColorScheme();
   const isDark = theme === "dark";
@@ -55,7 +56,11 @@ const patients = () => {
   }, [patients.patientsData, searchQuery]);
   //Todo end: filter data 
 
-
+  const navigation = useNavigation();
+  const navigateTo = (item) => {
+  
+    navigation.navigate("patienttreatmentinfo" , {  ROWID: item.ROWID });
+  }
 
 
 
@@ -78,7 +83,11 @@ const patients = () => {
         <FlatList
           data={filteredData}
           renderItem={({ item }) => (
-            <PatientsInfoCard item={item}  populate={populate} borderColor="#E91E63" />
+            <>
+              <TouchableOpacity onPress={()=>navigateTo(item)}>
+                <PatientsInfoCard item={item} populate={populate} borderColor="#E91E63" />
+              </TouchableOpacity>
+            </>
           )}
           keyExtractor={(_, index) => index.toString()}
         />
@@ -103,4 +112,4 @@ const styles = StyleSheet.create({
     color: "#f6f6f6",
   },
 });
-export default patients;
+export default patienthistory;

@@ -26,13 +26,14 @@ const index = () => {
       // router.replace(`/(${role})/stafform`); // Replace so it removes index from stack
       // router.replace(`/(${role})/patients`); // Replace so it removes index from stack
       // router.replace(`/(${role})/treatmentform`); // Replace so it removes index from stack
-      // router.replace(`/(${role})/patienthistory`); // Replace so it removes index from stack
+      router.replace(`/(${role})/patienthistory`); // Replace so it removes index from stack
+      // router.replace(`/(${role})/patienttreatmentinfo`); // Replace so it removes index from stack
       // router.replace(`/(${role})/bills`); // Replace so it removes index from stack
       // router.replace(`/(${role})/billing`); // Replace so it removes index from stack
       // router.replace(`/(${role})/billingform`); // Replace so it removes index from stack
       // router.replace(`/(${role})/clinics`); // Replace so it removes index from stack
       // router.replace(`/(${role})/(clinics)/doctors`); // Replace so it removes index from stack
-      router.replace(`/(${role})/calendarview`); // Replace so it removes index from stack
+      // router.replace(`/(${role})/calendarview`); // Replace so it removes index from stack
     }, 1000);
   }, []);
 

@@ -21,6 +21,26 @@ export const fetchPatientsData = createAsyncThunk(
     }
 );
 
+//! Patients Info
+export const fetchPatientTreatmentInfo = createAsyncThunk(
+    "patients/fetchPatientTreatmentInfo",
+    async (ROWID, { rejectWithValue }) => {
+        const URI = `${catalystURL}doctor/patient/${ROWID}/history` 
+        try {
+            const response = await fetch(URI);
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                return rejectWithValue(errorData.message || "Failed to fetch patients data");
+            }
+
+            return await response.json();
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
 
 
 export const patientsSlice = createSlice({
@@ -29,6 +49,11 @@ export const patientsSlice = createSlice({
         patientsState: {
             isLoading: false,
             patientsData: [],
+            isError: null,
+        },
+        patientsTreatmentHistory: {
+            isLoading: false,
+            patientsTreatmentData: [],
             isError: null,
         },
        
@@ -49,7 +74,21 @@ export const patientsSlice = createSlice({
                 state.patientsState.isLoading = false;
                 state.patientsState.isError = action.payload || "Unknown error from patients api";
             }) 
-          
+
+
+              // Patient Treatment History
+            .addCase(fetchPatientTreatmentInfo.pending, (state) => {
+                state.patientsTreatmentHistory.isLoading = true;
+                state.patientsTreatmentHistory.isError = null;
+            })
+            .addCase(fetchPatientTreatmentInfo.fulfilled, (state, action) => {
+                state.patientsTreatmentHistory.isLoading = false;
+                state.patientsTreatmentHistory.patientsTreatmentData = action.payload;
+            })
+            .addCase(fetchPatientTreatmentInfo.rejected, (state, action) => {
+                state.patientsTreatmentHistory.isLoading = false;
+                state.patientsTreatmentHistory.isError = action.payload || "Unknown error fetching treatment data";
+            });
            
     },
 });

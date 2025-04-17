@@ -34,33 +34,20 @@ const DateAndTimePicker = ({ fieldType = '', defaultValue = '', onChange ,label}
 
   useEffect(()=>{
     if (fieldType ==='date') {
-      console.log('====================================');
-      console.log("label:",label, "defaultValue:",defaultValue , "fieldType:",fieldType);
-      console.log('====================================');
-      // date should be in this format 2024-07-22
       setDate(() => parseDate(defaultValue))
     }
     if (fieldType ==='time') {
-      // console.log('====================================');
-      // console.log("label:",label, "defaultValue:",defaultValue , "fieldType:",fieldType);
-      // console.log('====================================');
       setDate(() => parseTime(defaultValue))
     }
   },[defaultValue , label,fieldType])
 
-  // console.log('====================================');
-  // console.log("date",date);
-  // console.log("defaultValue",defaultValue);
-  // console.log('====================================');
+
 
   const [showIOSPicker, setShowIOSPicker] = useState({
     visible: false,
     mode: 'date',
   });
 
-  console.log('====================================');
-  console.log("setDate",date);
-  console.log('====================================');
 
   const handleChange = useCallback((event, selectedDate) => {
     if (!selectedDate || event?.type === 'dismissed') return;

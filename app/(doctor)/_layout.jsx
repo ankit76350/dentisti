@@ -1,13 +1,13 @@
 import { Stack } from "expo-router";
 
 export default function _layout() {
-  return  (<Stack
-  screenOptions={{
+  return (<Stack
+    screenOptions={{
 
-    headerShown: false,
+      headerShown: false,
 
-  }}
->
+    }}
+  >
     {/* Common Root for all */}
     <Stack.Screen
       name="(dash)"
@@ -26,6 +26,10 @@ export default function _layout() {
     <Stack.Screen
       name="bills"
       options={{ title: 'Doctor All Bills' }}
+    />
+    <Stack.Screen
+      name="patienttreatmentinfo"
+      options={{ title: 'Doctor patient treatment info' }}
     />
 
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { Alert } from "react-native";
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from "react-redux";
@@ -9,15 +9,14 @@ import { catalystURL } from "../../../constants";
 import usePost from "../../../hooks/usePost";
 import { role, user } from "../../../assets/json/role";
 import usePut from "../../../hooks/usePut";
+import { fetchAppointmentsData } from "../../../redux/dashboard/dashboardSlice";
 
 const appointmentform = () => {
   const route = useRoute();
-  const { newAppointmentDetails = {} ,action} = route.params || {};
+  const { newAppointmentDetails = {}, action } = route.params || {};
   const navigation = useNavigation();
   const dispatch = useDispatch();
-//   console.log('=================appointmentform===================');
-//   console.log("newAppointmentDetails",newAppointmentDetails);
-//   console.log('=================appointmentform===================');
+
 
   const { hospitalDetailsData } = useSelector((state) => state.hospitals.hospitalDetailsState || {});
 
@@ -35,24 +34,24 @@ const appointmentform = () => {
 
   ]);
 
-  useEffect(()=>{
+  useEffect(() => {
     setFormFields([
-        { name: 'name', label: 'Name', type: 'text', placeholder: 'Enter your name', defaultValue: newAppointmentDetails.name || ''  },
-        { name: 'email', label: 'Email', type: 'email', placeholder: 'Enter your email', defaultValue: newAppointmentDetails.email || ''  },
-        { name: 'phone', label: 'Phone', type: 'phone', placeholder: 'Enter your phone number', defaultValue: newAppointmentDetails.phoneNo || ''  },
-        { name: 'address', label: 'Address', type: 'text', placeholder: 'Enter your address', defaultValue: newAppointmentDetails.address || ''  },
-        { name: 'dob', label: 'Date Of Birth', type: 'date', defaultValue: newAppointmentDetails.dob || ''  },
-        { name: 'gender', label: 'Gender', type: 'select', options: [{ label: 'Male', value: 'Male' }, { label: 'Female', value: 'Female' }], defaultValue: newAppointmentDetails.gender || ''  },
-        { name: 'hospitalName', label: 'Hospital Name', type: 'select', options: [], defaultValue: newAppointmentDetails.hospital_id || '' },
-        { name: 'doctorName', label: 'Doctor Name', type: 'select', options: [], defaultValue: newAppointmentDetails.doctor_id || '' },
-        { name: 'date', label: 'Appointment Date', type: 'date', defaultValue: newAppointmentDetails.appointmentDate || ''  },
-        { name: 'time', label: 'Appointment Time', type: 'time', defaultValue: newAppointmentDetails.appointmentDate || ''  },
+      { name: 'name', label: 'Name', type: 'text', placeholder: 'Enter your name', defaultValue: newAppointmentDetails.name || '' },
+      { name: 'email', label: 'Email', type: 'email', placeholder: 'Enter your email', defaultValue: newAppointmentDetails.email || '' },
+      { name: 'phone', label: 'Phone', type: 'phone', placeholder: 'Enter your phone number', defaultValue: newAppointmentDetails.phoneNo || '' },
+      { name: 'address', label: 'Address', type: 'text', placeholder: 'Enter your address', defaultValue: newAppointmentDetails.address || '' },
+      { name: 'dob', label: 'Date Of Birth', type: 'date', defaultValue: newAppointmentDetails.dob || '' },
+      { name: 'gender', label: 'Gender', type: 'select', options: [{ label: 'Male', value: 'Male' }, { label: 'Female', value: 'Female' }], defaultValue: newAppointmentDetails.gender || '' },
+      { name: 'hospitalName', label: 'Hospital Name', type: 'select', options: [], defaultValue: newAppointmentDetails.hospital_id || '' },
+      { name: 'doctorName', label: 'Doctor Name', type: 'select', options: [], defaultValue: newAppointmentDetails.doctor_id || '' },
+      { name: 'date', label: 'Appointment Date', type: 'date', defaultValue: newAppointmentDetails.appointmentDate || '' },
+      { name: 'time', label: 'Appointment Time', type: 'time', defaultValue: newAppointmentDetails.appointmentDate || '' },
 
-      ])
-  },[newAppointmentDetails])
-//   console.log('==================formFields==================');
-//   console.log("formFields",formFields[formFields.length-3]);
-//   console.log('==================formFields==================');
+    ])
+  }, [newAppointmentDetails])
+  //   console.log('==================formFields==================');
+  //   console.log("formFields",formFields[formFields.length-3]);
+  //   console.log('==================formFields==================');
 
   const updateFieldOptions = useCallback((fieldName, options) => {
     setFormFields(prevFields =>
@@ -91,11 +90,21 @@ const appointmentform = () => {
 
 
 
+  const appointmentsUrl = useMemo(() => {
+    switch (role) {
+      case 'admin':
+        return `${catalystURL}/admin/appointments`;
+      case 'receptionist':
+        return `${catalystURL}receptionist/${user.userHospitalId}/appointment/all`;
+      default:
+        return `${catalystURL}doctor/${user.userId}/appointments/all`;
+    }
+  }, []);
 
 
 
-  const { loading, error:postError, postData } = usePost();
-  const { isUpdating, error:putError, updateData } = usePut();
+  const { loading, error: postError, postData } = usePost();
+  const { isUpdating, error: putError, updateData } = usePut();
 
   const handleSubmit = async (formData) => {
     if (!validateAppointmentForm(formData)) return;
@@ -126,6 +135,7 @@ const appointmentform = () => {
 
       if (!err) {
         Alert.alert("Success", `Appointment ${action === "POST" ? "added" : "updated"} successfully for ${response.name}.`);
+        dispatch(fetchAppointmentsData(appointmentsUrl));
         navigation.navigate("appointments");
       } else {
         throw new Error("Server error");
