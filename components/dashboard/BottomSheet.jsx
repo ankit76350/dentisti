@@ -33,6 +33,7 @@ import { hp, wp } from "../../helpers/common";
 import useDelete from "../../hooks/useDelete";
 import Loading from "../Loading";
 import { catalystURL } from "../../constants";
+import { role } from "../../assets/json/role";
 
 const BottomSheet = forwardRef((props, ref ) => {
   const { setFetchNewData, fetchNewData } = props;
@@ -178,7 +179,9 @@ const BottomSheet = forwardRef((props, ref ) => {
             }}
           >
             <Text style={[styles.heading, { marginLeft: wp(-3), }]}>Appointment Details</Text>
-            <View style={{ flexDirection: "row", gap: 8 }}>
+            
+            
+            {role !=='admin' && <View style={{ flexDirection: "row", gap: 8 }}>
               <TouchableOpacity onPress={editAppointment}>
                 <Feather name="edit" size={21} color="#007BFF" />
               </TouchableOpacity>
@@ -199,7 +202,7 @@ const BottomSheet = forwardRef((props, ref ) => {
               </TouchableOpacity>)}
 
 
-            </View>
+            </View>}
           </View>
 
           {appointmentDetails.length > 0 ? (

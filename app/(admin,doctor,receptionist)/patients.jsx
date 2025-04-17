@@ -146,7 +146,7 @@ const patients = () => {
 
 
   return (
-    <ScreenContainer title="Patient Information" addIconComponent={<Icon name="plus-square" size={22} color={theme === 'dark' ? '#FFF' : '#333'} />} navigateTo={addNewPatients}>
+    <ScreenContainer title="Patient Information" addIconComponent={role !=='admin' && <Icon name="plus-square" size={22} color={theme === 'dark' ? '#FFF' : '#333'} />} navigateTo={addNewPatients}>
 
       <View style={{
         marginBottom: hp(1)

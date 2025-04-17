@@ -32,12 +32,12 @@ const EventCard = ({ appointments }) => {
                                 {appointment.phone}
                             </Text>
                         </View>
-                        <View style={styles.infoContainer}>
+                        {/* <View style={styles.infoContainer}>
                             <Fontisto name="doctor" size={21} color={theme === "dark" ? "#FFF" : "black"} />
                             <Text style={[styles.infoText, theme === "dark" ? styles.darkText : styles.lightText]}>
                                 {appointment.doctor}
                             </Text>
-                        </View>
+                        </View> */}
                     </View>
                     
                     <View style={styles.statusContainer}>{renderStatusIcon(appointment.status)}</View>

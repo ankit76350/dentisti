@@ -127,9 +127,10 @@ export default function appointments() {
             <Text style={[styles.appointmentsTitle, theme === 'dark' ? styles.darkText : styles.lightText]}>
               Appointments
             </Text>
-            <TouchableOpacity onPress={addNewAppointment}>
+
+           {role !=='admin' && <TouchableOpacity onPress={addNewAppointment}>
               <Icon name="plus-square" size={24} color={theme === 'dark' ? '#FFF' : '#333'} />
-            </TouchableOpacity>
+            </TouchableOpacity>}
           </View>
 
           <SearchBar query={searchQuery} setQuery={setSearchQuery} />

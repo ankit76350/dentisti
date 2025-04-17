@@ -5,14 +5,15 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { role } from '../assets/json/role';
 
-const BackButton = ({ screen = "analytics", title = "Dashboard", showInfoIcon = false }) => {
+const BackButton = ({ screen = "", title = "Dashboard", showInfoIcon = false }) => {
     const navigation = useNavigation();
     const router = useRouter();
 
     const navigateTo = () => {
         // navigation.goBack();
         //screen = "appointments"
-        navigation.navigate(`${screen}`);
+        // screen ? navigation.navigate(`${screen}`) : navigation.goBack();
+        navigation.goBack()
         // router.replace(`/(${role})/(dash)/${screen}`);
     };
 
