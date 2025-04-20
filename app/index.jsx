@@ -16,6 +16,8 @@ const index = () => {
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
+
+      // router.replace(`/login`); // Replace so it removes i from stack
       router.replace(`/(${role})/(dash)/analytics`); // Replace so it removes i from stack
       // router.replace(`/(${role})/(dash)/revenue`); // Replace so it removes i from stack
       // router.replace(`/(${role})/(dash)/appointments`); // Replace so it removes index from stack

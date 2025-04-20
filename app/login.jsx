@@ -15,7 +15,10 @@ import AnimatedText from '../components/AnimatedText';
 
 const login = () => {
     return (
-        <ScreenWrapper>
+        <ScreenWrapper padding={60}>
+      
+
+      
             <LinearGradient
                 colors={[
                     'rgb(227, 242, 253)',
@@ -74,6 +77,7 @@ const login = () => {
                     </View>
                 </View>
             </LinearGradient>
+      
         </ScreenWrapper>
     )
 }
